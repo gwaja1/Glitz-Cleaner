@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Glitz Cleaner</title>
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="form-toggle">
+                <button id="login-toggle" class="active" onclick="toggleForm('login')">Login</button>
+                <button id="register-toggle" onclick="toggleForm('register')">Register</button>
+            </div>
+            <div class="form-wrapper">
+                <form id="login-form" class="form active-form">
+                    <h2>Welcome Back!</h2>
+                    <input type="text" placeholder="Username" required>
+                    <input type="password" placeholder="Password" required>
+                    <button type="submit" a href="dasboard.html">Login</button>
+                    <p>Don't have an account? <span onclick="toggleForm('register')">Register</span></p>
+                </form>
+                <form id="register-form" class="form">
+                    <h2>Create Account</h2>
+                    <input type="text" placeholder="Username" required>
+                    <input type="email" placeholder="Email" required>
+                    <input type="password" placeholder="Password" required>
+                    <button type="submit" a href="dasboard.html">Register</button>
+                    <p>Already have an account? <span onclick="toggleForm('login')">Login</span></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleForm(formType) {
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const loginToggle = document.getElementById('login-toggle');
+            const registerToggle = document.getElementById('register-toggle');
+
+            if (formType === 'login') {
+                loginForm.classList.add('active-form');
+                registerForm.classList.remove('active-form');
+                loginToggle.classList.add('active');
+                registerToggle.classList.remove('active');
+            } else {
+                registerForm.classList.add('active-form');
+                loginForm.classList.remove('active-form');
+                registerToggle.classList.add('active');
+                loginToggle.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
