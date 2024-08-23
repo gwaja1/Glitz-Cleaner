@@ -190,3 +190,8 @@ body {
     opacity: 1;
   }
 }
+.logo {
+  display: block;
+  margin: 0 auto 20px; /* Center the logo and add space below */
+  width: 150px; /* Adjust size as needed */
+}

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Glitz Cleaner</title>
+    <title>Register Glitz Cleaner</title>
 
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
@@ -95,12 +95,13 @@
                         <img src="Logo1.png" class="logo-small">
                     </div>
                     <div class="form-wrapper">
-                        <form id="login-form" class="form" action="" method="post">
-                            <h2 class="text-center">Login</h2>
+                        <form id="register-form" class="form" action="" method="post">
+                            <h2 class="text-center">Create Account</h2>
+                            <input type="text" class="form-control mb-3" placeholder="Username" required>
                             <input type="email" class="form-control mb-3" placeholder="Email" required>
                             <input type="password" class="form-control mb-3" placeholder="Password" required>
-                            <button type="submit" class="btn btn-primary btn-block">Login</button>
-                            <p class="text-center mt-3">Don't have an account? <span class="text-primary" onclick="toggleForm('register')">Register</span></p>
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                            <p class="text-center mt-3">Already have an account? <span class="text-primary" onclick="toggleForm('login')">Login</span></p>
                         </form>
                     </div>
                 </div>
@@ -109,8 +110,8 @@
     </div>
     <!-- Form End -->
 
-    <!-- Footer -->
-    <div class="container-fluid bg-dark text-white-50 py-4 px-sm-3 px-md-5">
+     <!-- Footer -->
+     <div class="container-fluid bg-dark text-white-50 py-4 px-sm-3 px-md-5">
         <div class="row">
             <div class="col-md-6 text-center text-md-left mb-3 mb-md-0">
                 <p class="m-0">© <a class="text-white" href="#">Glitz Cleaner</a>. All Rights Reserved.</p>
