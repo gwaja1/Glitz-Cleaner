@@ -13,7 +13,8 @@
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -78,23 +79,15 @@
                             <a href="Tentang1.html" class="nav-item nav-link">Tentang</a>
                             <a href="Layanan1.html" class="nav-item nav-link">Layanan</a>
                             <a href="Keranjang.html" class="nav-item nav-link">Pemesanan</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="blog1.html" class="dropdown-item">Latest Blog</a>
-                                    <a href="single1.html" class="dropdown-item">Blog Detail</a>
-                                </div>
-                            </div>
                             <a href="contact1.html" class="nav-item nav-link">Contact</a>
-                            <div class="user-icon">
-                                <div></div>
-                                <span>Purmono</span>
-                            </div>                            
                         </div>
+                        <a href="index.php" class="btn btn-primary mr-3 d-none d-lg-block">Logout</a>
                     </div>
-                </nav>
             </div>
         </div>
+        </nav>
+    </div>
+    </div>
     </div>
     <!-- Header End -->
 
@@ -148,7 +141,8 @@
     <div class="container-fluid pb-5 contact-info">
         <div class="row">
             <div class="col-lg-4 p-0">
-                <div class="contact-info-item d-flex align-items-center justify-content-center bg-primary text-white py-4 py-lg-0">
+                <div
+                    class="contact-info-item d-flex align-items-center justify-content-center bg-primary text-white py-4 py-lg-0">
                     <i class="fa fa-3x fa-map-marker-alt text-secondary mr-4"></i>
                     <div class="">
                         <h5 class="mb-2">Kantor Kami</h5>
@@ -157,16 +151,18 @@
                 </div>
             </div>
             <div class="col-lg-4 p-0">
-                <div class="contact-info-item d-flex align-items-center justify-content-center bg-secondary text-white py-4 py-lg-0">
+                <div
+                    class="contact-info-item d-flex align-items-center justify-content-center bg-secondary text-white py-4 py-lg-0">
                     <i class="fa fa-3x fa-envelope-open text-primary mr-4"></i>
                     <div class="">
                         <h5 class="mb-2">Email Kami</h5>
-                        <p class="m-0">gwgakpro11@gmail.com</p>
+                        <p class="m-0">GlitzCleaner@gmail.com</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 p-0">
-                <div class="contact-info-item d-flex align-items-center justify-content-center bg-primary text-white py-4 py-lg-0">
+                <div
+                    class="contact-info-item d-flex align-items-center justify-content-center bg-primary text-white py-4 py-lg-0">
                     <i class="fa fa-3x fa-phone-alt text-secondary mr-4"></i>
                     <div class="">
                         <h5 class="mb-2">Nomor Kami</h5>
@@ -184,7 +180,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-5">
-                    <div class="d-flex flex-column align-items-center justify-content-center bg-about rounded h-100 py-5 px-3">
+                    <div
+                        class="d-flex flex-column align-items-center justify-content-center bg-about rounded h-100 py-5 px-3">
                         <i class="fa fa-5x fa-award text-primary mb-4"></i>
                         <h1 class="display-2 text-white mb-2" data-toggle="counter-up">25</h1>
                         <h2 class="text-white m-0">Tahun Pengalaman</h2>
@@ -193,8 +190,12 @@
                 <div class="col-lg-7 pt-5 pb-lg-5">
                     <h6 class="text-secondary font-weight-semi-bold text-uppercase mb-3">Pelajari Tentang Kami</h6>
                     <h1 class="mb-4 section-title">Kami Menyediakan Layanan Pembersihan Terbaik</h1>
-                    <h5 class="text-muted font-weight-normal mb-3">Rasakan kebersihan yang sesungguhnya dengan layanan cleaning service terbaik kami.</h5>
-                    <p>Kami tidak hanya membersihkan, tetapi juga memberikan kenyamanan dan kepuasan maksimal. Setiap sudut rumah dan tempat kerja Anda akan bersinar dengan perawatan penuh perhatian dari tim profesional kami. Pilihlah kualitas dan kepercayaan, pilihlah kami untuk kebersihan yang tak tertandingi.</p>
+                    <h5 class="text-muted font-weight-normal mb-3">Rasakan kebersihan yang sesungguhnya dengan layanan
+                        cleaning service terbaik kami.</h5>
+                    <p>Kami tidak hanya membersihkan, tetapi juga memberikan kenyamanan dan kepuasan maksimal. Setiap
+                        sudut rumah dan tempat kerja Anda akan bersinar dengan perawatan penuh perhatian dari tim
+                        profesional kami. Pilihlah kualitas dan kepercayaan, pilihlah kami untuk kebersihan yang tak
+                        tertandingi.</p>
                     <div class="d-flex align-items-center pt-4">
                         <a href="Tentang1.html" class="btn btn-primary mr-5">Pelajari Lebih</a>
                         <button type="button" class="btn-play" data-toggle="modal"
@@ -211,16 +212,18 @@
 
 
     <!-- Video Modal Start -->
-    <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
-                    </button>        
+                    </button>
                     <!-- 16:9 aspect ratio -->
                     <div class="embed-responsive embed-responsive-16by9">
-                        <iframe class="embed-responsive-item" src="" id="video"  allowscriptaccess="always" allow="autoplay"></iframe>
+                        <iframe class="embed-responsive-item" src="" id="video" allowscriptaccess="always"
+                            allow="autoplay"></iframe>
                     </div>
                 </div>
             </div>
@@ -236,26 +239,32 @@
                 <div class="col-lg-6">
                     <h6 class="text-secondary font-weight-semi-bold text-uppercase mb-3">Layanan</h6>
                     <h1 class="mb-4 section-title text-white">Layanan Pembersihan Luar Biasa untuk Anda</h1>
-                    <p class="text-white">Kami hadir untuk menciptakan kebersihan sempurna di setiap sudut ruang Anda. Dengan perhatian penuh terhadap detail dan dedikasi tanpa kompromi, kami memastikan Anda mendapatkan hasil terbaik. Nikmati kenyamanan dan kebersihan yang tak tertandingi—karena Anda layak mendapatkan yang terbaik!</p>
+                    <p class="text-white">Kami hadir untuk menciptakan kebersihan sempurna di setiap sudut ruang Anda.
+                        Dengan perhatian penuh terhadap detail dan dedikasi tanpa kompromi, kami memastikan Anda
+                        mendapatkan hasil terbaik. Nikmati kenyamanan dan kebersihan yang tak tertandingi—karena Anda
+                        layak mendapatkan yang terbaik!</p>
                     <a href="Layanan1.html" class="btn btn-primary mt-3 py-2 px-4">Layanan Lebih</a>
                 </div>
                 <div class="col-lg-6 pt-5 pt-lg-0">
                     <div class="owl-carousel service-carousel position-relative">
-                        <div class="d-flex flex-column align-items-center text-center bg-white rounded overflow-hidden pt-4">
+                        <div
+                            class="d-flex flex-column align-items-center text-center bg-white rounded overflow-hidden pt-4">
                             <div class="icon-box bg-light text-secondary shadow mt-2 mb-4">
                                 <i class="fa fa-2x fa-hotel"></i>
                             </div>
                             <h5 class="font-weight-bold mb-4 px-4">Pembersihan Rumah</h5>
                             <img src="img/blog-1.jpg" alt="">
                         </div>
-                        <div class="d-flex flex-column align-items-center text-center bg-white rounded overflow-hidden pt-4">
+                        <div
+                            class="d-flex flex-column align-items-center text-center bg-white rounded overflow-hidden pt-4">
                             <div class="icon-box bg-light text-secondary shadow mt-2 mb-4">
                                 <i class="fa fa-2x fa-city"></i>
                             </div>
                             <h5 class="font-weight-bold mb-4 px-4">Pembersihan Jendela</h5>
                             <img src="img/blog-3.jpg" alt="">
                         </div>
-                        <div class="d-flex flex-column align-items-center text-center bg-white rounded overflow-hidden pt-4">
+                        <div
+                            class="d-flex flex-column align-items-center text-center bg-white rounded overflow-hidden pt-4">
                             <div class="icon-box bg-light text-secondary shadow mt-2 mb-4">
                                 <i class="fa fa-2x fa-spa"></i>
                             </div>
@@ -275,9 +284,13 @@
         <div class="container py-5">
             <div class="row">
                 <div class="col-lg-7 pt-lg-5 pb-3">
-                    <h6 class="text-secondary font-weight-semi-bold text-uppercase mb-3">Kenapa Memilih Layanan Kami</h6>
+                    <h6 class="text-secondary font-weight-semi-bold text-uppercase mb-3">Kenapa Memilih Layanan Kami
+                    </h6>
                     <h1 class="mb-4 section-title">25 Tahun Pengalaman di Industri Cleaning Service</h1>
-                    <p class="mb-4">Dengan pengalaman yang kaya dan keahlian yang teruji, kami memahami setiap kebutuhan dan tantangan dalam menjaga kebersihan. Kepercayaan Anda adalah motivasi kami untuk terus memberikan hasil yang sempurna. Percayakan kebersihan Anda kepada para ahli yang telah terbukti selama dua setengah dekade.</p>
+                    <p class="mb-4">Dengan pengalaman yang kaya dan keahlian yang teruji, kami memahami setiap kebutuhan
+                        dan tantangan dalam menjaga kebersihan. Kepercayaan Anda adalah motivasi kami untuk terus
+                        memberikan hasil yang sempurna. Percayakan kebersihan Anda kepada para ahli yang telah terbukti
+                        selama dua setengah dekade.</p>
                     <div class="row">
                         <div class="col-sm-4">
                             <h1 class="text-secondary mb-2" data-toggle="counter-up">225</h1>
@@ -319,7 +332,8 @@
                                 <a class="btn btn-sm btn-secondary m-1" href="">
                                     <i class="fa fa-link"></i>
                                 </a>
-                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-1.jpg" data-lightbox="portfolio">
+                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-1.jpg"
+                                    data-lightbox="portfolio">
                                     <i class="fa fa-eye"></i>
                                 </a>
                             </div>
@@ -337,7 +351,8 @@
                                 <a class="btn btn-sm btn-secondary m-1" href="">
                                     <i class="fa fa-link"></i>
                                 </a>
-                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-2.jpg" data-lightbox="portfolio">
+                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-2.jpg"
+                                    data-lightbox="portfolio">
                                     <i class="fa fa-eye"></i>
                                 </a>
                             </div>
@@ -355,7 +370,8 @@
                                 <a class="btn btn-sm btn-secondary m-1" href="">
                                     <i class="fa fa-link"></i>
                                 </a>
-                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-3.jpg" data-lightbox="portfolio">
+                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-3.jpg"
+                                    data-lightbox="portfolio">
                                     <i class="fa fa-eye"></i>
                                 </a>
                             </div>
@@ -373,7 +389,8 @@
                                 <a class="btn btn-sm btn-secondary m-1" href="">
                                     <i class="fa fa-link"></i>
                                 </a>
-                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-4.jpg" data-lightbox="portfolio">
+                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-4.jpg"
+                                    data-lightbox="portfolio">
                                     <i class="fa fa-eye"></i>
                                 </a>
                             </div>
@@ -391,7 +408,8 @@
                                 <a class="btn btn-sm btn-secondary m-1" href="">
                                     <i class="fa fa-link"></i>
                                 </a>
-                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-5.jpg" data-lightbox="portfolio">
+                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-5.jpg"
+                                    data-lightbox="portfolio">
                                     <i class="fa fa-eye"></i>
                                 </a>
                             </div>
@@ -409,7 +427,8 @@
                                 <a class="btn btn-sm btn-secondary m-1" href="">
                                     <i class="fa fa-link"></i>
                                 </a>
-                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-6.jpg" data-lightbox="portfolio">
+                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-6.jpg"
+                                    data-lightbox="portfolio">
                                     <i class="fa fa-eye"></i>
                                 </a>
                             </div>
@@ -418,7 +437,7 @@
                 </div>
             </div>
         </div>
-        </div>
+    </div>
     </div>
     <!-- Portfolio End -->
 
@@ -432,7 +451,10 @@
                     <h1 class="section-title mb-3">Temui Pembersih Kami yang Sangat Berpengalaman</h1>
                 </div>
                 <div class="col-lg-6">
-                    <h5 class="font-weight-normal text-muted mb-3">Dengan pengalaman bertahun-tahun di industri, mereka tidak hanya membersihkan, tetapi juga memahami setiap detail untuk memastikan kebersihan optimal. Percayakan kebersihan Anda kepada para ahli kami dan rasakan hasil yang benar-benar memuaskan.</h5>
+                    <h5 class="font-weight-normal text-muted mb-3">Dengan pengalaman bertahun-tahun di industri, mereka
+                        tidak hanya membersihkan, tetapi juga memahami setiap detail untuk memastikan kebersihan
+                        optimal. Percayakan kebersihan Anda kepada para ahli kami dan rasakan hasil yang benar-benar
+                        memuaskan.</h5>
                 </div>
             </div>
             <div class="row">
@@ -443,10 +465,14 @@
                                 <div class="team-img">
                                     <img class="img-fluid w-100" src="img/team-1.jpg" alt="">
                                 </div>
-                                <div class="team-social d-flex flex-column align-items-center justify-content-center bg-primary">
-                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i class="fab fa-twitter"></i></a>
-                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                                    <a class="btn btn-secondary btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <div
+                                    class="team-social d-flex flex-column align-items-center justify-content-center bg-primary">
+                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i
+                                            class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i
+                                            class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-secondary btn-social" href="#"><i
+                                            class="fab fa-linkedin-in"></i></a>
                                 </div>
                             </div>
                             <div class="d-flex flex-column bg-primary text-center py-4">
@@ -459,10 +485,14 @@
                                 <div class="team-img">
                                     <img class="img-fluid w-100" src="img/team-2.jpg" alt="">
                                 </div>
-                                <div class="team-social d-flex flex-column align-items-center justify-content-center bg-primary">
-                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i class="fab fa-twitter"></i></a>
-                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                                    <a class="btn btn-secondary btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <div
+                                    class="team-social d-flex flex-column align-items-center justify-content-center bg-primary">
+                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i
+                                            class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i
+                                            class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-secondary btn-social" href="#"><i
+                                            class="fab fa-linkedin-in"></i></a>
                                 </div>
                             </div>
                             <div class="d-flex flex-column bg-primary text-center py-4">
@@ -475,10 +505,14 @@
                                 <div class="team-img">
                                     <img class="img-fluid w-100" src="img/team-3.jpg" alt="">
                                 </div>
-                                <div class="team-social d-flex flex-column align-items-center justify-content-center bg-primary">
-                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i class="fab fa-twitter"></i></a>
-                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                                    <a class="btn btn-secondary btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <div
+                                    class="team-social d-flex flex-column align-items-center justify-content-center bg-primary">
+                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i
+                                            class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i
+                                            class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-secondary btn-social" href="#"><i
+                                            class="fab fa-linkedin-in"></i></a>
                                 </div>
                             </div>
                             <div class="d-flex flex-column bg-primary text-center py-4">
@@ -491,10 +525,14 @@
                                 <div class="team-img">
                                     <img class="img-fluid w-100" src="img/team-4.jpg" alt="">
                                 </div>
-                                <div class="team-social d-flex flex-column align-items-center justify-content-center bg-primary">
-                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i class="fab fa-twitter"></i></a>
-                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                                    <a class="btn btn-secondary btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <div
+                                    class="team-social d-flex flex-column align-items-center justify-content-center bg-primary">
+                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i
+                                            class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i
+                                            class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-secondary btn-social" href="#"><i
+                                            class="fab fa-linkedin-in"></i></a>
                                 </div>
                             </div>
                             <div class="d-flex flex-column bg-primary text-center py-4">
@@ -526,7 +564,7 @@
                 <h4 class="font-weight-semi-bold text-primary mb-4">Get In Touch</h4>
                 <p><i class="fa fa-map-marker-alt text-primary mr-2"></i>Jl Bareng Raya IIN/538</p>
                 <p><i class="fa fa-phone-alt text-primary mr-2"></i>+62895422855755</p>
-                <p><i class="fa fa-envelope text-primary mr-2"></i>gwgakpro@gmail.com</p>
+                <p><i class="fa fa-envelope text-primary mr-2"></i>GlitzCleaner@gmail.com</p>
                 <div class="d-flex justify-content-start mt-4">
                     <a class="btn btn-light btn-social mr-2" href="#"><i class="fab fa-twitter"></i></a>
                     <a class="btn btn-light btn-social mr-2" href="#"><i class="fab fa-facebook-f"></i></a>
@@ -545,10 +583,12 @@
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
                 <h4 class="font-weight-semi-bold text-primary mb-4">Newsletter</h4>
-                <p>Rebum labore lorem dolores kasd est, et ipsum amet et at kasd, ipsum sea tempor magna tempor. Accu kasd sed ea duo ipsum.</p>
+                <p>Rebum labore lorem dolores kasd est, et ipsum amet et at kasd, ipsum sea tempor magna tempor. Accu
+                    kasd sed ea duo ipsum.</p>
                 <div class="w-100">
                     <div class="input-group">
-                        <input type="text" class="form-control border-0" style="padding: 25px;" placeholder="Your Email">
+                        <input type="text" class="form-control border-0" style="padding: 25px;"
+                            placeholder="Your Email">
                         <div class="input-group-append">
                             <button class="btn btn-primary px-4">Sign Up</button>
                         </div>
@@ -557,10 +597,12 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5" style="border-color: #3E3E4E !important;">
+    <div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5"
+        style="border-color: #3E3E4E !important;">
         <div class="row">
             <div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
-                <p class="m-0 text-white">&copy; <a href="#">Glitz Cleaner</a>. All Rights Reserved. Designed by <a href="https://htmlcodex.com">HTML Codex</a>
+                <p class="m-0 text-white">&copy; <a href="#">Glitz Cleaner</a>. All Rights Reserved. Designed by <a
+                        href="https://htmlcodex.com">HTML Codex</a>
                 </p>
             </div>
             <div class="col-lg-6 text-center text-md-right">

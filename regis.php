@@ -10,7 +10,8 @@
     <link href="img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -25,7 +26,8 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-3 bg-secondary d-none d-lg-block">
-                <a href="index.html" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
+                <a href="index.html"
+                    class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
                     <h1 class="m-0 display-5 text-primary">Glitz Cleaner</h1>
                 </a>
             </div>
@@ -67,7 +69,7 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="user.html" class="nav-item nav-link active">Beranda</a>
+                            <a href="user.html" class="nav-item nav-link">Beranda</a>
                             <a href="Tentang1.html" class="nav-item nav-link">Tentang</a>
                             <a href="Layanan1.html" class="nav-item nav-link">Layanan</a>
                             <a href="Keranjang.html" class="nav-item nav-link">Pemesanan</a>
@@ -77,7 +79,7 @@
                                     <a href="blog1.html" class="dropdown-item">Latest Blog</a>
                                     <a href="single1.html" class="dropdown-item">Blog Detail</a>
                                 </div>
-                            </div>                          
+                            </div>
                         </div>
                     </div>
                 </nav>
@@ -95,13 +97,15 @@
                         <img src="Logo1.png" class="logo-small">
                     </div>
                     <div class="form-wrapper">
-                        <form id="register-form" class="form" action="" method="post">
+                        <form id="register-form" class="form" action="register_process.php" method="post">
                             <h2 class="text-center">Create Account</h2>
-                            <input type="text" class="form-control mb-3" placeholder="Username" required>
-                            <input type="email" class="form-control mb-3" placeholder="Email" required>
-                            <input type="password" class="form-control mb-3" placeholder="Password" required>
-                            <button type="submit" class="btn btn-primary btn-block">Register</button>
-                            <p class="text-center mt-3">Already have an account? <span class="text-primary" onclick="toggleForm('login')">Login</span></p>
+                            <input type="text" class="form-control mb-3" placeholder="Username" name="name" required>
+                            <input type="email" class="form-control mb-3" placeholder="Email" name="email" required>
+                            <input type="password" class="form-control mb-3" placeholder="Password" name="password"
+                                required>
+                            <input type="submit" class="btn btn-primary btn-block" value="Register"
+                                name="regis"></input>
+                            <p class="text-center mt-3">Already have an account? <a href="Login.php">Login</span></p>
                         </form>
                     </div>
                 </div>
@@ -110,8 +114,8 @@
     </div>
     <!-- Form End -->
 
-      <!-- Footer Start -->
-      <div class="container-fluid bg-dark text-white mt-5 py-5 px-sm-3 px-md-5">
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-white mt-5 py-5 px-sm-3 px-md-5">
         <div class="row pt-5">
             <div class="col-lg-3 col-md-6 mb-5">
                 <a href="index.html" class="navbar-brand">
@@ -146,10 +150,12 @@
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
                 <h4 class="font-weight-semi-bold text-primary mb-4">Newsletter</h4>
-                <p>Rebum labore lorem dolores kasd est, et ipsum amet et at kasd, ipsum sea tempor magna tempor. Accu kasd sed ea duo ipsum.</p>
+                <p>Rebum labore lorem dolores kasd est, et ipsum amet et at kasd, ipsum sea tempor magna tempor. Accu
+                    kasd sed ea duo ipsum.</p>
                 <div class="w-100">
                     <div class="input-group">
-                        <input type="text" class="form-control border-0" style="padding: 25px;" placeholder="Your Email">
+                        <input type="text" class="form-control border-0" style="padding: 25px;"
+                            placeholder="Your Email">
                         <div class="input-group-append">
                             <button class="btn btn-primary px-4">Sign Up</button>
                         </div>
@@ -158,10 +164,12 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5" style="border-color: #3E3E4E !important;">
+    <div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5"
+        style="border-color: #3E3E4E !important;">
         <div class="row">
             <div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
-                <p class="m-0 text-white">&copy; <a href="#">Glitz Cleaner</a>. All Rights Reserved. Designed by <a href="https://htmlcodex.com">HTML Codex</a>
+                <p class="m-0 text-white">&copy; <a href="#">Glitz Cleaner</a>. All Rights Reserved. Designed by <a
+                        href="https://htmlcodex.com">HTML Codex</a>
                 </p>
             </div>
             <div class="col-lg-6 text-center text-md-right">
@@ -186,7 +194,7 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
-    
+
     <script>
         function toggleForm(formType) {
             const loginForm = document.getElementById('login-form');

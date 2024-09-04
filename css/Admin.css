@@ -1,8 +1,61 @@
- {
+body {
   font-family: "Poppins", sans-serif;
   background-color: #f4f6f9;
   margin: 0;
   padding: 0;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #fff;
+  display: inline-block;
+  margin-right: 5px;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+/* Button Edit */
+.btn-warning {
+  background-color: #ffc107;
+  border: 1px solid #ffc107;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+  border-color: #d39e00;
+}
+
+/* Button Delete */
+.btn-danger {
+  background-color: red; /* Warna merah asli */
+  border: 1px solid red;
+}
+
+.btn-danger:hover {
+  background-color: #c82333; /* Warna merah lebih gelap untuk efek hover */
+  border-color: #bd2130;
+}
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+table th {
+  background-color: #f2f2f2;
+  color: #333;
 }
 
 .sidebar {
@@ -10,17 +63,22 @@
   height: 100vh;
   background-color: #ffffff;
   position: fixed;
-  top: 100px;
+  top: 20px; /* Ubah dari 100px menjadi 20px untuk menaikkan sidebar */
   left: 0;
   overflow-y: auto;
   padding-top: 20px;
   z-index: 1;
 }
 
+.content {
+  margin-left: 300px;
+  padding: 30px;
+}
+
 .sidebar a {
   display: block;
   color: black;
-  padding: 15px 20px;
+  padding: 15px 30px;
   text-decoration: none;
   font-weight: 500;
   font-size: 16px;
@@ -29,11 +87,6 @@
 
 .sidebar a:hover {
   background-color: #23a036;
-}
-
-.content {
-  margin-left: 250px;
-  padding: 30px;
 }
 
 .header {
@@ -79,7 +132,6 @@ td {
 }
 
 th {
-  background-color: #3498db;
   color: white;
 }
 
@@ -88,7 +140,6 @@ tr:nth-child(even) {
 }
 
 .btn {
-  background-color: #3498db;
   color: white;
   padding: 10px 15px;
   border: none;
@@ -102,6 +153,5 @@ tr:nth-child(even) {
 }
 
 .btn:hover {
-  background-color: #2980b9;
   transform: scale(1.05);
 }

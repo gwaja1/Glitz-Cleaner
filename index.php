@@ -13,7 +13,8 @@
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -74,20 +75,13 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="index.html" class="nav-item nav-link active">Beranda</a>
-                            <a href="Tentang.html" class="nav-item nav-link">Tentang</a>
-                            <a href="Layanan.html" class="nav-item nav-link">Layanan</a>
-                            <a href="project.html" class="nav-item nav-link">Projek</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="blog.html" class="dropdown-item">Latest Blog</a>
-                                    <a href="single.html" class="dropdown-item">Blog Detail</a>
-                                </div>
-                            </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="user.html" class="nav-item nav-link active">Beranda</a>
+                            <a href="Tentang1.html" class="nav-item nav-link">Tentang</a>
+                            <a href="Layanan1.html" class="nav-item nav-link">Layanan</a>
+                            <a href="Keranjang.html" class="nav-item nav-link">Projek</a>
+                            <a href="contact1.html" class="nav-item nav-link">Contact</a>
                         </div>
-                        <a href="login.html" class="btn btn-primary mr-3 d-none d-lg-block">Login</a>
+                        <a href="Login.php" class="btn btn-primary mr-3 d-none d-lg-block">Login</a>
                     </div>
                 </nav>
             </div>
@@ -145,7 +139,8 @@
     <div class="container-fluid pb-5 contact-info">
         <div class="row">
             <div class="col-lg-4 p-0">
-                <div class="contact-info-item d-flex align-items-center justify-content-center bg-primary text-white py-4 py-lg-0">
+                <div
+                    class="contact-info-item d-flex align-items-center justify-content-center bg-primary text-white py-4 py-lg-0">
                     <i class="fa fa-3x fa-map-marker-alt text-secondary mr-4"></i>
                     <div class="">
                         <h5 class="mb-2">Our Office</h5>
@@ -154,7 +149,8 @@
                 </div>
             </div>
             <div class="col-lg-4 p-0">
-                <div class="contact-info-item d-flex align-items-center justify-content-center bg-secondary text-white py-4 py-lg-0">
+                <div
+                    class="contact-info-item d-flex align-items-center justify-content-center bg-secondary text-white py-4 py-lg-0">
                     <i class="fa fa-3x fa-envelope-open text-primary mr-4"></i>
                     <div class="">
                         <h5 class="mb-2">Email Us</h5>
@@ -163,7 +159,8 @@
                 </div>
             </div>
             <div class="col-lg-4 p-0">
-                <div class="contact-info-item d-flex align-items-center justify-content-center bg-primary text-white py-4 py-lg-0">
+                <div
+                    class="contact-info-item d-flex align-items-center justify-content-center bg-primary text-white py-4 py-lg-0">
                     <i class="fa fa-3x fa-phone-alt text-secondary mr-4"></i>
                     <div class="">
                         <h5 class="mb-2">Call Us</h5>
@@ -181,7 +178,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-5">
-                    <div class="d-flex flex-column align-items-center justify-content-center bg-about rounded h-100 py-5 px-3">
+                    <div
+                        class="d-flex flex-column align-items-center justify-content-center bg-about rounded h-100 py-5 px-3">
                         <i class="fa fa-5x fa-award text-primary mb-4"></i>
                         <h1 class="display-2 text-white mb-2" data-toggle="counter-up">25</h1>
                         <h2 class="text-white m-0"></h2>
@@ -190,8 +188,11 @@
                 <div class="col-lg-7 pt-5 pb-lg-5">
                     <h6 class="text-secondary font-weight-semi-bold text-uppercase mb-3">Learn About Us</h6>
                     <h1 class="mb-4 section-title">We Provide The Best Cleaning Services</h1>
-                    <h5 class="text-muted font-weight-normal mb-3">Eos kasd eos dolor vero vero, lorem stet diam rebum. Ipsum amet sed vero dolor sea lorem justo est dolor eos</h5>
-                    <p>Invidunt lorem justo sanctus clita. Erat lorem labore ea, justo dolor lorem ipsum ut sed eos, ipsum et dolor kasd sit ea justo. Erat justo sed sed diam. Ea et erat ut sed diam sea ipsum est dolor</p>
+                    <h5 class="text-muted font-weight-normal mb-3">Eos kasd eos dolor vero vero, lorem stet diam rebum.
+                        Ipsum amet sed vero dolor sea lorem justo est dolor eos</h5>
+                    <p>Invidunt lorem justo sanctus clita. Erat lorem labore ea, justo dolor lorem ipsum ut sed eos,
+                        ipsum et dolor kasd sit ea justo. Erat justo sed sed diam. Ea et erat ut sed diam sea ipsum est
+                        dolor</p>
                     <div class="d-flex align-items-center pt-4">
                         <a href="" class="btn btn-primary mr-5">Learn More</a>
                         <button type="button" class="btn-play" data-toggle="modal"
@@ -208,16 +209,18 @@
 
 
     <!-- Video Modal Start -->
-    <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
-                    </button>        
+                    </button>
                     <!-- 16:9 aspect ratio -->
                     <div class="embed-responsive embed-responsive-16by9">
-                        <iframe class="embed-responsive-item" src="" id="video"  allowscriptaccess="always" allow="autoplay"></iframe>
+                        <iframe class="embed-responsive-item" src="" id="video" allowscriptaccess="always"
+                            allow="autoplay"></iframe>
                     </div>
                 </div>
             </div>
@@ -233,26 +236,31 @@
                 <div class="col-lg-6">
                     <h6 class="text-secondary font-weight-semi-bold text-uppercase mb-3">Our Services</h6>
                     <h1 class="mb-4 section-title text-white">Awesome Cleaning Services For You</h1>
-                    <p class="text-white">Invidunt lorem justo clita. Erat lorem labore ea, justo dolor lorem ipsum ut sed eos, ipsum et dolor kasd sit ea justo. Erat justo sed sed diam. Ea et erat ut sed diam sea ipsum</p>
+                    <p class="text-white">Invidunt lorem justo clita. Erat lorem labore ea, justo dolor lorem ipsum ut
+                        sed eos, ipsum et dolor kasd sit ea justo. Erat justo sed sed diam. Ea et erat ut sed diam sea
+                        ipsum</p>
                     <a href="" class="btn btn-primary mt-3 py-2 px-4">More Services</a>
                 </div>
                 <div class="col-lg-6 pt-5 pt-lg-0">
                     <div class="owl-carousel service-carousel position-relative">
-                        <div class="d-flex flex-column align-items-center text-center bg-white rounded overflow-hidden pt-4">
+                        <div
+                            class="d-flex flex-column align-items-center text-center bg-white rounded overflow-hidden pt-4">
                             <div class="icon-box bg-light text-secondary shadow mt-2 mb-4">
                                 <i class="fa fa-2x fa-hotel"></i>
                             </div>
                             <h5 class="font-weight-bold mb-4 px-4">Home Cleaning</h5>
                             <img src="img/blog-1.jpg" alt="">
                         </div>
-                        <div class="d-flex flex-column align-items-center text-center bg-white rounded overflow-hidden pt-4">
+                        <div
+                            class="d-flex flex-column align-items-center text-center bg-white rounded overflow-hidden pt-4">
                             <div class="icon-box bg-light text-secondary shadow mt-2 mb-4">
                                 <i class="fa fa-2x fa-city"></i>
                             </div>
                             <h5 class="font-weight-bold mb-4 px-4">Window Cleaning</h5>
                             <img src="img/blog-3.jpg" alt="">
                         </div>
-                        <div class="d-flex flex-column align-items-center text-center bg-white rounded overflow-hidden pt-4">
+                        <div
+                            class="d-flex flex-column align-items-center text-center bg-white rounded overflow-hidden pt-4">
                             <div class="icon-box bg-light text-secondary shadow mt-2 mb-4">
                                 <i class="fa fa-2x fa-spa"></i>
                             </div>
@@ -274,7 +282,9 @@
                 <div class="col-lg-7 pt-lg-5 pb-3">
                     <h6 class="text-secondary font-weight-semi-bold text-uppercase mb-3">Why Choose Us</h6>
                     <h1 class="mb-4 section-title">25 Years Experience In Cleaning Industry</h1>
-                    <p class="mb-4">Dolores lorem lorem ipsum sit et ipsum. Sadip sea amet diam dolore sed et. Sit rebum labore sit sit ut vero no sit. Et elitr stet dolor sed sit et sed ipsum et kasd ut. Erat duo eos et erat sed diam duo</p>
+                    <p class="mb-4">Dolores lorem lorem ipsum sit et ipsum. Sadip sea amet diam dolore sed et. Sit rebum
+                        labore sit sit ut vero no sit. Et elitr stet dolor sed sit et sed ipsum et kasd ut. Erat duo eos
+                        et erat sed diam duo</p>
                     <div class="row">
                         <div class="col-sm-4">
                             <h1 class="text-secondary mb-2" data-toggle="counter-up">225</h1>
@@ -316,7 +326,8 @@
                                 <a class="btn btn-sm btn-secondary m-1" href="">
                                     <i class="fa fa-link"></i>
                                 </a>
-                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-1.jpg" data-lightbox="portfolio">
+                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-1.jpg"
+                                    data-lightbox="portfolio">
                                     <i class="fa fa-eye"></i>
                                 </a>
                             </div>
@@ -334,7 +345,8 @@
                                 <a class="btn btn-sm btn-secondary m-1" href="">
                                     <i class="fa fa-link"></i>
                                 </a>
-                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-2.jpg" data-lightbox="portfolio">
+                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-2.jpg"
+                                    data-lightbox="portfolio">
                                     <i class="fa fa-eye"></i>
                                 </a>
                             </div>
@@ -352,7 +364,8 @@
                                 <a class="btn btn-sm btn-secondary m-1" href="">
                                     <i class="fa fa-link"></i>
                                 </a>
-                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-3.jpg" data-lightbox="portfolio">
+                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-3.jpg"
+                                    data-lightbox="portfolio">
                                     <i class="fa fa-eye"></i>
                                 </a>
                             </div>
@@ -370,7 +383,8 @@
                                 <a class="btn btn-sm btn-secondary m-1" href="">
                                     <i class="fa fa-link"></i>
                                 </a>
-                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-4.jpg" data-lightbox="portfolio">
+                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-4.jpg"
+                                    data-lightbox="portfolio">
                                     <i class="fa fa-eye"></i>
                                 </a>
                             </div>
@@ -388,7 +402,8 @@
                                 <a class="btn btn-sm btn-secondary m-1" href="">
                                     <i class="fa fa-link"></i>
                                 </a>
-                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-5.jpg" data-lightbox="portfolio">
+                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-5.jpg"
+                                    data-lightbox="portfolio">
                                     <i class="fa fa-eye"></i>
                                 </a>
                             </div>
@@ -406,7 +421,8 @@
                                 <a class="btn btn-sm btn-secondary m-1" href="">
                                     <i class="fa fa-link"></i>
                                 </a>
-                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-6.jpg" data-lightbox="portfolio">
+                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-6.jpg"
+                                    data-lightbox="portfolio">
                                     <i class="fa fa-eye"></i>
                                 </a>
                             </div>
@@ -415,7 +431,7 @@
                 </div>
             </div>
         </div>
-        </div>
+    </div>
     </div>
     <!-- Portfolio End -->
 
@@ -429,7 +445,8 @@
                     <h1 class="section-title mb-3">Meet Our Highly Experienced Cleaners</h1>
                 </div>
                 <div class="col-lg-6">
-                    <h4 class="font-weight-normal text-muted mb-3">Eirmod kasd duo eos et magna, diam dolore stet sea clita sit ea erat lorem. Ipsum eos ipsum magna lorem stet</h4>
+                    <h4 class="font-weight-normal text-muted mb-3">Eirmod kasd duo eos et magna, diam dolore stet sea
+                        clita sit ea erat lorem. Ipsum eos ipsum magna lorem stet</h4>
                 </div>
             </div>
             <div class="row">
@@ -440,10 +457,14 @@
                                 <div class="team-img">
                                     <img class="img-fluid w-100" src="img/team-1.jpg" alt="">
                                 </div>
-                                <div class="team-social d-flex flex-column align-items-center justify-content-center bg-primary">
-                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i class="fab fa-twitter"></i></a>
-                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                                    <a class="btn btn-secondary btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <div
+                                    class="team-social d-flex flex-column align-items-center justify-content-center bg-primary">
+                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i
+                                            class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i
+                                            class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-secondary btn-social" href="#"><i
+                                            class="fab fa-linkedin-in"></i></a>
                                 </div>
                             </div>
                             <div class="d-flex flex-column bg-primary text-center py-4">
@@ -456,10 +477,14 @@
                                 <div class="team-img">
                                     <img class="img-fluid w-100" src="img/team-2.jpg" alt="">
                                 </div>
-                                <div class="team-social d-flex flex-column align-items-center justify-content-center bg-primary">
-                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i class="fab fa-twitter"></i></a>
-                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                                    <a class="btn btn-secondary btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <div
+                                    class="team-social d-flex flex-column align-items-center justify-content-center bg-primary">
+                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i
+                                            class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i
+                                            class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-secondary btn-social" href="#"><i
+                                            class="fab fa-linkedin-in"></i></a>
                                 </div>
                             </div>
                             <div class="d-flex flex-column bg-primary text-center py-4">
@@ -472,10 +497,14 @@
                                 <div class="team-img">
                                     <img class="img-fluid w-100" src="img/team-3.jpg" alt="">
                                 </div>
-                                <div class="team-social d-flex flex-column align-items-center justify-content-center bg-primary">
-                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i class="fab fa-twitter"></i></a>
-                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                                    <a class="btn btn-secondary btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <div
+                                    class="team-social d-flex flex-column align-items-center justify-content-center bg-primary">
+                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i
+                                            class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i
+                                            class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-secondary btn-social" href="#"><i
+                                            class="fab fa-linkedin-in"></i></a>
                                 </div>
                             </div>
                             <div class="d-flex flex-column bg-primary text-center py-4">
@@ -488,10 +517,14 @@
                                 <div class="team-img">
                                     <img class="img-fluid w-100" src="img/team-4.jpg" alt="">
                                 </div>
-                                <div class="team-social d-flex flex-column align-items-center justify-content-center bg-primary">
-                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i class="fab fa-twitter"></i></a>
-                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                                    <a class="btn btn-secondary btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <div
+                                    class="team-social d-flex flex-column align-items-center justify-content-center bg-primary">
+                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i
+                                            class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i
+                                            class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-secondary btn-social" href="#"><i
+                                            class="fab fa-linkedin-in"></i></a>
                                 </div>
                             </div>
                             <div class="d-flex flex-column bg-primary text-center py-4">
@@ -523,7 +556,9 @@
                                     <i>Profession</i>
                                 </div>
                             </div>
-                            <p>Tempor at diam tempor sed. Sanctus dolor ipsum ut nonumy amet clita sea. Sed eos sed dolores vero no. Ipsum elitr elitr stet dolor  lorem erat. Diam no amet sea justo vero ut. Dolor ipsum kasd ipsum dolore.</p>
+                            <p>Tempor at diam tempor sed. Sanctus dolor ipsum ut nonumy amet clita sea. Sed eos sed
+                                dolores vero no. Ipsum elitr elitr stet dolor lorem erat. Diam no amet sea justo vero
+                                ut. Dolor ipsum kasd ipsum dolore.</p>
                         </div>
                         <div class="d-flex flex-column text-white">
                             <div class="d-flex align-items-center mb-3">
@@ -533,7 +568,9 @@
                                     <i>Profession</i>
                                 </div>
                             </div>
-                            <p>Tempor at diam tempor sed. Sanctus dolor ipsum ut nonumy amet clita sea. Sed eos sed dolores vero no. Ipsum elitr elitr stet dolor  lorem erat. Diam no amet sea justo vero ut. Dolor ipsum kasd ipsum dolore.</p>
+                            <p>Tempor at diam tempor sed. Sanctus dolor ipsum ut nonumy amet clita sea. Sed eos sed
+                                dolores vero no. Ipsum elitr elitr stet dolor lorem erat. Diam no amet sea justo vero
+                                ut. Dolor ipsum kasd ipsum dolore.</p>
                         </div>
                         <div class="d-flex flex-column text-white">
                             <div class="d-flex align-items-center mb-3">
@@ -543,7 +580,9 @@
                                     <i>Profession</i>
                                 </div>
                             </div>
-                            <p>Tempor at diam tempor sed. Sanctus dolor ipsum ut nonumy amet clita sea. Sed eos sed dolores vero no. Ipsum elitr elitr stet dolor  lorem erat. Diam no amet sea justo vero ut. Dolor ipsum kasd ipsum dolore.</p>
+                            <p>Tempor at diam tempor sed. Sanctus dolor ipsum ut nonumy amet clita sea. Sed eos sed
+                                dolores vero no. Ipsum elitr elitr stet dolor lorem erat. Diam no amet sea justo vero
+                                ut. Dolor ipsum kasd ipsum dolore.</p>
                         </div>
                     </div>
                 </div>
@@ -567,7 +606,8 @@
                     <h1 class="section-title mb-3">Latest Articles From Our Blog Post</h1>
                 </div>
                 <div class="col-lg-6">
-                    <h4 class="font-weight-normal text-muted mb-3">Eirmod kasd duo eos et magna, diam dolore stet sea clita sit ea erat lorem. Ipsum eos ipsum magna lorem stet</h4>
+                    <h4 class="font-weight-normal text-muted mb-3">Eirmod kasd duo eos et magna, diam dolore stet sea
+                        clita sit ea erat lorem. Ipsum eos ipsum magna lorem stet</h4>
                 </div>
             </div>
             <div class="row">
@@ -664,10 +704,12 @@
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
                 <h4 class="font-weight-semi-bold text-primary mb-4">Newsletter</h4>
-                <p>Rebum labore lorem dolores kasd est, et ipsum amet et at kasd, ipsum sea tempor magna tempor. Accu kasd sed ea duo ipsum.</p>
+                <p>Rebum labore lorem dolores kasd est, et ipsum amet et at kasd, ipsum sea tempor magna tempor. Accu
+                    kasd sed ea duo ipsum.</p>
                 <div class="w-100">
                     <div class="input-group">
-                        <input type="text" class="form-control border-0" style="padding: 25px;" placeholder="Your Email">
+                        <input type="text" class="form-control border-0" style="padding: 25px;"
+                            placeholder="Your Email">
                         <div class="input-group-append">
                             <button class="btn btn-primary px-4">Sign Up</button>
                         </div>
@@ -676,10 +718,12 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5" style="border-color: #3E3E4E !important;">
+    <div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5"
+        style="border-color: #3E3E4E !important;">
         <div class="row">
             <div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
-                <p class="m-0 text-white">&copy; <a href="#">Your Site Name</a>. All Rights Reserved. Designed by <a href="https://htmlcodex.com">HTML Codex</a>
+                <p class="m-0 text-white">&copy; <a href="#">Your Site Name</a>. All Rights Reserved. Designed by <a
+                        href="https://htmlcodex.com">HTML Codex</a>
                 </p>
             </div>
             <div class="col-lg-6 text-center text-md-right">
