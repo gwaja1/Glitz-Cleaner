@@ -45,7 +45,7 @@
         <a href="#services"><i class="fas fa-concierge-bell"></i> Manajemen Layanan</a>
         <a href="#customers"><i class="fas fa-users"></i> Manajemen Pelanggan</a>
         <a href="#reports"><i class="fas fa-chart-line"></i> Laporan</a>
-        <a href="#users"><i class="fas fa-user"></i> Manajemen Pengguna</a> <!-- Tambahkan ini -->
+        <a href="Manage_user.php"><i class="fas fa-user"></i> Manajemen Pengguna</a> <!-- Tambahkan ini -->
         <a href="#settings"><i class="fas fa-cogs"></i> Pengaturan</a>
         <a href="index.php" class="btn btn-primary mr-3 d-none d-lg-block">Logout</a>
     </div>
@@ -59,9 +59,13 @@
 
             <div class="card" id="dashboard">
                 <h3>Dashboard</h3>
-                <p>Selamat datang di panel admin. Di sini Anda dapat mengelola semua aspek layanan cleaning
-                    service Anda.</p>
+                <p>Selamat datang di panel admin. Di sini Anda dapat mengelola semua aspek layanan cleaning service
+                    Anda.</p>
+
+                <!-- Tombol Add User -->
+                <a href="add_user.php" class="btn btn-primary" style="margin-top: 20px;">Add User</a>
             </div>
+
 
             <!-- Manajemen Pengguna -->
             <div class="card" id="users">

@@ -78,7 +78,7 @@
                             <a href="user.html" class="nav-item nav-link active">Beranda</a>
                             <a href="Tentang1.html" class="nav-item nav-link">Tentang</a>
                             <a href="Layanan1.html" class="nav-item nav-link">Layanan</a>
-                            <a href="Keranjang.html" class="nav-item nav-link">Pemesanan</a>
+                            <a href="Keranjang.php" class="nav-item nav-link">Pemesanan</a>
                             <a href="contact1.html" class="nav-item nav-link">Contact</a>
                         </div>
                         <a href="index.php" class="btn btn-primary mr-3 d-none d-lg-block">Logout</a>

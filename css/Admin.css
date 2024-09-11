@@ -61,7 +61,7 @@ table th {
 .sidebar {
   width: 250px;
   height: 100vh;
-  background-color: #ffffff;
+  background-color: #fff;
   position: fixed;
   top: 20px; /* Ubah dari 100px menjadi 20px untuk menaikkan sidebar */
   left: 0;
@@ -86,7 +86,7 @@ table th {
 }
 
 .sidebar a:hover {
-  background-color: #23a036;
+  background-color: #ffc600;
 }
 
 .header {

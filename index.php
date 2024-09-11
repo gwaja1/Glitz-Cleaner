@@ -154,7 +154,7 @@
                     <i class="fa fa-3x fa-envelope-open text-primary mr-4"></i>
                     <div class="">
                         <h5 class="mb-2">Email Us</h5>
-                        <p class="m-0">gwgakpro11@gmail.com</p>
+                        <p class="m-0">GlitzCleaner@gmail.com</p>
                     </div>
                 </div>
             </div>
@@ -182,19 +182,20 @@
                         class="d-flex flex-column align-items-center justify-content-center bg-about rounded h-100 py-5 px-3">
                         <i class="fa fa-5x fa-award text-primary mb-4"></i>
                         <h1 class="display-2 text-white mb-2" data-toggle="counter-up">25</h1>
-                        <h2 class="text-white m-0"></h2>
+                        <h2 class="text-white m-0">Tahun Pengalaman</h2>
                     </div>
                 </div>
                 <div class="col-lg-7 pt-5 pb-lg-5">
-                    <h6 class="text-secondary font-weight-semi-bold text-uppercase mb-3">Learn About Us</h6>
-                    <h1 class="mb-4 section-title">We Provide The Best Cleaning Services</h1>
-                    <h5 class="text-muted font-weight-normal mb-3">Eos kasd eos dolor vero vero, lorem stet diam rebum.
-                        Ipsum amet sed vero dolor sea lorem justo est dolor eos</h5>
-                    <p>Invidunt lorem justo sanctus clita. Erat lorem labore ea, justo dolor lorem ipsum ut sed eos,
-                        ipsum et dolor kasd sit ea justo. Erat justo sed sed diam. Ea et erat ut sed diam sea ipsum est
-                        dolor</p>
+                    <h6 class="text-secondary font-weight-semi-bold text-uppercase mb-3">Pelajari Tentang Kami</h6>
+                    <h1 class="mb-4 section-title">Kami Menyediakan Layanan Pembersihan Terbaik</h1>
+                    <h5 class="text-muted font-weight-normal mb-3">Rasakan kebersihan yang sesungguhnya dengan layanan
+                        cleaning service terbaik kami</h5>
+                    <p>Kami tidak hanya membersihkan, tetapi juga memberikan kenyamanan dan kepuasan maksimal. Setiap
+                        sudut rumah dan tempat kerja Anda akan bersinar dengan perawatan penuh perhatian dari tim
+                        profesional kami. Pilihlah kualitas dan kepercayaan, pilihlah kami untuk kebersihan yang tak
+                        tertandingi</p>
                     <div class="d-flex align-items-center pt-4">
-                        <a href="" class="btn btn-primary mr-5">Learn More</a>
+                        <a href="" class="btn btn-primary mr-5">Pelajari Lebih</a>
                         <button type="button" class="btn-play" data-toggle="modal"
                             data-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-target="#videoModal">
                             <span></span>
@@ -234,11 +235,12 @@
         <div class="container py-5">
             <div class="row align-items-center">
                 <div class="col-lg-6">
-                    <h6 class="text-secondary font-weight-semi-bold text-uppercase mb-3">Our Services</h6>
-                    <h1 class="mb-4 section-title text-white">Awesome Cleaning Services For You</h1>
-                    <p class="text-white">Invidunt lorem justo clita. Erat lorem labore ea, justo dolor lorem ipsum ut
-                        sed eos, ipsum et dolor kasd sit ea justo. Erat justo sed sed diam. Ea et erat ut sed diam sea
-                        ipsum</p>
+                    <h6 class="text-secondary font-weight-semi-bold text-uppercase mb-3">Layanan</h6>
+                    <h1 class="mb-4 section-title text-white">Layanan Pembersihan Luar Biasa untuk Anda</h1>
+                    <p class="text-white">Kami hadir untuk menciptakan kebersihan sempurna di setiap sudut ruang Anda.
+                        Dengan perhatian penuh terhadap detail dan dedikasi tanpa kompromi, kami memastikan Anda
+                        mendapatkan hasil terbaik. Nikmati kenyamanan dan kebersihan yang tak tertandingi—karena Anda
+                        layak mendapatkan yang terbaik!</p>
                     <a href="" class="btn btn-primary mt-3 py-2 px-4">More Services</a>
                 </div>
                 <div class="col-lg-6 pt-5 pt-lg-0">
@@ -248,7 +250,7 @@
                             <div class="icon-box bg-light text-secondary shadow mt-2 mb-4">
                                 <i class="fa fa-2x fa-hotel"></i>
                             </div>
-                            <h5 class="font-weight-bold mb-4 px-4">Home Cleaning</h5>
+                            <h5 class="font-weight-bold mb-4 px-4">Pembersihan Rumah</h5>
                             <img src="img/blog-1.jpg" alt="">
                         </div>
                         <div
@@ -256,7 +258,7 @@
                             <div class="icon-box bg-light text-secondary shadow mt-2 mb-4">
                                 <i class="fa fa-2x fa-city"></i>
                             </div>
-                            <h5 class="font-weight-bold mb-4 px-4">Window Cleaning</h5>
+                            <h5 class="font-weight-bold mb-4 px-4">Pembersihan Jendela</h5>
                             <img src="img/blog-3.jpg" alt="">
                         </div>
                         <div
@@ -264,7 +266,7 @@
                             <div class="icon-box bg-light text-secondary shadow mt-2 mb-4">
                                 <i class="fa fa-2x fa-spa"></i>
                             </div>
-                            <h5 class="font-weight-bold mb-4 px-4">Carpet Cleaning</h5>
+                            <h5 class="font-weight-bold mb-4 px-4">Pembersihan Karpet</h5>
                             <img src="img/blog-2.jpg" alt="">
                         </div>
                     </div>
@@ -280,23 +282,25 @@
         <div class="container py-5">
             <div class="row">
                 <div class="col-lg-7 pt-lg-5 pb-3">
-                    <h6 class="text-secondary font-weight-semi-bold text-uppercase mb-3">Why Choose Us</h6>
-                    <h1 class="mb-4 section-title">25 Years Experience In Cleaning Industry</h1>
-                    <p class="mb-4">Dolores lorem lorem ipsum sit et ipsum. Sadip sea amet diam dolore sed et. Sit rebum
-                        labore sit sit ut vero no sit. Et elitr stet dolor sed sit et sed ipsum et kasd ut. Erat duo eos
-                        et erat sed diam duo</p>
+                    <h6 class="text-secondary font-weight-semi-bold text-uppercase mb-3">Kenapa Memilih Layanan Kami
+                    </h6>
+                    <h1 class="mb-4 section-title">25 Tahun Pengalaman di Industri Cleaning Service</h1>
+                    <p class="mb-4">Dengan pengalaman yang kaya dan keahlian yang teruji, kami memahami setiap kebutuhan
+                        dan tantangan dalam menjaga kebersihan. Kepercayaan Anda adalah motivasi kami untuk terus
+                        memberikan hasil yang sempurna. Percayakan kebersihan Anda kepada para ahli yang telah terbukti
+                        selama dua setengah dekade</p>
                     <div class="row">
                         <div class="col-sm-4">
                             <h1 class="text-secondary mb-2" data-toggle="counter-up">225</h1>
-                            <h6 class="font-weight-semi-bold mb-sm-4">Our Cleaners</h6>
+                            <h6 class="font-weight-semi-bold mb-sm-4">Cleaner Kami</h6>
                         </div>
                         <div class="col-sm-4">
                             <h1 class="text-secondary mb-2" data-toggle="counter-up">1050</h1>
-                            <h6 class="font-weight-semi-bold mb-sm-4">Happy Clients</h6>
+                            <h6 class="font-weight-semi-bold mb-sm-4">Klien Happy</h6>
                         </div>
                         <div class="col-sm-4">
                             <h1 class="text-secondary mb-2" data-toggle="counter-up">2500</h1>
-                            <h6 class="font-weight-semi-bold mb-sm-4">Projects Done</h6>
+                            <h6 class="font-weight-semi-bold mb-sm-4">Projek Selesai</h6>
                         </div>
                     </div>
                 </div>
@@ -311,6 +315,7 @@
     <!-- Features End -->
 
 
+
     <!-- Portfolio Start -->
     <div class="container-fluid bg-portfolio py-5">
         <div class="container py-5">
@@ -321,7 +326,7 @@
                             <img class="img-fluid w-100" src="img/portfolio-1.jpg" alt="">
                         </div>
                         <div class="portfolio-text bg-primary">
-                            <h4 class="font-weight-bold mb-4">Project Name</h4>
+                            <h4 class="font-weight-bold mb-4">Nama Projek</h4>
                             <div class="d-flex align-items-center justify-content-center">
                                 <a class="btn btn-sm btn-secondary m-1" href="">
                                     <i class="fa fa-link"></i>
@@ -340,7 +345,7 @@
                             <img class="img-fluid w-100" src="img/portfolio-2.jpg" alt="">
                         </div>
                         <div class="portfolio-text bg-primary">
-                            <h4 class="font-weight-bold mb-4">Project Name</h4>
+                            <h4 class="font-weight-bold mb-4">Nama Projek</h4>
                             <div class="d-flex align-items-center justify-content-center">
                                 <a class="btn btn-sm btn-secondary m-1" href="">
                                     <i class="fa fa-link"></i>
@@ -359,7 +364,7 @@
                             <img class="img-fluid w-100" src="img/portfolio-3.jpg" alt="">
                         </div>
                         <div class="portfolio-text bg-primary">
-                            <h4 class="font-weight-bold mb-4">Project Name</h4>
+                            <h4 class="font-weight-bold mb-4">Nama Projek</h4>
                             <div class="d-flex align-items-center justify-content-center">
                                 <a class="btn btn-sm btn-secondary m-1" href="">
                                     <i class="fa fa-link"></i>
@@ -378,7 +383,7 @@
                             <img class="img-fluid w-100" src="img/portfolio-4.jpg" alt="">
                         </div>
                         <div class="portfolio-text bg-primary">
-                            <h4 class="font-weight-bold mb-4">Project Name</h4>
+                            <h4 class="font-weight-bold mb-4">Nama Projek</h4>
                             <div class="d-flex align-items-center justify-content-center">
                                 <a class="btn btn-sm btn-secondary m-1" href="">
                                     <i class="fa fa-link"></i>
@@ -397,7 +402,7 @@
                             <img class="img-fluid w-100" src="img/portfolio-5.jpg" alt="">
                         </div>
                         <div class="portfolio-text bg-primary">
-                            <h4 class="font-weight-bold mb-4">Project Name</h4>
+                            <h4 class="font-weight-bold mb-4">Nama Projek</h4>
                             <div class="d-flex align-items-center justify-content-center">
                                 <a class="btn btn-sm btn-secondary m-1" href="">
                                     <i class="fa fa-link"></i>
@@ -416,7 +421,7 @@
                             <img class="img-fluid w-100" src="img/portfolio-6.jpg" alt="">
                         </div>
                         <div class="portfolio-text bg-primary">
-                            <h4 class="font-weight-bold mb-4">Project Name</h4>
+                            <h4 class="font-weight-bold mb-4">Nama Projek</h4>
                             <div class="d-flex align-items-center justify-content-center">
                                 <a class="btn btn-sm btn-secondary m-1" href="">
                                     <i class="fa fa-link"></i>
@@ -441,12 +446,14 @@
         <div class="container py-5">
             <div class="row align-items-end mb-4">
                 <div class="col-lg-6">
-                    <h6 class="text-secondary font-weight-semi-bold text-uppercase mb-3">Meet Our Team</h6>
-                    <h1 class="section-title mb-3">Meet Our Highly Experienced Cleaners</h1>
+                    <h6 class="text-secondary font-weight-semi-bold text-uppercase mb-3">TEMUI TIM KAMI</h6>
+                    <h1 class="section-title mb-3">Temui Pembersih Kami yang Sangat Berpengalaman</h1>
                 </div>
                 <div class="col-lg-6">
-                    <h4 class="font-weight-normal text-muted mb-3">Eirmod kasd duo eos et magna, diam dolore stet sea
-                        clita sit ea erat lorem. Ipsum eos ipsum magna lorem stet</h4>
+                    <h5 class="font-weight-normal text-muted mb-3">Dengan pengalaman bertahun-tahun di industri, mereka
+                        tidak hanya membersihkan, tetapi juga memahami setiap detail untuk memastikan kebersihan
+                        optimal. Percayakan kebersihan Anda kepada para ahli kami dan rasakan hasil yang benar-benar
+                        memuaskan.</h5>
                 </div>
             </div>
             <div class="row">
@@ -538,7 +545,6 @@
         </div>
     </div>
     <!-- Team End -->
-
 
     <!-- Testimonial Start -->
     <div class="container-fluid bg-testimonial py-5">
