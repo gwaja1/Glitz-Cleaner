@@ -1,23 +1,38 @@
 <?php
-// Database connection
-$host = "localhost";   // Your database host
-$dbname = "gclean";    // Your database name
-$username = "root";    // Your database username
-$password = "";        // Your database password
+session_start(); // Memulai session
 
-// Create connection
-$conn = new mysqli($host, $username, $password, $dbname);
+include "koneksi.php"; // Koneksi ke database
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Ambil id_user dari session
+$id_user = $_SESSION['id_user'];
+
+// Pastikan id_user disimpan di session
+if (!$id_user) {
+    die("User belum login atau session tidak valid.");
 }
 
-// Fetch a specific booking by its ID (for example)
-$id = 7; // You can dynamically pass this as needed
-$sql = "SELECT * FROM booking WHERE id = $id";
-$result = $conn->query($sql);
-$booking = $result->fetch_assoc();
+// Query untuk mendapatkan data booking terkait pengguna
+$query = "SELECT * FROM booking WHERE id_user = '$id_user'"; // Pastikan kolom id_user ada di tabel booking
+
+// Jalankan query
+$hasil = mysqli_query($conn, $query);
+
+// Periksa apakah query berhasil dijalankan
+if ($hasil) {
+    if (mysqli_num_rows($hasil) > 0) {
+        // Ambil data booking pertama (atau sesuaikan jika ada lebih dari satu)
+        $booking = mysqli_fetch_assoc($hasil);
+    } else {
+        $booking = null; // Tidak ada data booking untuk pengguna ini
+    }
+} else {
+    // Jika query gagal dijalankan
+    echo "Error: " . mysqli_error($conn);
+    $booking = null;
+}
+
+// Tutup koneksi
+mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
@@ -32,19 +47,15 @@ $booking = $result->fetch_assoc();
 
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
-
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
-
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-
     <!-- Libraries Stylesheet -->
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/setyle.css" rel="stylesheet">
     <link rel="icon" href="Logo.png" type="image/png">
@@ -97,7 +108,7 @@ $booking = $result->fetch_assoc();
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="user.php" class="nav-item nav-link active">Beranda</a>
+                            <a href="user.php" class="nav-item nav-link">Beranda</a>
                             <a href="Tentang1.html" class="nav-item nav-link">Tentang</a>
                             <a href="Layanan1.html" class="nav-item nav-link">Layanan</a>
                             <a href="Keranjang.php" class="nav-item nav-link">Pemesanan</a>
@@ -113,6 +124,7 @@ $booking = $result->fetch_assoc();
     </div>
     <!-- Header End -->
 
+
     <!-- Payment Section Start -->
     <div class="container-fluid pt-5">
         <div class="container payment-section">
@@ -127,43 +139,43 @@ $booking = $result->fetch_assoc();
                             <div class="row">
                                 <div class="col-md-6 form-group">
                                     <label>Nama Lengkap</label>
-                                    <input class="form-control" type="text" value="<?php echo $booking['nama']; ?>"
-                                        readonly>
+                                    <input class="form-control" type="text"
+                                        value="<?php echo $booking['nama'] ?? ''; ?>" readonly>
                                 </div>
                                 <div class="col-md-6 form-group">
                                     <label>Email</label>
-                                    <input class="form-control" type="email" value="<?php echo $booking['email']; ?>"
-                                        readonly>
+                                    <input class="form-control" type="email"
+                                        value="<?php echo $booking['email'] ?? ''; ?>" readonly>
                                 </div>
                                 <div class="col-md-6 form-group">
                                     <label>No Telepon</label>
-                                    <input class="form-control" type="text" value="<?php echo $booking['no_telpon']; ?>"
-                                        readonly>
+                                    <input class="form-control" type="text"
+                                        value="<?php echo $booking['no_telpon'] ?? ''; ?>" readonly>
                                 </div>
                                 <div class="col-md-6 form-group">
                                     <label>Alamat</label>
-                                    <input class="form-control" type="text" value="<?php echo $booking['alamat']; ?>"
-                                        readonly>
+                                    <input class="form-control" type="text"
+                                        value="<?php echo $booking['alamat'] ?? ''; ?>" readonly>
                                 </div>
                                 <div class="col-md-6 form-group">
                                     <label>Jenis Layanan</label>
                                     <input class="form-control" type="text"
-                                        value="<?php echo $booking['jenis_layanan']; ?>" readonly>
+                                        value="<?php echo $booking['jenis_layanan'] ?? ''; ?>" readonly>
                                 </div>
                                 <div class="col-md-6 form-group">
                                     <label>Tanggal Pembersihan</label>
                                     <input class="form-control" type="text"
-                                        value="<?php echo $booking['tanggal_pembersihan']; ?>" readonly>
+                                        value="<?php echo $booking['tanggal_pembersihan'] ?? ''; ?>" readonly>
                                 </div>
                                 <div class="col-md-6 form-group">
                                     <label>Waktu Pembersihan</label>
                                     <input class="form-control" type="text"
-                                        value="<?php echo $booking['waktu_pembersihan']; ?>" readonly>
+                                        value="<?php echo $booking['waktu_pembersihan'] ?? ''; ?>" readonly>
                                 </div>
                                 <div class="col-md-6 form-group">
                                     <label>Catatan</label>
-                                    <input class="form-control" type="text" value="<?php echo $booking['catatan']; ?>"
-                                        readonly>
+                                    <input class="form-control" type="text"
+                                        value="<?php echo $booking['catatan'] ?? ''; ?>" readonly>
                                 </div>
                             </div>
                         </form>
@@ -201,10 +213,7 @@ $booking = $result->fetch_assoc();
     </div>
     <!-- Payment Section End -->
 
-    <!-- Closing the database connection -->
-    <?php
-    $conn->close();
-    ?>
+
 </body>
 
 </html>

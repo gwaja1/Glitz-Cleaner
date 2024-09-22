@@ -171,10 +171,10 @@ if (isset($_SESSION['email'])) {
 
     <div class="booking-container">
         <h2>Pemesanan Jasa </h2>
-        <form action="add.php" method="post">
+        <form method="POST" action="add.php">
             <div class="form-group">
                 <label for="name">Nama Lengkap:</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" id="nama" name="nama" required>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
@@ -245,11 +245,11 @@ if (isset($_SESSION['email'])) {
             <a href="index.html" class="navbar-brand">
                 <h1 class="m-0 mt-n3 display-5 text-primary">Glitz Cleaner</h1>
             </a>
-            <p>Volup amet magna clita tempor. Tempor sea eos vero ipsum. Lorem lorem sit sed elitr sed kasd et
+            <p>Bersih, Rapi, dan Nyaman, Hanya untuk Anda!
             </p>
-            <h5 class="font-weight-semi-bold text-white mb-2">Opening Hours:</h5>
-            <p class="mb-1">Mon – Sat, 8AM – 5PM</p>
-            <p class="mb-0">Sunday: Closed</p>
+            <h5 class="font-weight-semi-bold text-white mb-2">Buka:</h5>
+            <p class="mb-1">Senini – Sabtu, 8pagi – 6sore</p>
+            <p class="mb-0">: Tutup</p>
         </div>
         <div class="col-lg-3 col-md-6 mb-5">
             <h4 class="font-weight-semi-bold text-primary mb-4">Get In Touch</h4>
@@ -292,9 +292,7 @@ if (isset($_SESSION['email'])) {
     style="border-color: #3E3E4E !important;">
     <div class="row">
         <div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
-            <p class="m-0 text-white">&copy; <a href="#">Glitz Cleaner</a>. All Rights Reserved. Designed by <a
-                    href="https://htmlcodex.com">HTML Codex</a>
-            </p>
+            <p class="m-0 text-white">&copy; <a href="#">Copyright</a>. GlitzCleaner</p>
         </div>
         <div class="col-lg-6 text-center text-md-right">
             <ul class="nav d-inline-flex">
