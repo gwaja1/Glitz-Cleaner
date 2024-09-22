@@ -1,43 +1,3 @@
-<?php
-require 'koneksi.php';
-session_start();
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    // Debugging: Check if the user is found
-    $stmt = $conn->prepare("SELECT * FROM tb_users WHERE username = :username");
-    $stmt->bindParam(':username', $username);
-    $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($user) {
-        echo "User found: ";
-        var_dump($user); // Debugging: Menampilkan detail user yang ditemukan
-    } else {
-        echo "User not found";
-        exit; // Menghentikan eksekusi jika user tidak ditemukan
-    }
-
-    // Jika user ditemukan, lanjutkan dengan verifikasi password
-    if (password_verify($password, $user['password'])) {
-        $_SESSION['username'] = $user['username'];
-        $_SESSION['role'] = $user['role'];
-
-        if ($user['role'] == 'admin') {
-            header("Location: adminpanel.php");
-        } else {
-            header("Location: indexx.php");
-        }
-        exit();
-
-    } else {
-        echo "<script>alert('Login failed! Please check your credentials.'); window.location.href='login.php';</script>";
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -57,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="css/setyle.css" rel="stylesheet">
     <link rel="icon" href="Logo.png" type="image/png">
 </head>
 
@@ -100,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                     </div>
                 </div>
-                <nav class="navbar navbar-expand-lg bg-white navbar-light p-0">
+                <nav class="row navbar navbar-expand-lg bg-white navbar-light p-0">
                     <a href="index.html" class="navbar-brand d-block d-lg-none">
                         <h1 class="m-0 display-4 text-primary">Glitz Cleaner</h1>
                     </a>
@@ -113,18 +73,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <a href="Tentang1.html" class="nav-item nav-link">Tentang</a>
                             <a href="Layanan1.html" class="nav-item nav-link">Layanan</a>
                             <a href="Keranjang.html" class="nav-item nav-link">Pemesanan</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="blog1.html" class="dropdown-item">Latest Blog</a>
-                                    <a href="single1.html" class="dropdown-item">Blog Detail</a>
-                                </div>
-                            </div>
                         </div>
                     </div>
-                </nav>
             </div>
         </div>
+        </nav>
+    </div>
+    </div>
     </div>
     <!-- Header End -->
 

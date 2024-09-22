@@ -26,6 +26,9 @@ if ($hasil) {
         // Ambil data hasil query
         $data = mysqli_fetch_array($hasil);
 
+        // Simpan iduser ke dalam session
+        $_SESSION['id_user'] = $data['iduser']; // Mengambil iduser dari hasil query
+
         // Cek peran pengguna
         if ($data['role'] == "admin") {
             // Buat session login dan role

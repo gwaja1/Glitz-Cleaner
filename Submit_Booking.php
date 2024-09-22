@@ -3,14 +3,14 @@
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Ambil data dari form
-    $nama = $_POST['nama'];
+    $name = $_POST['name'];
     $email = $_POST['email'];
-    $no_telpon = $_POST['no_telpon'];
-    $alamat = $_POST['alamat'];
-    $jenis_layanan = $_POST['jenis_layanan'];
-    $tanggal_pembersihan = $_POST['tanggal_pembersihan'];
-    $waktu_pembersihan = $_POST['waktu_pembersihan'];
-    $catatan = $_POST['catatan'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
+    $service_type = $_POST['service_type'];
+    $date = $_POST['date'];
+    $time = $_POST['time'];
+    $notes = $_POST['notes'];
 
     // Validasi data sederhana
     if (!empty($name) && !empty($email) && !empty($phone) && !empty($address) && !empty($service_type) && !empty($date) && !empty($time)) {
@@ -30,11 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Query untuk memasukkan data ke tabel orders
-        $sql = "INSERT INTO booking (name, email, phone, address, service_type, date, time, notes)
+        $sql = "INSERT INTO booking (nama, email, no_telpon, alamat, jenis_layanan, tanggal_pembersihan, waktu_pembersihan, catatan)
         VALUES ('$name', '$email', '$phone', '$address', '$service_type', '$date', '$time', '$notes')";
 
         if ($conn->query($sql) === TRUE) {
-            echo "Pemesanan berhasil dilakukan! Terima kasih telah menggunakan layanan kami.";
+            header("location:Pembayaran.php");
         } else {
             echo "Terjadi kesalahan: " . $conn->error;
         }

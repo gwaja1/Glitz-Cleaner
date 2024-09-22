@@ -24,7 +24,7 @@
     <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="css/setyle.css" rel="stylesheet">
     <link rel="icon" href="Logo.png" type="image/png">
 </head>
 
@@ -66,7 +66,7 @@
                         </div>
                     </div>
                 </div>
-                <nav class="navbar navbar-expand-lg bg-white navbar-light p-0">
+                <nav class="row navbar navbar-expand-lg bg-white navbar-light p-0">
                     <a href="" class="navbar-brand d-block d-lg-none">
                         <h1 class="m-0 display-4 text-primary">Glitz Cleaner</h1>
                     </a>
@@ -76,10 +76,10 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a href="user.html" class="nav-item nav-link active">Beranda</a>
-                            <a href="Tentang1.html" class="nav-item nav-link">Tentang</a>
-                            <a href="Layanan1.html" class="nav-item nav-link">Layanan</a>
+                            <a href="Tentang.html" class="nav-item nav-link">Tentang</a>
+                            <a href="Layanan.html" class="nav-item nav-link">Layanan</a>
                             <a href="Keranjang.html" class="nav-item nav-link">Projek</a>
-                            <a href="contact1.html" class="nav-item nav-link">Contact</a>
+                            <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
                         <a href="Login.php" class="btn btn-primary mr-3 d-none d-lg-block">Login</a>
                     </div>

@@ -1,3 +1,25 @@
+<?php
+// Database connection
+$host = "localhost";   // Your database host
+$dbname = "gclean";    // Your database name
+$username = "root";    // Your database username
+$password = "";        // Your database password
+
+// Create connection
+$conn = new mysqli($host, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Fetch a specific booking by its ID (for example)
+$id = 7; // You can dynamically pass this as needed
+$sql = "SELECT * FROM booking WHERE id = $id";
+$result = $conn->query($sql);
+$booking = $result->fetch_assoc();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,7 +46,7 @@
     <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="css/setyle.css" rel="stylesheet">
     <link rel="icon" href="Logo.png" type="image/png">
 </head>
 
@@ -66,7 +88,7 @@
                         </div>
                     </div>
                 </div>
-                <nav class="navbar navbar-expand-lg bg-white navbar-light p-0">
+                <nav class="row navbar navbar-expand-lg bg-white navbar-light p-0">
                     <a href="" class="navbar-brand d-block d-lg-none">
                         <h1 class="m-0 display-4 text-primary">Glitz Cleaner</h1>
                     </a>
@@ -75,16 +97,19 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="user.html" class="nav-item nav-link active">Beranda</a>
+                            <a href="user.php" class="nav-item nav-link active">Beranda</a>
                             <a href="Tentang1.html" class="nav-item nav-link">Tentang</a>
                             <a href="Layanan1.html" class="nav-item nav-link">Layanan</a>
-                            <a href="Keranjang.html" class="nav-item nav-link">Projek</a>
+                            <a href="Keranjang.php" class="nav-item nav-link">Pemesanan</a>
                             <a href="contact1.html" class="nav-item nav-link">Contact</a>
                         </div>
+                        <a href="index.php" class="btn btn-primary mr-3 d-none d-lg-block">Logout</a>
                     </div>
-                </nav>
             </div>
         </div>
+        </nav>
+    </div>
+    </div>
     </div>
     <!-- Header End -->
 
@@ -102,27 +127,43 @@
                             <div class="row">
                                 <div class="col-md-6 form-group">
                                     <label>Nama Lengkap</label>
-                                    <input class="form-control" type="text" placeholder="John Doe">
+                                    <input class="form-control" type="text" value="<?php echo $booking['nama']; ?>"
+                                        readonly>
                                 </div>
                                 <div class="col-md-6 form-group">
                                     <label>Email</label>
-                                    <input class="form-control" type="email" placeholder="johndoe@example.com">
+                                    <input class="form-control" type="email" value="<?php echo $booking['email']; ?>"
+                                        readonly>
                                 </div>
                                 <div class="col-md-6 form-group">
                                     <label>No Telepon</label>
-                                    <input class="form-control" type="text" placeholder="+62 812 3456 7890">
+                                    <input class="form-control" type="text" value="<?php echo $booking['no_telpon']; ?>"
+                                        readonly>
                                 </div>
                                 <div class="col-md-6 form-group">
                                     <label>Alamat</label>
-                                    <input class="form-control" type="text" placeholder="Jl. Contoh No. 123">
+                                    <input class="form-control" type="text" value="<?php echo $booking['alamat']; ?>"
+                                        readonly>
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label>Kota</label>
-                                    <input class="form-control" type="text" placeholder="Jakarta">
+                                    <label>Jenis Layanan</label>
+                                    <input class="form-control" type="text"
+                                        value="<?php echo $booking['jenis_layanan']; ?>" readonly>
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label>Kode Pos</label>
-                                    <input class="form-control" type="text" placeholder="12345">
+                                    <label>Tanggal Pembersihan</label>
+                                    <input class="form-control" type="text"
+                                        value="<?php echo $booking['tanggal_pembersihan']; ?>" readonly>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>Waktu Pembersihan</label>
+                                    <input class="form-control" type="text"
+                                        value="<?php echo $booking['waktu_pembersihan']; ?>" readonly>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>Catatan</label>
+                                    <input class="form-control" type="text" value="<?php echo $booking['catatan']; ?>"
+                                        readonly>
                                 </div>
                             </div>
                         </form>
@@ -159,3 +200,11 @@
         </div>
     </div>
     <!-- Payment Section End -->
+
+    <!-- Closing the database connection -->
+    <?php
+    $conn->close();
+    ?>
+</body>
+
+</html>

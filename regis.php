@@ -17,7 +17,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="css/setyle.css" rel="stylesheet">
     <link rel="icon" href="Logo.png" type="image/png">
 </head>
 
@@ -60,7 +60,7 @@
                         </div>
                     </div>
                 </div>
-                <nav class="navbar navbar-expand-lg bg-white navbar-light p-0">
+                <nav class="row navbar navbar-expand-lg bg-white navbar-light p-0">
                     <a href="index.html" class="navbar-brand d-block d-lg-none">
                         <h1 class="m-0 display-4 text-primary">Glitz Cleaner</h1>
                     </a>
@@ -73,18 +73,15 @@
                             <a href="Tentang1.html" class="nav-item nav-link">Tentang</a>
                             <a href="Layanan1.html" class="nav-item nav-link">Layanan</a>
                             <a href="Keranjang.html" class="nav-item nav-link">Pemesanan</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="blog1.html" class="dropdown-item">Latest Blog</a>
-                                    <a href="single1.html" class="dropdown-item">Blog Detail</a>
-                                </div>
-                            </div>
+                            <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
                     </div>
-                </nav>
             </div>
         </div>
+    </div>
+    </nav>
+    </div>
+    </div>
     </div>
     <!-- Header End -->
 

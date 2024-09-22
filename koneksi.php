@@ -1,7 +1,14 @@
 <?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "gclean";
 
-$host = "localhost";
-$user = "root";
-$pass = "";
-$database = "gclean";
-$conn = mysqli_connect($host, $user, $pass, $database);
+// Buat koneksi
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Periksa koneksi
+if ($conn->connect_error) {
+    die("Koneksi gagal: " . $conn->connect_error);
+}
+?>
