@@ -106,6 +106,38 @@ if (isset($_SESSION['email'])) {
         .submit-btn:hover {
             background-color: #b38b00;
         }
+
+        .profile-image .image {
+            width: 50px;
+            height: 50px;
+            margin: 0 30px 0 0;
+            border-radius: 50%;
+        }
+
+        .profile-image .image-list {
+            position: absolute;
+            max-height: 0;
+            right: 30px;
+            top: 100%;
+            width: 100px;
+            text-align: center;
+            visibility: hidden;
+            padding: 0;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            z-index: 10;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.4s ease;
+        }
+
+        .profile-image:hover .image-list {
+            max-height: 100%;
+            visibility: visible;
+            opacity: 1;
+        }
     </style>
 </head>
 
@@ -160,79 +192,86 @@ if (isset($_SESSION['email'])) {
                             <a href="Tentang1.html" class="nav-item nav-link">Tentang</a>
                             <a href="Layanan1.html" class="nav-item nav-link">Layanan</a>
                             <a href="Keranjang.php" class="nav-item nav-link active">Pemesanan</a>
-                            <a href="contact1.html" class="nav-item nav-link">Contact</a>
+                            <a href="history.html" class="nav-item nav-link active">History</a>
                         </div>
-                        <a href="index.php" class="btn btn-primary mr-3 d-none d-lg-block">Logout</a>
+                        <div class="profile-image">
+                            <img src="img/team-1.jpg" alt="" class="image">
+                            <ul class="image-list">
+                                <li class="list-item">
+                                    <a href="edit_profil.html">Edit Profil</a>
+                                </li>
+                                <li class="list-item">
+                                    <a href="index.php">Log Out</a>
+                        </div>
                     </div>
             </div>
         </div>
-    </div>
-    <!-- Header End -->
+        <!-- Header End -->
 
-    <div class="booking-container">
-        <h2>Pemesanan Jasa </h2>
-        <form method="POST" action="add.php">
-            <div class="form-group">
-                <label for="name">Nama Lengkap:</label>
-                <input type="text" id="nama" name="nama" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="phone">Nomor Telepon:</label>
-                <input type="tel" id="phone" name="phone" required>
-            </div>
-            <div class="form-group">
-                <label for="address">Alamat:</label>
-                <input type="text" id="address" name="address" required>
-            </div>
-            <div class="form-group">
-                <label for="service-type">Jenis Layanan:</label>
-                <select id="service-type" name="service_type" required>
-                    <option value="basic_cleaning">Pembersihan Dasar</option>
-                    <option value="deep_cleaning">Pembersihan Menyeluruh</option>
-                    <option value="move_in_out_cleaning">Pembersihan Pindahan</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="room-type">Jenis Ruangan:</label>
-                <select id="room-type" name="room_type" required>
-                    <option value="Ruang-keluarga">Ruang Keluarga</option>
-                    <option value="Ruang-tamu">Ruang Tamu</option>
-                    <option value="Ruang-makan">Ruang Makan</option>
-                    <option value="Kamar">Kamar</option>
-                    <option value="Dapur">Dapur</option>
-                    <option value="Gudang">Gudang</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="Room-size">Ukuran Ruangan:</label>
-                <select id="Room-size" name="Room-size" required>
-                    <option value="Room-size">9m²</option>
-                    <option value="Room-size">15m²</option>
-                    <option value="Room-size">20m²</option>
-                    <option value="Room-size">25m²</option>
-                    <option value="Room-size">30m²</option>
-                    <option value="Room-size">35m²</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="date">Tanggal Pembersihan:</label>
-                <input type="date" id="date" name="date" required>
-            </div>
-            <div class="form-group">
-                <label for="time">Waktu Pembersihan:</label>
-                <input type="time" id="time" name="time" required>
-            </div>
-            <div class="form-group">
-                <label for="notes">Catatan Tambahan:</label>
-                <textarea id="notes" name="notes" rows="4"></textarea>
-            </div>
-            <button type="submit" class="submit-btn">Pesan Sekarang</button>
-        </form>
-    </div>
+        <div class="booking-container">
+            <h2>Pemesanan Jasa </h2>
+            <form method="POST" action="add.php">
+                <div class="form-group">
+                    <label for="name">Nama Lengkap:</label>
+                    <input type="text" id="nama" name="nama" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Nomor Telepon:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Alamat:</label>
+                    <input type="text" id="address" name="address" required>
+                </div>
+                <div class="form-group">
+                    <label for="service-type">Jenis Layanan:</label>
+                    <select id="service-type" name="service_type" required>
+                        <option value="basic_cleaning">Pembersihan Dasar</option>
+                        <option value="deep_cleaning">Pembersihan Menyeluruh</option>
+                        <option value="move_in_out_cleaning">Pembersihan Pindahan</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="room-type">Jenis Ruangan:</label>
+                    <select id="room-type" name="room_type" required>
+                        <option value="Ruang-keluarga">Ruang Keluarga</option>
+                        <option value="Ruang-tamu">Ruang Tamu</option>
+                        <option value="Ruang-makan">Ruang Makan</option>
+                        <option value="Kamar">Kamar</option>
+                        <option value="Dapur">Dapur</option>
+                        <option value="Gudang">Gudang</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Room-size">Ukuran Ruangan:</label>
+                    <select id="Room-size" name="Room-size" required>
+                        <option value="Room-size">9m²</option>
+                        <option value="Room-size">15m²</option>
+                        <option value="Room-size">20m²</option>
+                        <option value="Room-size">25m²</option>
+                        <option value="Room-size">30m²</option>
+                        <option value="Room-size">35m²</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date">Tanggal Pembersihan:</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="time">Waktu Pembersihan:</label>
+                    <input type="time" id="time" name="time" required>
+                </div>
+                <div class="form-group">
+                    <label for="notes">Catatan Tambahan:</label>
+                    <textarea id="notes" name="notes" rows="4"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Pesan Sekarang</button>
+            </form>
+        </div>
 </body>
 
 </html>
@@ -248,7 +287,7 @@ if (isset($_SESSION['email'])) {
             <p>Bersih, Rapi, dan Nyaman, Hanya untuk Anda!
             </p>
             <h5 class="font-weight-semi-bold text-white mb-2">Buka:</h5>
-            <p class="mb-1">Senini – Sabtu, 8pagi – 6sore</p>
+            <p class="mb-1">Senin – Sabtu, 8pagi – 6sore</p>
             <p class="mb-0">: Tutup</p>
         </div>
         <div class="col-lg-3 col-md-6 mb-5">
@@ -274,9 +313,9 @@ if (isset($_SESSION['email'])) {
         </div>
         <div class="col-lg-3 col-md-6 mb-5">
             <h4 class="font-weight-semi-bold text-primary mb-4">Newsletter</h4>
-            <p>Rebum labore lorem dolores kasd est, et ipsum amet et at kasd, ipsum sea tempor magna tempor.
-                Accu
-                kasd sed ea duo ipsum.</p>
+            <p>Kami senang dapat memperkenalkan layanan pembersihan kami yang dirancang untuk memenuhi semua kebutuhan
+                kebersihan Anda. Dengan tim profesional dan berpengalaman, kami siap membantu Anda menjaga rumah atau
+                kantor Anda tetap bersih dan nyaman..</p>
             <div class="w-100">
                 <div class="input-group">
                     <input type="text" class="form-control border-0" style="padding: 25px;" placeholder="Your Email">
