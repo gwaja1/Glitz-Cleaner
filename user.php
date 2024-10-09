@@ -25,7 +25,7 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/setyle.css" rel="stylesheet">
-    <link rel="icon" href="Logo.png" type="image/png">
+    <link rel="icon" href="Img/Logo.png" type="image/png">
     <style>
         .profile-image .image {
             width: 50px;
@@ -110,8 +110,8 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a href="user.php" class="nav-item nav-link active">Beranda</a>
-                            <a href="Tentang1.html" class="nav-item nav-link">Tentang</a>
-                            <a href="Layanan1.html" class="nav-item nav-link">Layanan</a>
+                            <a href="Tentang1.php" class="nav-item nav-link">Tentang</a>
+                            <a href="Layanan1.php" class="nav-item nav-link">Layanan</a>
                             <a href="Keranjang.php" class="nav-item nav-link">Pemesanan</a>
                             <a href="history.html" class="nav-item nav-link">History</a>
                         </div>

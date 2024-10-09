@@ -18,7 +18,7 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/setyle.css" rel="stylesheet">
-    <link rel="icon" href="Img/Logo.png" type="image/png">
+    <link rel="icon" href="Logo.png" type="image/png">
 </head>
 
 <body>
@@ -76,9 +76,11 @@
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
                     </div>
-                </nav>
             </div>
         </div>
+        </nav>
+    </div>
+    </div>
     </div>
     <!-- Header End -->
 
@@ -88,7 +90,7 @@
             <div class="col-lg-5">
                 <div class="form-container bg-white p-4 shadow">
                     <div class="logo-container">
-                        <img src="Img/Logo1.png" class="logo-small">
+                        <img src="Logo1.png" class="logo-small">
                     </div>
                     <div class="form-wrapper">
                         <form id="login-form" class="form" action="login_process.php" method="post">
@@ -96,8 +98,10 @@
                             <input type="email" class="form-control mb-3" placeholder="Email" name="email" required>
                             <input type="password" class="form-control mb-3" placeholder="Password" name="password"
                                 required>
-                            <input type="submit" class="btn btn-primary btn-block" value="Login"></input>
-                            <p class="text-center mt-3">Don't have an account? <a href="regis.php">Register</a></p>
+                            <button type="submit" class="btn btn-primary btn-block" name="login">Login</button>
+                            <p class="text-center mt-3">Don't have an account? <a
+                                    href="register_process.php">Register</span>
+                            </p>
                         </form>
                     </div>
                 </div>
@@ -105,6 +109,15 @@
         </div>
     </div>
     <!-- Form End -->
+
+
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>

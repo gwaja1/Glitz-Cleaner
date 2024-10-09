@@ -45,7 +45,7 @@ if (isset($_SESSION['email'])) {
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/setyle.css" rel="stylesheet">
-    <link rel="icon" href="Logo.png" type="image/png">
+    <link rel="icon" href="Img/Logo.png" type="image/png">
     <style>
         .booking-container {
             width: 90%;
@@ -189,10 +189,10 @@ if (isset($_SESSION['email'])) {
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a href="user.php" class="nav-item nav-link">Beranda</a>
-                            <a href="Tentang1.html" class="nav-item nav-link">Tentang</a>
-                            <a href="Layanan1.html" class="nav-item nav-link">Layanan</a>
+                            <a href="Tentang1.php" class="nav-item nav-link">Tentang</a>
+                            <a href="Layanan1.php" class="nav-item nav-link">Layanan</a>
                             <a href="Keranjang.php" class="nav-item nav-link active">Pemesanan</a>
-                            <a href="history.html" class="nav-item nav-link active">History</a>
+                            <a href="history.html" class="nav-item nav-link">History</a>
                         </div>
                         <div class="profile-image">
                             <img src="img/team-1.jpg" alt="" class="image">
@@ -210,7 +210,7 @@ if (isset($_SESSION['email'])) {
 
         <div class="booking-container">
             <h2>Pemesanan Jasa </h2>
-            <form method="POST" action="add.php">
+            <form method="POST" action="Pembayaran.php">
                 <div class="form-group">
                     <label for="name">Nama Lengkap:</label>
                     <input type="text" id="nama" name="nama" required>

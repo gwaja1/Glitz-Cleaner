@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Glitz Cleaner Cleaning Services</title>
+    <title>Glitz Cleaner Cleaning Services </title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
@@ -25,7 +25,7 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/setyle.css" rel="stylesheet">
-    <link rel="icon" href="Logo.png" type="image/png">
+    <link rel="icon" href="Img/Logo.png" type="image/png">
     <style>
         .profile-image .image {
             width: 50px;
@@ -59,6 +59,7 @@
             opacity: 1;
         }
     </style>
+
 </head>
 
 <body>
@@ -91,9 +92,6 @@
                                 <i class="fab fa-twitter"></i>
                             </a>
                             <a class="text-primary p-2" href="">
-                                <i class="fab fa-linkedin-in"></i>
-                            </a>
-                            <a class="text-primary p-2" href="">
                                 <i class="fab fa-instagram"></i>
                             </a>
                             <a class="text-primary p-2" href="">
@@ -112,10 +110,10 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a href="user.php" class="nav-item nav-link">Beranda</a>
-                            <a href="Tentang1.html" class="nav-item nav-link active">Tentang</a>
-                            <a href="Layanan1.html" class="nav-item nav-link">Layanan</a>
+                            <a href="Tentang1.php" class="nav-item nav-link active">Tentang</a>
+                            <a href="Layanan1.php" class="nav-item nav-link">Layanan</a>
                             <a href="Keranjang.php" class="nav-item nav-link">Pemesanan</a>
-                            <a href="History.html" class="nav-item nav-link">History</a>
+                            <a href="history.html" class="nav-item nav-link">History</a>
                         </div>
                         <div class="profile-image">
                             <img src="img/team-1.jpg" alt="" class="image">
@@ -126,11 +124,9 @@
                                 <li class="list-item">
                                     <a href="index.php">Log Out</a>
                         </div>
-                    </div>
+                </nav>
             </div>
-            </nav>
         </div>
-    </div>
     </div>
     <!-- Header End -->
 
@@ -144,9 +140,9 @@
                 </div>
                 <div class="col-md-6 text-center text-md-right">
                     <div class="d-inline-flex align-items-center">
-                        <a class="btn btn-sm btn-outline-light" href="">Beranda</a>
+                        <a class="btn btn-sm btn-outline-light" href="user.php">Beranda</a>
                         <i class="fas fa-angle-double-right text-light mx-2"></i>
-                        <a class="btn btn-sm btn-outline-light disabled" href="">Tentang</a>
+                        <a class="btn btn-sm btn-outline-light disabled" href="Tentang1.php">Tentang</a>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Glitz Cleaner Cleaning Services </title>
+    <title>Glitz Cleaner Cleaning Services</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
@@ -25,8 +25,68 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/setyle.css" rel="stylesheet">
-    <link rel="icon" href="Logo.png" type="image/png">
+    <link rel="icon" href="Img/Logo.png" type="image/png">
     <style>
+        .booking-container {
+            width: 90%;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #b38b00;
+            outline: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #ffc600;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #b38b00;
+        }
+
         .profile-image .image {
             width: 50px;
             height: 50px;
@@ -91,9 +151,6 @@
                                 <i class="fab fa-twitter"></i>
                             </a>
                             <a class="text-primary p-2" href="">
-                                <i class="fab fa-linkedin-in"></i>
-                            </a>
-                            <a class="text-primary p-2" href="">
                                 <i class="fab fa-instagram"></i>
                             </a>
                             <a class="text-primary p-2" href="">
@@ -112,8 +169,8 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a href="user.php" class="nav-item nav-link">Beranda</a>
-                            <a href="Tentang1.html" class="nav-item nav-link">Tentang</a>
-                            <a href="Layanan1.html" class="nav-item nav-link active">Layanan</a>
+                            <a href="Tentang1.php" class="nav-item nav-link">Tentang</a>
+                            <a href="Layanan1.php" class="nav-item nav-link active">Layanan</a>
                             <a href="Keranjang.php" class="nav-item nav-link">Pemesanan</a>
                             <a href="history.html" class="nav-item nav-link">History</a>
                         </div>
@@ -126,7 +183,6 @@
                                 <li class="list-item">
                                     <a href="index.php">Log Out</a>
                         </div>
-                    </div>
                 </nav>
             </div>
         </div>
@@ -143,9 +199,9 @@
                 </div>
                 <div class="col-md-6 text-center text-md-right">
                     <div class="d-inline-flex align-items-center">
-                        <a class="btn btn-sm btn-outline-light" href="">Beranda</a>
+                        <a class="btn btn-sm btn-outline-light" href="user.php">Beranda</a>
                         <i class="fas fa-angle-double-right text-light mx-2"></i>
-                        <a class="btn btn-sm btn-outline-light disabled" href="">Layanan</a>
+                        <a class="btn btn-sm btn-outline-light disabled" href="Layanan1.php">Layanan</a>
                     </div>
                 </div>
             </div>
@@ -161,9 +217,11 @@
                 <div class="col-lg-6">
                     <h6 class="text-secondary font-weight-semi-bold text-uppercase mb-3">Layanan</h6>
                     <h1 class="mb-4 section-title text-white">Layanan Pembersihan Luar Biasa untuk Anda</h1>
-                    <p class="text-white">Kami hadir untuk menciptakan kebersihan sempurna di setiap sudut ruang Anda.
+                    <p class="text-white">Kami hadir untuk menciptakan kebersihan sempurna di setiap sudut ruang
+                        Anda.
                         Dengan perhatian penuh terhadap detail dan dedikasi tanpa kompromi, kami memastikan Anda
-                        mendapatkan hasil terbaik. Nikmati kenyamanan dan kebersihan yang tak tertandingi—karena Anda
+                        mendapatkan hasil terbaik. Nikmati kenyamanan dan kebersihan yang tak tertandingi—karena
+                        Anda
                         layak mendapatkan yang terbaik!</p>
                     <a href="Layanan1.html" class="btn btn-primary mt-3 py-2 px-4">Layanan Lebih</a>
                 </div>

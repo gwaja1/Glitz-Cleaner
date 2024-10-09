@@ -86,7 +86,7 @@ table th {
 }
 
 .sidebar a:hover {
-  background-color: #ffc600;
+  background-color: #ffc800c7;
 }
 
 .header {
@@ -140,7 +140,7 @@ tr:nth-child(even) {
 }
 
 .btn {
-  color: white;
+  color: #ffffff;
   padding: 10px 15px;
   border: none;
   cursor: pointer;

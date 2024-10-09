@@ -25,7 +25,7 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/setyle.css" rel="stylesheet">
-    <link rel="icon" href="Logo.png" type="image/png">
+    <link rel="icon" href="Img/Logo.png" type="image/png">
 </head>
 
 <body>
