@@ -35,7 +35,13 @@ if ($hasil) {
             $_SESSION['email'] = $email;
             $_SESSION['role'] = "admin";
             // Alihkan ke halaman dashboard admin
-            header("location:panel_admin.php");
+            header("location:dashborad_admin.php");
+        } else if ($data['role'] == "cleaner") {
+            // Buat session login dan role
+            $_SESSION['email'] = $email;
+            $_SESSION['role'] = "cleaner";
+            // Alihkan ke halaman dashboard cleaner
+            header("location:cleaner.php");
         } else if ($data['role'] == "user") {
             // Buat session login dan role
             $_SESSION['email'] = $email;

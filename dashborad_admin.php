@@ -61,11 +61,23 @@
         }
 
         .card {
-            background-color: #ffffff;
-            border-radius: 8px;
+            background-color: #ecf0f1;
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 30%;
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
+        .card h3 {
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 18px;
+            color: #2980b9;
+        }
+
 
         table {
             width: 100%;
@@ -91,6 +103,37 @@
         .btn-danger {
             color: #fff;
         }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            width: calc(100% - 250px);
+            background-color: #fff;
+        }
+
+        .main-area {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .main-area h2 {
+            margin-bottom: 10px;
+        }
+
+        .dashboard-overview {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 
@@ -98,7 +141,7 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <a href="dashborad_admin.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="dashboard_admin.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
         <a href="#orders"><i class="fas fa-box"></i> Manajemen Pesanan</a>
         <a href="#services"><i class="fas fa-concierge-bell"></i> Manajemen Layanan</a>
         <a href="#customers"><i class="fas fa-users"></i> Manajemen Pelanggan</a>
@@ -115,48 +158,38 @@
             <p>Kelola layanan, pesanan, pengguna, dan lain-lain dengan mudah.</p>
         </div>
 
-
-        <!-- Manajemen Pengguna -->
-        <div class="card mt-4" id="users">
-            <h3>Manajemen Pengguna</h3>
-
-            <?php
-            // Koneksi ke database
-            include 'koneksi.php';
-
-            // Query untuk mengambil data pengguna dari tabel user
-            $sql = "SELECT iduser, name, email, role FROM user";
-            $result = $conn->query($sql);
-
-            if ($result->num_rows > 0) {
-                echo "<table>
-                        <tr>
-                            <th>ID</th>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Aksi</th>
-                        </tr>";
-                // Output data dari setiap baris
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>
-                            <td>" . $row["iduser"] . "</td>
-                            <td>" . $row["name"] . "</td>
-                            <td>" . $row["email"] . "</td>
-                            <td>" . $row["role"] . "</td>
-                            <td>
-                                <a href='delete_user.php?id=" . $row["iduser"] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Apakah Anda yakin ingin menghapus pengguna ini?\")'>Delete</a>
-                            </td>
-                          </tr>";
-                }
-                echo "</table>";
-            } else {
-                echo "<p>Tidak ada pengguna ditemukan.</p>";
-            }
-
-            $conn->close();
-            ?>
+        <div class="main-area mb-4" id="dashboard">
+            <h3>Dashboard</h3>
+            <p>Selamat datang di panel admin. Di sini Anda dapat mengelola semua aspek layanan cleaning service Anda.
+            </p>
         </div>
+
+        <!-- Dashboard Overview -->
+        <section class="dashboard-overview">
+            <div class="card">
+                <h3>Users</h3>
+                <p>500 Registered Users</p>
+            </div>
+            <div class="card">
+                <h3>Orders</h3>
+                <p>120 Orders Today</p>
+            </div>
+            <div class="card">
+                <h3>Earnings</h3>
+                <p>$5,000 Today</p>
+            </div>
+        </section>
+
+        <!-- Main Content Area -->
+        <section class="main-area">
+            <h2>Recent Activity</h2>
+            <p>This is the main content area where you can manage users, view orders, and update settings.</p>
+        </section>
+
+    </div>
+    </div>
+
+    </div>
     </div>
 
     <!-- JavaScript Libraries -->

@@ -2,7 +2,7 @@
 include "koneksi.php";
 session_start();
 
-// Cek apakah user sudah login
+// Cek apakah user sudah login dan memiliki `id_user`
 if (isset($_SESSION['id_user'])) {
     $id_user = $_SESSION['id_user']; // Pastikan Anda menyimpan id_user di session
 
@@ -15,41 +15,45 @@ if (isset($_SESSION['id_user'])) {
     die("User belum login.");
 }
 
-// Ambil data dari form
-$nama = $_POST['name'] ?? ''; // Ganti dengan nama yang sesuai
-$email = $_POST['email'] ?? ''; // Ganti dengan nama yang sesuai
-$no_telpon = $_POST['phone'] ?? ''; // Ganti dengan nama yang sesuai
-$alamat = $_POST['address'] ?? ''; // Ganti dengan nama yang sesuai
-$jenis_layanan = $_POST['service_type'] ?? ''; // Ganti dengan nama yang sesuai
-$tanggal_pembersihan = $_POST['date'] ?? ''; // Ganti dengan nama yang sesuai
-$waktu_pembersihan = $_POST['time'] ?? ''; // Ganti dengan nama yang sesuai
-$catatan = $_POST['notes'] ?? ''; // Ganti dengan nama yang sesuai
+// Cek apakah semua data form tersedia
+if (
+    isset($_POST['nama']) && isset($_POST['email']) && isset($_POST['phone']) &&
+    isset($_POST['address']) && isset($_POST['service_type']) &&
+    isset($_POST['room_type']) && isset($_POST['Room-size']) &&
+    isset($_POST['date']) && isset($_POST['time'])
+) {
+    // Mengambil data dari form
+    $nama = $conn->real_escape_string($_POST['nama']);
+    $email = $conn->real_escape_string($_POST['email']);
+    $phone = $conn->real_escape_string($_POST['phone']);
+    $address = $conn->real_escape_string($_POST['address']);
+    $service_type = $conn->real_escape_string($_POST['service_type']);
+    $room_type = $conn->real_escape_string($_POST['room_type']);
+    $room_size = $conn->real_escape_string($_POST['Room-size']);
+    $date = $conn->real_escape_string($_POST['date']);
 
-// Validasi data sederhana
-if (!empty($name) && !empty($email) && !empty($phone) && !empty($address) && !empty($service_type) && !empty($date) && !empty($time)) {
+    // Format waktu menjadi hh:mm:ss untuk memastikan tidak ada milidetik
+    $time = date("H:i:s", strtotime($_POST['time']));
+    $time = $conn->real_escape_string($time);
 
-    // Query untuk memasukkan data ke tabel booking termasuk id_user
-    $insertQuery = "INSERT INTO booking (id_user, nama, email, no_telpon, alamat, jenis_layanan, tanggal_pembersihan, waktu_pembersihan, catatan) 
-    VALUES ('$id_user', '$name', '$email', '$phone', '$address', '$service_type', '$date', '$time', '$note') 
-    ON DUPLICATE KEY UPDATE 
-        nama='$name', 
-        email='$email', 
-        no_telpon='$phone', 
-        alamat='$address', 
-        jenis_layanan='$service_type', 
-        tanggal_pembersihan='$date', 
-        waktu_pembersihan='$time', 
-        catatan='$notes'";
+    $notes = isset($_POST['notes']) ? $conn->real_escape_string($_POST['notes']) : '';
 
-    if (mysqli_query($conn, $insertQuery)) {
-        echo "Data booking berhasil ditambahkan atau diperbarui.";
+    // Query untuk memasukkan data ke tabel booking, termasuk id_user
+    $sql = "INSERT INTO booking (id_user, nama, email, no_telpon, alamat, jenis_layanan, jenis_ruangan, ukuran_ruangan, tanggal_pembersihan, waktu_pembersihan, catatan)
+            VALUES ('$id_user', '$nama', '$email', '$phone', '$address', '$service_type', '$room_type', '$room_size', '$date', '$time', '$notes')";
+
+    // Get the last inserted ID
+    if ($conn->query($sql) === TRUE) {
+        // Get the last inserted ID
+        $last_id = $conn->insert_id;
+        // Store the booking ID in session
+        $_SESSION['id_booking'] = $last_id;
+
+        header('Location:Pembayaran.php');
     } else {
-        echo "Error: " . mysqli_error($conn);
+        echo "Error: " . $sql . "<br>" . $conn->error;
     }
-
-    // Tutup koneksi
-    $conn->close();
-} else {
-    echo "Semua field harus diisi!";
 }
+
+$conn->close();
 ?>

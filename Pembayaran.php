@@ -11,8 +11,11 @@ if (!$id_user) {
     die("User belum login atau session tidak valid.");
 }
 
+// Ambil id_booking dari session
+$id_booking = $_SESSION['id_booking']; // Ambil id_booking dari session
+
 // Query untuk mendapatkan data booking terkait pengguna
-$query = "SELECT * FROM booking WHERE id_user = '$id_user'"; // Pastikan kolom id_user ada di tabel booking
+$query = "SELECT * FROM booking WHERE id_booking = '$id_booking' AND id_user = '$id_user'"; // Pastikan kolom id_booking dan id_user ada di tabel booking
 
 // Jalankan query
 $hasil = mysqli_query($conn, $query);
@@ -20,7 +23,7 @@ $hasil = mysqli_query($conn, $query);
 // Periksa apakah query berhasil dijalankan
 if ($hasil) {
     if (mysqli_num_rows($hasil) > 0) {
-        // Ambil data booking pertama (atau sesuaikan jika ada lebih dari satu)
+        // Ambil data booking pertama
         $booking = mysqli_fetch_assoc($hasil);
     } else {
         $booking = null; // Tidak ada data booking untuk pengguna ini
@@ -98,40 +101,40 @@ mysqli_close($conn);
     <!-- Header Start -->
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-3 bg-secondary d-none d-lg-block">
+            <div class=" bg-dark d-none d-lg-flex w-100 pr-5">
+                <div class="col-lg-7 text-left text-white">
+                    <div class="h-100 d-inline-flex align-items-center border-right border-primary py-2 px-3">
+                        <i class="fa fa-envelope text-primary mr-2"></i>
+                        <small>GlitzCleaner@gmail.com</small>
+                    </div>
+                    <div class="h-100 d-inline-flex align-items-center py-2 px-2">
+                        <i class="fa fa-phone-alt text-primary mr-2"></i>
+                        <small>+0895422855755</small>
+                    </div>
+                </div>
+                <div class="col-lg-5 text-right">
+                    <div class="d-inline-flex align-items-center pr-2">
+                        <a class="text-primary p-2" href="">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a class="text-primary p-2" href="">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a class="text-primary p-2" href="">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a class="text-primary p-2" href="">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 d-none d-lg-block">
                 <a href="" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
                     <h1 class="m-0 display-5 text-primary">Glitz Cleaner</h1>
                 </a>
             </div>
             <div class="col-lg-9">
-                <div class="row bg-dark d-none d-lg-flex">
-                    <div class="col-lg-7 text-left text-white">
-                        <div class="h-100 d-inline-flex align-items-center border-right border-primary py-2 px-3">
-                            <i class="fa fa-envelope text-primary mr-2"></i>
-                            <small>GlitzCleaner@gmail.com</small>
-                        </div>
-                        <div class="h-100 d-inline-flex align-items-center py-2 px-2">
-                            <i class="fa fa-phone-alt text-primary mr-2"></i>
-                            <small>+0895422855755</small>
-                        </div>
-                    </div>
-                    <div class="col-lg-5 text-right">
-                        <div class="d-inline-flex align-items-center pr-2">
-                            <a class="text-primary p-2" href="">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                            <a class="text-primary p-2" href="">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                            <a class="text-primary p-2" href="">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                            <a class="text-primary p-2" href="">
-                                <i class="fab fa-youtube"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
                 <nav class="row navbar navbar-expand-lg bg-white navbar-light p-0">
                     <a href="" class="navbar-brand d-block d-lg-none">
                         <h1 class="m-0 display-4 text-primary">Glitz Cleaner</h1>
@@ -142,25 +145,24 @@ mysqli_close($conn);
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a href="user.php" class="nav-item nav-link">Beranda</a>
-                            <a href="Tentang1.html" class="nav-item nav-link">Tentang</a>
-                            <a href="Layanan1.html" class="nav-item nav-link">Layanan</a>
+                            <a href="Tentang1.php" class="nav-item nav-link">Tentang</a>
+                            <a href="Layanan1.php" class="nav-item nav-link">Layanan</a>
                             <a href="Keranjang.php" class="nav-item nav-link">Pemesanan</a>
                             <a href="history.html" class="nav-item nav-link">History</a>
                         </div>
-                        <div class="profile-image">
-                            <img src="img/team-1.jpg" alt="" class="image">
-                            <ul class="image-list">
-                                <li class="list-item">
-                                    <a href="edit_profil.html">Edit Profil</a>
-                                </li>
-                                <li class="list-item">
-                                    <a href="index.php">Log Out</a>
-                        </div>
                     </div>
+                    <div class="profile-image">
+                        <img src="img/team-1.jpg" alt="" class="image">
+                        <ul class="image-list">
+                            <li class="list-item">
+                                <a href="edit_profil.php">Edit Profil</a>
+                            </li>
+                            <li class="list-item">
+                                <a href="index.php">Log Out</a>
+                    </div>
+                </nav>
             </div>
-            </nav>
         </div>
-    </div>
     </div>
     <!-- Header End -->
 
@@ -222,6 +224,7 @@ mysqli_close($conn);
                     </div>
                 </div>
 
+
                 <div class="col-lg-4">
                     <div class="card border-secondary mb-5">
                         <div class="card-header bg-secondary border-0">
@@ -232,19 +235,29 @@ mysqli_close($conn);
                                 <p>Subtotal</p>
                                 <p>Rp. 1.000.000</p>
                             </div>
-                            <div class="d-flex justify-content-between">
-                                <p>Biaya Pengiriman</p>
-                                <p>Rp. 50.000</p>
-                            </div>
                             <hr class="mt-0">
                             <div class="d-flex justify-content-between mb-3">
                                 <h6 class="font-weight-medium">Total</h6>
-                                <h6 class="font-weight-medium">Rp. 1.050.000</h6>
+                                <h6 class="font-weight-medium">Rp. 1.000.000</h6>
                             </div>
                         </div>
                         <div class="card-footer border-secondary bg-transparent">
-                            <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Lanjutkan
-                                Pembayaran</button>
+                            <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Bayar
+                                Sekarang</button>
+                            <form action="simpan_pesanan.php" method="post">
+                                <input type="hidden" name="id_user" value="<?php echo $id_user; ?>">
+                                <input type="hidden" name="id_booking"
+                                    value="<?php echo $booking['id_booking'] ?? ''; ?>">
+                                <input type="hidden" name="status" value="belum bayar">
+                                <!-- Asumsikan ada id_booking -->
+                                <input type="hidden" name="harga" value="1000000"> <!-- Ganti sesuai logika harga -->
+
+                                <button type="submit"
+                                    class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Simpan
+                                    Dulu</button>
+                            </form>
+
+
                         </div>
                     </div>
                 </div>

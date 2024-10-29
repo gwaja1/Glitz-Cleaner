@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Glitz Cleaner Cleaning Services</title>
+    <title>Glitz Cleaner Cleaning Services </title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
@@ -26,6 +26,40 @@
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/setyle.css" rel="stylesheet">
     <link rel="icon" href="Img/Logo.png" type="image/png">
+    <style>
+        .profile-image .image {
+            width: 50px;
+            height: 50px;
+            margin: 0 30px 0 0;
+            border-radius: 50%;
+        }
+
+        .profile-image .image-list {
+            position: absolute;
+            max-height: 0;
+            right: 30px;
+            top: 100%;
+            width: 100px;
+            text-align: center;
+            visibility: hidden;
+            padding: 0;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            z-index: 10;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.4s ease;
+        }
+
+        .profile-image:hover .image-list {
+            max-height: 100%;
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -75,13 +109,19 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="index.php" class="nav-item nav-link">Beranda</a>
-                            <a href="Tentang.html" class="nav-item nav-link active">Tentang</a>
-                            <a href=" Layanan.html" class="nav-item nav-link">Layanan</a>
-                            <a href="project.html" class="nav-item nav-link">Projek</a>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="Cleaner.php" class="nav-item nav-link active">Beranda</a>
+                            <a href="Pesanan.php" class="nav-item nav-link">Pesanan</a>
+                            <a href="history.html" class="nav-item nav-link">Riwayat</a>
                         </div>
-                        <a href="Login.php" class="btn btn-primary mr-3 d-none d-lg-block">Login</a>
+                    </div>
+                    <div class="profile-image">
+                        <img src="img/team-1.jpg" alt="" class="image">
+                        <ul class="image-list">
+                            <li class="list-item">
+                                <a href="edit_profil.php">Edit Profil</a>
+                            </li>
+                            <li class="list-item">
+                                <a href="index.php">Log Out</a>
                     </div>
                 </nav>
             </div>
@@ -90,24 +130,87 @@
     <!-- Header End -->
 
 
-    <!-- Page Header Start -->
-    <div class="container-fluid bg-primary py-5 mb-5">
-        <div class="container py-5">
-            <div class="row align-items-center py-4">
-                <div class="col-md-6 text-center text-md-left">
-                    <h1 class="display-4 mb-4 mb-md-0 text-secondary text-uppercase">Tentang</h1>
+    <!-- Carousel Start -->
+    <div class="container-fluid p-0">
+        <div id="header-carousel" class="carousel slide carousel-fade" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#header-carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#header-carousel" data-slide-to="1"></li>
+                <li data-target="#header-carousel" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="img-fluid" src="img/carousel-1.jpg" alt="Image">
+                    <div class="carousel-caption d-flex align-items-center justify-content-center">
+                        <div class="p-5" style="width: 100%; max-width: 900px;">
+                            <h5 class="text-primary text-uppercase mb-md-3">Cleaning Services</h5>
+                            <h1 class="display-3 text-white mb-md-4">Solusi Kualitas Terbaik Dalam Pembersihan</h1>
+                            <a href="" class="btn btn-primary">Start</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6 text-center text-md-right">
-                    <div class="d-inline-flex align-items-center">
-                        <a class="btn btn-sm btn-outline-light" href="index.php">Beranda</a>
-                        <i class="fas fa-angle-double-right text-light mx-2"></i>
-                        <a class="btn btn-sm btn-outline-light disabled" href="Tentang.html">Tentang</a>
+                <div class="carousel-item">
+                    <img class="img-fluid" src="img/carousel-2.jpg" alt="Image">
+                    <div class="carousel-caption d-flex align-items-center justify-content-center">
+                        <div class="p-5" style="width: 100%; max-width: 900px;">
+                            <h5 class="text-primary text-uppercase mb-md-3">Cleaning Services</h5>
+                            <h1 class="display-3 text-white mb-md-4">Layanan Kebersihan yang Sangat Profesional</h1>
+                            <a href="" class="btn btn-primary">Start</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img class="img-fluid" src="img/carousel-3.jpg" alt="Image">
+                    <div class="carousel-caption d-flex align-items-center justify-content-center">
+                        <div class="p-5" style="width: 100%; max-width: 900px;">
+                            <h5 class="text-primary text-uppercase mb-md-3">Cleaning Services</h5>
+                            <h1 class="display-3 text-white mb-md-4">Pembersih Berpengalaman dan Ahli</h1>
+                            <a href="" class="btn btn-primary">Start</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Page Header End -->
+    <!-- Carousel End -->
+
+
+    <!-- Contact Info Start -->
+    <div class="container-fluid pb-5 contact-info">
+        <div class="row">
+            <div class="col-lg-4 p-0">
+                <div
+                    class="contact-info-item d-flex align-items-center justify-content-center bg-primary text-white py-4 py-lg-0">
+                    <i class="fa fa-3x fa-map-marker-alt text-secondary mr-4"></i>
+                    <div class="">
+                        <h5 class="mb-2">Kantor Kami</h5>
+                        <p class="m-0">Jl.Bareng Raya IIN/538</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 p-0">
+                <div
+                    class="contact-info-item d-flex align-items-center justify-content-center bg-secondary text-white py-4 py-lg-0">
+                    <i class="fa fa-3x fa-envelope-open text-primary mr-4"></i>
+                    <div class="">
+                        <h5 class="mb-2">Email Kami</h5>
+                        <p class="m-0">GlitzCleaner@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 p-0">
+                <div
+                    class="contact-info-item d-flex align-items-center justify-content-center bg-primary text-white py-4 py-lg-0">
+                    <i class="fa fa-3x fa-phone-alt text-secondary mr-4"></i>
+                    <div class="">
+                        <h5 class="mb-2">Nomor Kami</h5>
+                        <p class="m-0">+6289422855755</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact Info End -->
 
 
     <!-- About Start -->
@@ -167,6 +270,52 @@
     <!-- Video Modal End -->
 
 
+    <!-- Services Start -->
+    <div class="container-fluid bg-service py-5">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h6 class="text-secondary font-weight-semi-bold text-uppercase mb-3">Layanan</h6>
+                    <h1 class="mb-4 section-title text-white">Layanan Pembersihan Luar Biasa untuk Anda</h1>
+                    <p class="text-white">Kami hadir untuk menciptakan kebersihan sempurna di setiap sudut ruang Anda.
+                        Dengan perhatian penuh terhadap detail dan dedikasi tanpa kompromi, kami memastikan Anda
+                        mendapatkan hasil terbaik. Nikmati kenyamanan dan kebersihan yang tak tertandingi—karena Anda
+                        layak mendapatkan yang terbaik!</p>
+                    <a href="Layanan1.html" class="btn btn-primary mt-3 py-2 px-4">Layanan Lebih</a>
+                </div>
+                <div class="col-lg-6 pt-5 pt-lg-0">
+                    <div class="owl-carousel service-carousel position-relative">
+                        <div
+                            class="d-flex flex-column align-items-center text-center bg-white rounded overflow-hidden pt-4">
+                            <div class="icon-box bg-light text-secondary shadow mt-2 mb-4">
+                                <i class="fa fa-2x fa-hotel"></i>
+                            </div>
+                            <h5 class="font-weight-bold mb-4 px-4">Pembersihan Rumah</h5>
+                            <img src="img/blog-1.jpg" alt="">
+                        </div>
+                        <div
+                            class="d-flex flex-column align-items-center text-center bg-white rounded overflow-hidden pt-4">
+                            <div class="icon-box bg-light text-secondary shadow mt-2 mb-4">
+                                <i class="fa fa-2x fa-city"></i>
+                            </div>
+                            <h5 class="font-weight-bold mb-4 px-4">Pembersihan Jendela</h5>
+                            <img src="img/blog-3.jpg" alt="">
+                        </div>
+                        <div
+                            class="d-flex flex-column align-items-center text-center bg-white rounded overflow-hidden pt-4">
+                            <div class="icon-box bg-light text-secondary shadow mt-2 mb-4">
+                                <i class="fa fa-2x fa-spa"></i>
+                            </div>
+                            <h5 class="font-weight-bold mb-4 px-4">Pembersihan Karpet</h5>
+                            <img src="img/blog-2.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Services End -->
+
 
     <!-- Features Start -->
     <div class="container-fluid py-5">
@@ -204,6 +353,131 @@
         </div>
     </div>
     <!-- Features End -->
+
+
+    <!-- Portfolio Start -->
+    <div class="container-fluid bg-portfolio py-5">
+        <div class="container py-5">
+            <div class="row m-0 portfolio-container">
+                <div class="col-lg-4 col-md-6 col-sm-12 p-0 portfolio-item">
+                    <div class="position-relative overflow-hidden">
+                        <div class="portfolio-img">
+                            <img class="img-fluid w-100" src="img/portfolio-1.jpg" alt="">
+                        </div>
+                        <div class="portfolio-text bg-primary">
+                            <h4 class="font-weight-bold mb-4">Nama Projek</h4>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <a class="btn btn-sm btn-secondary m-1" href="">
+                                    <i class="fa fa-link"></i>
+                                </a>
+                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-1.jpg"
+                                    data-lightbox="portfolio">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12 p-0 portfolio-item">
+                    <div class="position-relative overflow-hidden">
+                        <div class="portfolio-img">
+                            <img class="img-fluid w-100" src="img/portfolio-2.jpg" alt="">
+                        </div>
+                        <div class="portfolio-text bg-primary">
+                            <h4 class="font-weight-bold mb-4">Nama Projek</h4>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <a class="btn btn-sm btn-secondary m-1" href="">
+                                    <i class="fa fa-link"></i>
+                                </a>
+                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-2.jpg"
+                                    data-lightbox="portfolio">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12 p-0 portfolio-item">
+                    <div class="position-relative overflow-hidden">
+                        <div class="portfolio-img">
+                            <img class="img-fluid w-100" src="img/portfolio-3.jpg" alt="">
+                        </div>
+                        <div class="portfolio-text bg-primary">
+                            <h4 class="font-weight-bold mb-4">Nama Projek</h4>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <a class="btn btn-sm btn-secondary m-1" href="">
+                                    <i class="fa fa-link"></i>
+                                </a>
+                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-3.jpg"
+                                    data-lightbox="portfolio">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12 p-0 portfolio-item">
+                    <div class="position-relative overflow-hidden">
+                        <div class="portfolio-img">
+                            <img class="img-fluid w-100" src="img/portfolio-4.jpg" alt="">
+                        </div>
+                        <div class="portfolio-text bg-primary">
+                            <h4 class="font-weight-bold mb-4">Nama Projek</h4>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <a class="btn btn-sm btn-secondary m-1" href="">
+                                    <i class="fa fa-link"></i>
+                                </a>
+                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-4.jpg"
+                                    data-lightbox="portfolio">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12 p-0 portfolio-item">
+                    <div class="position-relative overflow-hidden">
+                        <div class="portfolio-img">
+                            <img class="img-fluid w-100" src="img/portfolio-5.jpg" alt="">
+                        </div>
+                        <div class="portfolio-text bg-primary">
+                            <h4 class="font-weight-bold mb-4">Nama Projek</h4>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <a class="btn btn-sm btn-secondary m-1" href="">
+                                    <i class="fa fa-link"></i>
+                                </a>
+                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-5.jpg"
+                                    data-lightbox="portfolio">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12 p-0 portfolio-item">
+                    <div class="position-relative overflow-hidden">
+                        <div class="portfolio-img">
+                            <img class="img-fluid w-100" src="img/portfolio-6.jpg" alt="">
+                        </div>
+                        <div class="portfolio-text bg-primary">
+                            <h4 class="font-weight-bold mb-4">Nama Projek</h4>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <a class="btn btn-sm btn-secondary m-1" href="">
+                                    <i class="fa fa-link"></i>
+                                </a>
+                                <a class="btn btn-sm btn-secondary m-1" href="img/portfolio-6.jpg"
+                                    data-lightbox="portfolio">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- Portfolio End -->
 
 
     <!-- Team Start -->

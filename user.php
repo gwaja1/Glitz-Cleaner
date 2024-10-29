@@ -66,40 +66,40 @@
     <!-- Header Start -->
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-3 bg-secondary d-none d-lg-block">
+            <div class=" bg-dark d-none d-lg-flex w-100 pr-5">
+                <div class="col-lg-7 text-left text-white">
+                    <div class="h-100 d-inline-flex align-items-center border-right border-primary py-2 px-3">
+                        <i class="fa fa-envelope text-primary mr-2"></i>
+                        <small>GlitzCleaner@gmail.com</small>
+                    </div>
+                    <div class="h-100 d-inline-flex align-items-center py-2 px-2">
+                        <i class="fa fa-phone-alt text-primary mr-2"></i>
+                        <small>+0895422855755</small>
+                    </div>
+                </div>
+                <div class="col-lg-5 text-right">
+                    <div class="d-inline-flex align-items-center pr-2">
+                        <a class="text-primary p-2" href="">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a class="text-primary p-2" href="">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a class="text-primary p-2" href="">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a class="text-primary p-2" href="">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 d-none d-lg-block">
                 <a href="" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
                     <h1 class="m-0 display-5 text-primary">Glitz Cleaner</h1>
                 </a>
             </div>
             <div class="col-lg-9">
-                <div class="row bg-dark d-none d-lg-flex">
-                    <div class="col-lg-7 text-left text-white">
-                        <div class="h-100 d-inline-flex align-items-center border-right border-primary py-2 px-3">
-                            <i class="fa fa-envelope text-primary mr-2"></i>
-                            <small>GlitzCleaner@gmail.com</small>
-                        </div>
-                        <div class="h-100 d-inline-flex align-items-center py-2 px-2">
-                            <i class="fa fa-phone-alt text-primary mr-2"></i>
-                            <small>+0895422855755</small>
-                        </div>
-                    </div>
-                    <div class="col-lg-5 text-right">
-                        <div class="d-inline-flex align-items-center pr-2">
-                            <a class="text-primary p-2" href="">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                            <a class="text-primary p-2" href="">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                            <a class="text-primary p-2" href="">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                            <a class="text-primary p-2" href="">
-                                <i class="fab fa-youtube"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
                 <nav class="row navbar navbar-expand-lg bg-white navbar-light p-0">
                     <a href="" class="navbar-brand d-block d-lg-none">
                         <h1 class="m-0 display-4 text-primary">Glitz Cleaner</h1>
@@ -113,25 +113,21 @@
                             <a href="Tentang1.php" class="nav-item nav-link">Tentang</a>
                             <a href="Layanan1.php" class="nav-item nav-link">Layanan</a>
                             <a href="Keranjang.php" class="nav-item nav-link">Pemesanan</a>
-                            <a href="history.html" class="nav-item nav-link">History</a>
-                        </div>
-                        <div class="profile-image">
-                            <img src="img/team-1.jpg" alt="" class="image">
-                            <ul class="image-list">
-                                <li class="list-item">
-                                    <a href="edit_profil.html">Edit Profil</a>
-                                </li>
-                                <li class="list-item">
-                                    <a href="index.php">Log Out</a>
-                                </li>
-                            </ul>
+                            <a href="history.html" class="nav-item nav-link">Riwayat</a>
                         </div>
                     </div>
+                    <div class="profile-image">
+                        <img src="img/team-1.jpg" alt="" class="image">
+                        <ul class="image-list">
+                            <li class="list-item">
+                                <a href="edit_profil.php">Edit Profil</a>
+                            </li>
+                            <li class="list-item">
+                                <a href="index.php">Log Out</a>
+                    </div>
+                </nav>
             </div>
         </div>
-        </nav>
-    </div>
-    </div>
     </div>
     <!-- Header End -->
 
