@@ -26,26 +26,17 @@ if (!$id_user || !$id_booking || !$harga) {
 // Cek apakah data sudah ada
 $check_existing = $conn->query("SELECT * FROM history_order WHERE iduser = '$id_user' AND id_booking = '$id_booking'");
 if ($check_existing->num_rows > 0) {
-    die("Data dengan iduser $id_user dan id_booking $id_booking sudah ada.");
+    header("Location: history.php"); // Redirect if data already exists
+    exit();
 }
 
-// Debug: Tampilkan data yang ada
-$existing_orders = $conn->query("SELECT * FROM history_order WHERE iduser = '$id_user'");
-if ($existing_orders->num_rows > 0) {
-    echo "Data yang sudah ada untuk iduser $id_user:<br>";
-    while ($row = $existing_orders->fetch_assoc()) {
-        echo "ID Booking: " . $row['id_booking'] . ", Status: " . $row['status'] . ", Harga: " . $row['harga'] . "<br>";
-    }
-} else {
-    echo "Belum ada data untuk iduser $id_user.<br>";
-}
-
-// Query untuk menyimpan data ke tabel histori_order
+// Query untuk menyimpan data ke tabel history_order
 $sql = "INSERT INTO history_order (iduser, id_booking, status, harga)
         VALUES ('$id_user', '$id_booking', '$status', '$harga')";
 
 if ($conn->query($sql) === TRUE) {
-    echo "Data berhasil disimpan ke histori order!";
+    header("Location: history.php"); // Redirect to history page after successful insertion
+    exit();
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }

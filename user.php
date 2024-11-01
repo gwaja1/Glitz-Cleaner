@@ -1,3 +1,30 @@
+<?php
+session_start();
+include "koneksi.php"; // Koneksi ke database
+
+// Pastikan pengguna sudah login
+if (!isset($_SESSION['id_user'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$id_user = $_SESSION['id_user'];
+
+// Query untuk mengambil data user
+$query = "SELECT name, email, foto_profile FROM user WHERE iduser = '$id_user'";
+$result = $conn->query($query);
+
+// Check if the user exists
+if ($result->num_rows > 0) {
+    $user_data = $result->fetch_assoc();
+} else {
+    // Handle the case when no user is found
+    die("User tidak ditemukan.");
+}
+
+$conn->close(); // Close the connection after retrieving data
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -113,11 +140,11 @@
                             <a href="Tentang1.php" class="nav-item nav-link">Tentang</a>
                             <a href="Layanan1.php" class="nav-item nav-link">Layanan</a>
                             <a href="Keranjang.php" class="nav-item nav-link">Pemesanan</a>
-                            <a href="history.html" class="nav-item nav-link">Riwayat</a>
+                            <a href="history.php" class="nav-item nav-link">Riwayat</a>
                         </div>
                     </div>
                     <div class="profile-image">
-                        <img src="img/team-1.jpg" alt="" class="image">
+                        <img src="<?php echo htmlspecialchars($user_data['foto_profile']); ?>" alt="" class="image">
                         <ul class="image-list">
                             <li class="list-item">
                                 <a href="edit_profil.php">Edit Profil</a>
@@ -147,7 +174,6 @@
                         <div class="p-5" style="width: 100%; max-width: 900px;">
                             <h5 class="text-primary text-uppercase mb-md-3">Cleaning Services</h5>
                             <h1 class="display-3 text-white mb-md-4">Solusi Kualitas Terbaik Dalam Pembersihan</h1>
-                            <a href="" class="btn btn-primary">Start</a>
                         </div>
                     </div>
                 </div>
@@ -157,7 +183,6 @@
                         <div class="p-5" style="width: 100%; max-width: 900px;">
                             <h5 class="text-primary text-uppercase mb-md-3">Cleaning Services</h5>
                             <h1 class="display-3 text-white mb-md-4">Layanan Kebersihan yang Sangat Profesional</h1>
-                            <a href="" class="btn btn-primary">Start</a>
                         </div>
                     </div>
                 </div>
@@ -167,7 +192,6 @@
                         <div class="p-5" style="width: 100%; max-width: 900px;">
                             <h5 class="text-primary text-uppercase mb-md-3">Cleaning Services</h5>
                             <h1 class="display-3 text-white mb-md-4">Pembersih Berpengalaman dan Ahli</h1>
-                            <a href="" class="btn btn-primary">Start</a>
                         </div>
                     </div>
                 </div>
@@ -237,12 +261,7 @@
                         profesional kami. Pilihlah kualitas dan kepercayaan, pilihlah kami untuk kebersihan yang tak
                         tertandingi.</p>
                     <div class="d-flex align-items-center pt-4">
-                        <a href="Tentang1.html" class="btn btn-primary mr-5">Pelajari Lebih</a>
-                        <button type="button" class="btn-play" data-toggle="modal"
-                            data-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-target="#videoModal">
-                            <span></span>
-                        </button>
-                        <h5 class="font-weight-normal text-white m-0 ml-4 d-none d-sm-block">Play Video</h5>
+                        <a href="Tentang1.php" class="btn btn-primary mr-5">Pelajari Lebih</a>
                     </div>
                 </div>
             </div>
@@ -283,7 +302,6 @@
                         Dengan perhatian penuh terhadap detail dan dedikasi tanpa kompromi, kami memastikan Anda
                         mendapatkan hasil terbaik. Nikmati kenyamanan dan kebersihan yang tak tertandingi—karena Anda
                         layak mendapatkan yang terbaik!</p>
-                    <a href="Layanan1.html" class="btn btn-primary mt-3 py-2 px-4">Layanan Lebih</a>
                 </div>
                 <div class="col-lg-6 pt-5 pt-lg-0">
                     <div class="owl-carousel service-carousel position-relative">
@@ -629,17 +647,9 @@
                     kebersihan Anda. Dengan tim profesional dan berpengalaman, kami siap membantu Anda menjaga rumah
                     atau
                     kantor Anda tetap bersih dan nyaman..</p>
-                <div class="w-100">
-                    <div class="input-group">
-                        <input type="text" class="form-control border-0" style="padding: 25px;"
-                            placeholder="Your Email">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary px-4">Sign Up</button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
+    </div>
     </div>
     <div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5"
         style="border-color: #3E3E4E !important;">

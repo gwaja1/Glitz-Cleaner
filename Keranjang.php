@@ -11,9 +11,29 @@ if (isset($_SESSION['email'])) {
     if ($check_user->num_rows == 0) {
         die("User tidak valid.");
     }
+
+    if (!isset($_SESSION['id_user'])) {
+        header("Location: login.php");
+        exit();
+    }
+
+    $id_user = $_SESSION['id_user'];
+
+    // Query untuk mengambil data user
+    $query = "SELECT name, email, foto_profile FROM user WHERE iduser = '$id_user'";
+    $result = $conn->query($query);
+
+    // Check if the user exists
+    if ($result->num_rows > 0) {
+        $user_data = $result->fetch_assoc();
+    } else {
+        // Handle the case when no user is found
+        die("User tidak ditemukan.");
+    }
 } else {
     die("User belum login.");
 }
+
 
 
 ?>
@@ -192,11 +212,11 @@ if (isset($_SESSION['email'])) {
                             <a href="Tentang1.php" class="nav-item nav-link">Tentang</a>
                             <a href="Layanan1.php" class="nav-item nav-link">Layanan</a>
                             <a href="Keranjang.php" class="nav-item nav-link active">Pemesanan</a>
-                            <a href="history.html" class="nav-item nav-link">Riwayat</a>
+                            <a href="history.php" class="nav-item nav-link">Riwayat</a>
                         </div>
                     </div>
                     <div class="profile-image">
-                        <img src="img/team-1.jpg" alt="" class="image">
+                        <img src="<?php echo htmlspecialchars($user_data['foto_profile']); ?>" alt="" class="image">
                         <ul class="image-list">
                             <li class="list-item">
                                 <a href="edit_profil.php">Edit Profil</a>
@@ -280,103 +300,98 @@ if (isset($_SESSION['email'])) {
 </html>
 
 
-<!-- Footer Start -->
-<div class="container-fluid bg-dark text-white mt-5 py-5 px-sm-3 px-md-5">
-    <div class="row pt-5">
-        <div class="col-lg-3 col-md-6 mb-5">
-            <a href="index.html" class="navbar-brand">
-                <h1 class="m-0 mt-n3 display-5 text-primary">Glitz Cleaner</h1>
-            </a>
-            <p>Bersih, Rapi, dan Nyaman, Hanya untuk Anda!
-            </p>
-            <h5 class="font-weight-semi-bold text-white mb-2">Buka:</h5>
-            <p class="mb-1">Senin – Sabtu, 8pagi – 6sore</p>
-            <p class="mb-0">: Tutup</p>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-5">
-            <h4 class="font-weight-semi-bold text-primary mb-4">Get In Touch</h4>
-            <p><i class="fa fa-map-marker-alt text-primary mr-2"></i>Jl Bareng Raya IIN/538</p>
-            <p><i class="fa fa-phone-alt text-primary mr-2"></i>+62895422855755</p>
-            <p><i class="fa fa-envelope text-primary mr-2"></i>GlitzCleaner@gmail.com</p>
-            <div class="d-flex justify-content-start mt-4">
-                <a class="btn btn-light btn-social mr-2" href="#"><i class="fab fa-twitter"></i></a>
-                <a class="btn btn-light btn-social mr-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                <a class="btn btn-light btn-social" href="#"><i class="fab fa-instagram"></i></a>
+< <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-white mt-5 py-5 px-sm-3 px-md-5">
+        <div class="row pt-5">
+            <div class="col-lg-3 col-md-6 mb-5">
+                <a href="index.html" class="navbar-brand">
+                    <h1 class="m-0 mt-n3 display-5 text-primary">Glitz Cleaner</h1>
+                </a>
+                <p>Bersih, Rapi, dan Nyaman, Hanya untuk Anda!
+                </p>
+                <h5 class="font-weight-semi-bold text-white mb-2">Buka:</h5>
+                <p class="mb-1">Senin – Sabtu, 8pagi – 6sore</p>
+                <p class="mb-0">: Tutup</p>
             </div>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-5">
-            <h4 class="font-weight-semi-bold text-primary mb-4">Quick Links</h4>
-            <div class="d-flex flex-column justify-content-start">
-                <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>About Us</a>
-                <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our Services</a>
-                <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our Projects</a>
-                <a class="text-white" href="#"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-5">
-            <h4 class="font-weight-semi-bold text-primary mb-4">Newsletter</h4>
-            <p>Kami senang dapat memperkenalkan layanan pembersihan kami yang dirancang untuk memenuhi semua kebutuhan
-                kebersihan Anda. Dengan tim profesional dan berpengalaman, kami siap membantu Anda menjaga rumah atau
-                kantor Anda tetap bersih dan nyaman..</p>
-            <div class="w-100">
-                <div class="input-group">
-                    <input type="text" class="form-control border-0" style="padding: 25px;" placeholder="Your Email">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary px-4">Sign Up</button>
-                    </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h4 class="font-weight-semi-bold text-primary mb-4">Get In Touch</h4>
+                <p><i class="fa fa-map-marker-alt text-primary mr-2"></i>Jl Bareng Raya IIN/538</p>
+                <p><i class="fa fa-phone-alt text-primary mr-2"></i>+62895422855755</p>
+                <p><i class="fa fa-envelope text-primary mr-2"></i>GlitzCleaner@gmail.com</p>
+                <div class="d-flex justify-content-start mt-4">
+                    <a class="btn btn-light btn-social mr-2" href="#"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-light btn-social mr-2" href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-light btn-social" href="#"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h4 class="font-weight-semi-bold text-primary mb-4">Quick Links</h4>
+                <div class="d-flex flex-column justify-content-start">
+                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>About Us</a>
+                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our Services</a>
+                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our Projects</a>
+                    <a class="text-white" href="#"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h4 class="font-weight-semi-bold text-primary mb-4">Newsletter</h4>
+                <p>Kami senang dapat memperkenalkan layanan pembersihan kami yang dirancang untuk memenuhi semua
+                    kebutuhan
+                    kebersihan Anda. Dengan tim profesional dan berpengalaman, kami siap membantu Anda menjaga rumah
+                    atau
+                    kantor Anda tetap bersih dan nyaman..</p>
+            </div>
         </div>
     </div>
-</div>
-<div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5"
-    style="border-color: #3E3E4E !important;">
-    <div class="row">
-        <div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
-            <p class="m-0 text-white">&copy; <a href="#">Copyright</a>. GlitzCleaner</p>
-        </div>
-        <div class="col-lg-6 text-center text-md-right">
-            <ul class="nav d-inline-flex">
-                <li class="nav-item">
-                    <a class="nav-link text-white py-0" href="#">Privacy</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white py-0" href="#">Terms</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white py-0" href="#">FAQs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white py-0" href="#">Help</a>
-                </li>
-            </ul>
+    </div>
+    <div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5"
+        style="border-color: #3E3E4E !important;">
+        <div class="row">
+            <div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
+                <p class="m-0 text-white">&copy; <a href="#">Copyright</a>. GlitzCleaner</p>
+            </div>
+            <div class="col-lg-6 text-center text-md-right">
+                <ul class="nav d-inline-flex">
+                    <li class="nav-item">
+                        <a class="nav-link text-white py-0" href="#">Privacy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white py-0" href="#">Terms</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white py-0" href="#">FAQs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white py-0" href="#">Help</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
-</div>
-<!-- Footer End -->
+    <!-- Footer End -->
 
 
-<!-- Back to Top -->
-<a href="#" class="btn btn-primary px-3 back-to-top"><i class="fa fa-angle-double-up"></i></a>
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary px-3 back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
 
-<!-- JavaScript Libraries -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-<script src="lib/easing/easing.min.js"></script>
-<script src="lib/waypoints/waypoints.min.js"></script>
-<script src="lib/counterup/counterup.min.js"></script>
-<script src="lib/owlcarousel/owl.carousel.min.js"></script>
-<script src="lib/isotope/isotope.pkgd.min.js"></script>
-<script src="lib/lightbox/js/lightbox.min.js"></script>
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
 
-<!-- Contact Javascript File -->
-<script src="mail/jqBootstrapValidation.min.js"></script>
-<script src="mail/contact.js"></script>
+    <!-- Contact Javascript File -->
+    <script src="mail/jqBootstrapValidation.min.js"></script>
+    <script src="mail/contact.js"></script>
 
-<!-- Template Javascript -->
-<script src="js/main.js"></script>
-</body>
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+    </body>
 
-</html>
+    </html>

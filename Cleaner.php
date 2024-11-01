@@ -1,3 +1,36 @@
+<?php
+session_start();
+include "koneksi.php"; // Koneksi ke database
+
+// Pastikan pengguna sudah login
+if (!isset($_SESSION['id_user'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Ambil ID pengguna dari sesi
+$user_id = $_SESSION['id_user'];
+
+// Query untuk mengambil data pengguna berdasarkan ID
+$query = "SELECT name, email, foto_profile FROM user WHERE iduser = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Ambil data pengguna
+if ($result->num_rows > 0) {
+    $user_data = $result->fetch_assoc();
+} else {
+    echo "Data pengguna tidak ditemukan.";
+    exit();
+}
+
+// Tutup koneksi
+$stmt->close();
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -115,7 +148,7 @@
                         </div>
                     </div>
                     <div class="profile-image">
-                        <img src="img/team-1.jpg" alt="" class="image">
+                        <img src="<?php echo htmlspecialchars($user_data['foto_profile']); ?>" alt="" class="image">
                         <ul class="image-list">
                             <li class="list-item">
                                 <a href="edit_profil.php">Edit Profil</a>

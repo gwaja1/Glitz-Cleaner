@@ -43,16 +43,16 @@ if (
             VALUES ('$id_user', '$nama', '$email', '$phone', '$address', '$service_type', '$room_type', '$room_size', '$date', '$time', '$notes')";
 
     // Get the last inserted ID
+// After successful insertion
     if ($conn->query($sql) === TRUE) {
         // Get the last inserted ID
         $last_id = $conn->insert_id;
         // Store the booking ID in session
-        $_SESSION['id_booking'] = $last_id;
-
+        $_SESSION['id_booking'] = $last_id; // Ensure this is set correctly
         header('Location:Pembayaran.php');
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        exit(); // Make sure to exit after header redirection
     }
+
 }
 
 $conn->close();

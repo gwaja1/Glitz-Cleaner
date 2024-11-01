@@ -79,7 +79,7 @@
                             <a href="Tentang.html" class="nav-item nav-link">Tentang</a>
                             <a href="Layanan.html" class="nav-item nav-link">Layanan</a>
                             <a href="project.html" class="nav-item nav-link">Projek</a>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="contact.html" class="nav-item nav-link">Kontak</a>
                         </div>
                         <a href="Login.php" class="btn btn-primary mr-3 d-none d-lg-block">Login</a>
                     </div>
@@ -105,7 +105,6 @@
                         <div class="p-5" style="width: 100%; max-width: 900px;">
                             <h5 class="text-primary text-uppercase mb-md-3">Cleaning Services</h5>
                             <h1 class="display-3 text-white mb-md-4">Solusi Kualitas Terbaik Dalam Pembersihan</h1>
-                            <a href="" class="btn btn-primary">Start</a>
                         </div>
                     </div>
                 </div>
@@ -115,7 +114,6 @@
                         <div class="p-5" style="width: 100%; max-width: 900px;">
                             <h5 class="text-primary text-uppercase mb-md-3">Cleaning Services</h5>
                             <h1 class="display-3 text-white mb-md-4">Layanan Kebersihan yang Sangat Profesional</h1>
-                            <a href="" class="btn btn-primary">Start</a>
                         </div>
                     </div>
                 </div>
@@ -125,7 +123,6 @@
                         <div class="p-5" style="width: 100%; max-width: 900px;">
                             <h5 class="text-primary text-uppercase mb-md-3">Cleaning Services</h5>
                             <h1 class="display-3 text-white mb-md-4">Pembersih Berpengalaman dan Ahli</h1>
-                            <a href="" class="btn btn-primary">Start</a>
                         </div>
                     </div>
                 </div>
@@ -195,12 +192,7 @@
                         profesional kami. Pilihlah kualitas dan kepercayaan, pilihlah kami untuk kebersihan yang tak
                         tertandingi</p>
                     <div class="d-flex align-items-center pt-4">
-                        <a href="" class="btn btn-primary mr-5">Pelajari Lebih</a>
-                        <button type="button" class="btn-play" data-toggle="modal"
-                            data-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-target="#videoModal">
-                            <span></span>
-                        </button>
-                        <h5 class="font-weight-normal text-white m-0 ml-4 d-none d-sm-block">Play Video</h5>
+                        <a href="tentang.html" class="btn btn-primary mr-5">Pelajari Lebih</a>
                     </div>
                 </div>
             </div>
@@ -241,7 +233,6 @@
                         Dengan perhatian penuh terhadap detail dan dedikasi tanpa kompromi, kami memastikan Anda
                         mendapatkan hasil terbaik. Nikmati kenyamanan dan kebersihan yang tak tertandingi—karena Anda
                         layak mendapatkan yang terbaik!</p>
-                    <a href="" class="btn btn-primary mt-3 py-2 px-4">More Services</a>
                 </div>
                 <div class="col-lg-6 pt-5 pt-lg-0">
                     <div class="owl-carousel service-carousel position-relative">
@@ -551,44 +542,44 @@
         <div class="container py-5">
             <div class="row">
                 <div class="col-lg-7 pt-lg-5 pb-5">
-                    <h6 class="text-secondary font-weight-semi-bold text-uppercase mb-3">Testimonial</h6>
-                    <h1 class="section-title text-white mb-5">What Our Clients Say</h1>
+                    <h6 class="text-secondary font-weight-semi-bold text-uppercase mb-3">Testimoni</h6>
+                    <h1 class="section-title text-white mb-5">Apa Kata Klien Kami</h1>
                     <div class="owl-carousel testimonial-carousel position-relative">
                         <div class="d-flex flex-column text-white">
                             <div class="d-flex align-items-center mb-3">
                                 <img class="img-fluid" src="img/testimonial-1.jpg" alt="">
                                 <div class="ml-3">
-                                    <h5 class="text-primary">Client Name</h5>
-                                    <i>Profession</i>
+                                    <h5 class="text-primary">Ardi</h5>
+                                    <i>Pemilik kos kosan</i>
                                 </div>
                             </div>
-                            <p>Tempor at diam tempor sed. Sanctus dolor ipsum ut nonumy amet clita sea. Sed eos sed
-                                dolores vero no. Ipsum elitr elitr stet dolor lorem erat. Diam no amet sea justo vero
-                                ut. Dolor ipsum kasd ipsum dolore.</p>
+                            <p>Layanan cleaning service ini sangat memuaskan! Tim datang tepat waktu, bekerja cepat, dan
+                                hasilnya benar-benar bersih. Sangat membantu untuk rumah kami yang cukup sibuk. Terima
+                                kasih!.</p>
                         </div>
                         <div class="d-flex flex-column text-white">
                             <div class="d-flex align-items-center mb-3">
                                 <img class="img-fluid" src="img/testimonial-2.jpg" alt="">
                                 <div class="ml-3">
-                                    <h5 class="text-primary">Client Name</h5>
-                                    <i>Profession</i>
+                                    <h5 class="text-primary">Alex</h5>
+                                    <i>Manager kantor</i>
                                 </div>
                             </div>
-                            <p>Tempor at diam tempor sed. Sanctus dolor ipsum ut nonumy amet clita sea. Sed eos sed
-                                dolores vero no. Ipsum elitr elitr stet dolor lorem erat. Diam no amet sea justo vero
-                                ut. Dolor ipsum kasd ipsum dolore.</p>
+                            <p>Pembersihan gudang kantor kami jadi jauh lebih rapi dan nyaman dilihat berkat layanan
+                                ini. Sangat profesional dan detail, Kini kantor terasa lebih segar setiap harinya!.</p>
                         </div>
                         <div class="d-flex flex-column text-white">
                             <div class="d-flex align-items-center mb-3">
                                 <img class="img-fluid" src="img/testimonial-3.jpg" alt="">
                                 <div class="ml-3">
-                                    <h5 class="text-primary">Client Name</h5>
-                                    <i>Profession</i>
+                                    <h5 class="text-primary">Budi</h5>
+                                    <i>Pemilik Apartemen</i>
                                 </div>
                             </div>
-                            <p>Tempor at diam tempor sed. Sanctus dolor ipsum ut nonumy amet clita sea. Sed eos sed
-                                dolores vero no. Ipsum elitr elitr stet dolor lorem erat. Diam no amet sea justo vero
-                                ut. Dolor ipsum kasd ipsum dolore.</p>
+                            <p>Saya menggunakan layanan ini setiap bulan, dan hasilnya konsisten bagus! Mereka juga
+                                ramah dan selalu mendengarkan permintaan khusus yang saya sampaikan. Highly
+                                recommended!.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -674,6 +665,7 @@
     <!-- Blog End -->
 
 
+
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-white mt-5 py-5 px-sm-3 px-md-5">
         <div class="row pt-5">
@@ -701,11 +693,13 @@
             <div class="col-lg-3 col-md-6 mb-5">
                 <h4 class="font-weight-semi-bold text-primary mb-4">Quick Links</h4>
                 <div class="d-flex flex-column justify-content-start">
-                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>About Us</a>
-                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our Services</a>
-                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our Projects</a>
-                    <a class="text-white" href="#"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                    <a class="text-white mb-2" href="index.php"><i class="fa fa-angle-right mr-2"></i>Beranda</a>
+                    <a class="text-white mb-2" href="tentang.html"><i class="fa fa-angle-right mr-2"></i>Tentang
+                        Kami</a>
+                    <a class="text-white mb-2" href="layanan.html"><i class="fa fa-angle-right mr-2"></i>Layanan
+                        Kami</a>
+                    <a class="text-white mb-2" href="project.html"><i class="fa fa-angle-right mr-2"></i>Projek</a>
+                    <a class="text-white" href="contact.html"><i class="fa fa-angle-right mr-2"></i>Kontak</a>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
@@ -720,7 +714,7 @@
                         <input type="text" class="form-control border-0" style="padding: 25px;"
                             placeholder="Your Email">
                         <div class="input-group-append">
-                            <button class="btn btn-primary px-4">Sign Up</button>
+                            <a href="Login.php" class="btn btn-primary mr-3 d-none d-lg-block">SignUp</a>
                         </div>
                     </div>
                 </div>

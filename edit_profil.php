@@ -1,31 +1,28 @@
 <?php
 session_start();
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+include "koneksi.php"; // Koneksi ke database
 
-include "koneksi.php";// Include your DB connection file
-
-// Assuming the user is logged in and their iduser is stored in the session
-if (isset($_SESSION['id_user'])) {
-    $iduser = $_SESSION['id_user'];
-
-    // Query to get the user details
-    $sql = "SELECT name, email, foto_profile FROM user WHERE iduser = ?";
-    if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("i", $iduser);
-        $stmt->execute();
-        $stmt->bind_result($name, $email, $profile_picture);
-        $stmt->fetch();
-        $stmt->close();
-    } else {
-        echo "Error in query.";
-    }
-} else {
-    // Redirect to login if the user is not logged in
+// Pastikan pengguna sudah login
+if (!isset($_SESSION['id_user'])) {
     header("Location: login.php");
-    exit;
+    exit();
 }
+
+$id_user = $_SESSION['id_user'];
+
+// Query untuk mengambil data user
+$query = "SELECT * FROM user WHERE iduser = '$id_user'";
+$result = $conn->query($query);
+
+// Check if the user exists
+if ($result->num_rows > 0) {
+    $user_data = $result->fetch_assoc();
+} else {
+    // Handle the case when no user is found
+    die("User tidak ditemukan.");
+}
+
+$conn->close(); // Close the connection after retrieving data
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -108,7 +105,7 @@ if (isset($_SESSION['id_user'])) {
                             <a href="Tentang1.php" class="nav-item nav-link">Tentang</a>
                             <a href="Layanan1.php" class="nav-item nav-link">Layanan</a>
                             <a href="Keranjang.php" class="nav-item nav-link">Pemesanan</a>
-                            <a href="history.html" class="nav-item nav-link">History</a>
+                            <a href="history.php" class="nav-item nav-link">History</a>
                         </div>
                 </nav>
             </div>
@@ -124,29 +121,33 @@ if (isset($_SESSION['id_user'])) {
                         <div class="form-group">
                             <label for="name">Full Name</label>
                             <input type="text" class="form-control" id="name" name="name"
-                                placeholder="Enter your full name" value="<?php echo htmlspecialchars($name); ?>">
+                                placeholder="Enter your full name"
+                                value="<?php echo htmlspecialchars($user_data['name']); ?>">
                         </div>
                         <div class="form-group">
                             <label for="email">Email Address</label>
                             <input type="email" class="form-control" id="email" name="email"
-                                placeholder="Enter your email" value="<?php echo htmlspecialchars($email); ?>">
+                                placeholder="Enter your email"
+                                value="<?php echo htmlspecialchars($user_data['email']); ?>">
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
                             <input type="password" class="form-control" id="password" name="password"
                                 placeholder="Enter a new password">
+                            <small class="form-text text-muted">Leave empty if you don't want to change the
+                                password.</small>
                         </div>
+
                         <!-- Bagian form upload gambar -->
                         <div class="form-group">
                             <label for="profile_picture">Profile Picture</label>
-                            <input type="file" class="form-control-file" id="profile_picture" name="profile_picture">
+                            <input type="file" class="form-control-file image-preview" id="image" name="profile_picture"
+                                onchange="previewImageProfile()">
 
-                            <?php if (!empty($profile_picture)): ?>
-                                <!-- Tampilkan gambar dengan path uploads/ -->
-                                <img src="uploads/<?php echo htmlspecialchars($profile_picture); ?>" alt="Profile Picture"
-                                    width="100">
+                            <?php if (!empty($user_data['foto_profile'])): ?>
+                                <img src="<?php echo htmlspecialchars($user_data['foto_profile']); ?>" alt="Profile Picture"
+                                    width="100" id="image-preview" class="image-preview user-image">
                             <?php else: ?>
-                                <!-- Jika tidak ada gambar, tampilkan pesan placeholder atau gambar default -->
                                 <p>No profile picture uploaded.</p>
                             <?php endif; ?>
                         </div>
@@ -157,6 +158,33 @@ if (isset($_SESSION['id_user'])) {
             </div>
         </div>
     </div>
+
+    <script>
+        function previewImageProfile() {
+            const fileInput = document.getElementById('image');
+            const imagePreview = document.getElementById('image-preview');
+
+            // Clear any previous preview
+            imagePreview.src = '';
+
+            // Check if a file is selected
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // Set the preview image source to the selected file
+                    imagePreview.src = e.target.result;
+                };
+
+                // Read the selected file as a Data URL
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                // Optionally reset the preview if no file is selected
+                imagePreview.src = '';
+            }
+        }
+
+    </script>
 </body>
 
 </html>

@@ -1,38 +1,54 @@
 <?php
-session_start();
-include "koneksi.php";
+session_start(); // Start session
 
-// Check if the user is logged in and has the role 'cleaner'
-if (isset($_SESSION['id_user'])) {
-    $id_user = $_SESSION['id_user'];
+include "koneksi.php"; // Database connection
 
-    // Fetch the role of the logged-in user
-    $check_role = $conn->query("SELECT role FROM user WHERE iduser = '$id_user'");
-    $user_data = $check_role->fetch_assoc();
+// Retrieve `id_user` from session
+$id_user = $_SESSION['id_user'];
 
-    if ($user_data['role'] !== 'cleaner') {
-        die("Access denied. Only cleaners can access this page.");
-    }
+// Ensure `id_user` is present in session
+if (!$id_user) {
+    die("User belum login atau session tidak valid.");
+}
+
+// 1. Query untuk mengambil data pengguna
+$query = "SELECT name, email, foto_profile FROM user WHERE iduser = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $id_user); // Ubah ini ke $id_user
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Ambil data pengguna
+if ($result->num_rows > 0) {
+    $user_data = $result->fetch_assoc();
 } else {
-    die("User not logged in.");
+    echo "Data pengguna tidak ditemukan.";
+    exit();
 }
 
-// Fetch pending orders for cleaners
-$orders = $conn->query("SELECT * FROM id_booking WHERE status = 'pending'");
+// 2. Query untuk mengambil data booking terkait dengan pengguna
+$query_orders = "SELECT id_booking, nama, jenis_layanan, tanggal_pembersihan 
+                 FROM booking 
+                 WHERE id_user = ?";
+$stmt_orders = $conn->prepare($query_orders);
+$stmt_orders->bind_param("i", $id_user);
+$stmt_orders->execute();
+$booking_data = $stmt_orders->get_result();
 
-// Handle "Terima" action
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
-    $order_id = $_POST['order_id'];
-
-    // Update the order status to 'accepted'
-    $update_status = $conn->query("UPDATE booking SET status = 'accepted' WHERE id_booking = '$order_id'");
-    if ($update_status) {
-        echo "Order accepted successfully!";
-    } else {
-        echo "Failed to accept the order: " . $conn->error;
-    }
+// Check if the `$booking_data` query succeeded
+if (!$booking_data) {
+    die("Error fetching bookings: " . mysqli_error($conn));
 }
+
+// Fetch all results into an array
+$booking_results = mysqli_fetch_all($booking_data, MYSQLI_ASSOC);
+
+// Close the statement and connection
+$stmt->close();
+$stmt_orders->close();
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -127,37 +143,108 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
 </head>
 
 <body>
-    <h2>Daftar Pesanan untuk Diterima</h2>
 
-    <?php if ($orders->num_rows > 0): ?>
-        <table border="1">
-            <tr>
-                <th>Order ID</th>
-                <th>Customer Name</th>
-                <th>Service Type</th>
-                <th>Cleaning Date</th>
-                <th>Actions</th>
-            </tr>
-            <?php while ($order = $orders->fetch_assoc()): ?>
+    <body>
+        <!-- Header Start -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class=" bg-dark d-none d-lg-flex w-100 pr-5">
+                    <div class="col-lg-7 text-left text-white">
+                        <div class="h-100 d-inline-flex align-items-center border-right border-primary py-2 px-3">
+                            <i class="fa fa-envelope text-primary mr-2"></i>
+                            <small>GlitzCleaner@gmail.com</small>
+                        </div>
+                        <div class="h-100 d-inline-flex align-items-center py-2 px-2">
+                            <i class="fa fa-phone-alt text-primary mr-2"></i>
+                            <small>+0895422855755</small>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 text-right">
+                        <div class="d-inline-flex align-items-center pr-2">
+                            <a class="text-primary p-2" href="">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a class="text-primary p-2" href="">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a class="text-primary p-2" href="">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a class="text-primary p-2" href="">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 d-none d-lg-block">
+                    <a href=""
+                        class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
+                        <h1 class="m-0 display-5 text-primary">Glitz Cleaner</h1>
+                    </a>
+                </div>
+                <div class="col-lg-9">
+                    <nav class="row navbar navbar-expand-lg bg-white navbar-light p-0">
+                        <a href="" class="navbar-brand d-block d-lg-none">
+                            <h1 class="m-0 display-4 text-primary">Glitz Cleaner</h1>
+                        </a>
+                        <button type="button" class="navbar-toggler" data-toggle="collapse"
+                            data-target="#navbarCollapse">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                            <div class="navbar-nav mr-auto py-0">
+                                <a href="Cleaner.php" class="nav-item nav-link">Beranda</a>
+                                <a href="Pesanan.php" class="nav-item nav-link active">Pesanan</a>
+                                <a href="history.html" class="nav-item nav-link">Riwayat</a>
+                            </div>
+                        </div>
+                        <div class="profile-image">
+                            <img src="<?php echo htmlspecialchars($user_data['foto_profile']); ?>" alt="" class="image">
+                            <ul class="image-list">
+                                <li class="list-item">
+                                    <a href="edit_profil.php">Edit Profil</a>
+                                </li>
+                                <li class="list-item">
+                                    <a href="index.php">Log Out</a>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- Header End -->
+
+        <h2 style="margin-top: 70px;">Daftar Pesanan untuk Diterima</h2>
+
+
+        <?php if (!empty($booking_results)): ?>
+            <table border="1">
                 <tr>
-                    <td><?= htmlspecialchars($order['id_booking']) ?></td>
-                    <td><?= htmlspecialchars($order['nama']) ?></td>
-                    <td><?= htmlspecialchars($order['jenis_layanan']) ?></td>
-                    <td><?= htmlspecialchars($order['tanggal_pembersihan']) ?></td>
-                    <td>
-                        <form action="" method="POST">
-                            <input type="hidden" name="order_id" value="<?= $order['id_booking'] ?>">
-                            <button type="submit">Terima</button>
-                        </form>
-                    </td>
+                    <th>Booking ID</th>
+                    <th>Customer Name</th>
+                    <th>Service Type</th>
+                    <th>Cleaning Date</th>
+                    <th>Actions</th>
                 </tr>
-            <?php endwhile; ?>
-        </table>
-    <?php else: ?>
-        <p>No pending orders available for acceptance.</p>
-    <?php endif; ?>
+                <?php foreach ($booking_results as $booking): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($booking['id_booking']) ?></td>
+                        <td><?= htmlspecialchars($booking['nama']) ?></td>
+                        <td><?= htmlspecialchars($booking['jenis_layanan']) ?></td>
+                        <td><?= htmlspecialchars($booking['tanggal_pembersihan']) ?></td>
+                        <td>
+                            <form action="accept_booking.php" method="POST">
+                                <input type="hidden" name="booking_id" value="<?= $booking['id_booking'] ?>">
+                                <button type="submit">Terima</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        <?php else: ?>
+            <p>No pending bookings available for acceptance.</p>
+        <?php endif; ?>
 
-    <?php $conn->close(); ?>
-</body>
+        <?php $conn->close(); ?>
+    </body>
 
 </html>

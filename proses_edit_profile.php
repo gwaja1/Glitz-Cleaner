@@ -11,6 +11,15 @@ if (!isset($_SESSION['id_user'])) {
 // Fetch logged-in user ID from session
 $user_id = $_SESSION['id_user'];
 
+// Retrieve user's role from the database
+$query_role = "SELECT role FROM user WHERE iduser = ?";
+$stmt_role = $conn->prepare($query_role);
+$stmt_role->bind_param("i", $user_id);
+$stmt_role->execute();
+$stmt_role->bind_result($role);
+$stmt_role->fetch();
+$stmt_role->close();
+
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
@@ -61,33 +70,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Start building update query
     $query = "UPDATE user SET name = ?, email = ?";
     $params = [$name, $email];
+    $types = "ss"; // for name and email
 
     // Add password update if provided
     if (!empty($hashed_password)) {
         $query .= ", password = ?";
         $params[] = $hashed_password;
+        $types .= "s";
     }
 
     // Add profile picture update if a new one was uploaded
     if (!empty($target_file)) {
         $query .= ", foto_profile = ?";
         $params[] = $target_file;
+        $types .= "s";
     }
 
     // Add the WHERE clause to target the specific user
     $query .= " WHERE iduser = ?";
     $params[] = $user_id;
+    $types .= "i";
 
     // Prepare and execute the statement
     $stmt = $conn->prepare($query);
 
     // Bind the parameters
-    $types = str_repeat('s', count($params)); // 's' for string (you can adjust to 'i' for integers if needed)
     $stmt->bind_param($types, ...$params);
 
     // Execute and check for errors
     if ($stmt->execute()) {
-        header("Location: user.php?msg=Profile updated successfully!");
+        // Redirect based on user's role
+        if ($role === 'user') {
+            header("Location: user.php?msg=Profile updated successfully!");
+        } elseif ($role === 'cleaner') {
+            header("Location: cleaner.php?msg=Profile updated successfully!");
+        }
         exit();
     } else {
         echo "Error updating profile: " . $stmt->error;

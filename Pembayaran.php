@@ -1,42 +1,54 @@
 <?php
-session_start(); // Memulai session
+session_start(); // Start the session
 
-include "koneksi.php"; // Koneksi ke database
+include "koneksi.php"; // Connect to the database
 
-// Ambil id_user dari session
+// Get id_user from the session
 $id_user = $_SESSION['id_user'];
 
-// Pastikan id_user disimpan di session
+// Ensure the user is logged in
 if (!$id_user) {
     die("User belum login atau session tidak valid.");
 }
 
-// Ambil id_booking dari session
-$id_booking = $_SESSION['id_booking']; // Ambil id_booking dari session
+// Get id_booking from the URL parameter
 
-// Query untuk mendapatkan data booking terkait pengguna
-$query = "SELECT * FROM booking WHERE id_booking = '$id_booking' AND id_user = '$id_user'"; // Pastikan kolom id_booking dan id_user ada di tabel booking
 
-// Jalankan query
-$hasil = mysqli_query($conn, $query);
+$id_booking = isset($_SESSION['id_booking']) ? $_SESSION['id_booking'] : null;
 
-// Periksa apakah query berhasil dijalankan
-if ($hasil) {
-    if (mysqli_num_rows($hasil) > 0) {
-        // Ambil data booking pertama
-        $booking = mysqli_fetch_assoc($hasil);
-    } else {
-        $booking = null; // Tidak ada data booking untuk pengguna ini
-    }
-} else {
-    // Jika query gagal dijalankan
-    echo "Error: " . mysqli_error($conn);
-    $booking = null;
+if (!$id_booking) {
+    die("Booking ID tidak ditemukan di sesi.");
 }
 
-// Tutup koneksi
+
+// Query to fetch booking data based on id_booking and id_user
+$query_booking = "SELECT * FROM booking WHERE id_booking = '$id_booking' AND id_user = '$id_user'";
+$hasil = mysqli_query($conn, $query_booking);
+
+// Check if query was successful
+if ($hasil && mysqli_num_rows($hasil) > 0) {
+    // Fetch booking data
+    $booking = mysqli_fetch_assoc($hasil);
+} else {
+    $booking = null; // No booking found for this user
+    die("Data booking tidak ditemukan.");
+}
+
+// Query to get user data
+$query_user = "SELECT name, email, foto_profile FROM user WHERE iduser = '$id_user'";
+$result = $conn->query($query_user);
+
+// Check if user data is found
+if ($result->num_rows > 0) {
+    $user_data = $result->fetch_assoc();
+} else {
+    die("User tidak ditemukan.");
+}
+
+// Close the database connection
 mysqli_close($conn);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -148,11 +160,11 @@ mysqli_close($conn);
                             <a href="Tentang1.php" class="nav-item nav-link">Tentang</a>
                             <a href="Layanan1.php" class="nav-item nav-link">Layanan</a>
                             <a href="Keranjang.php" class="nav-item nav-link">Pemesanan</a>
-                            <a href="history.html" class="nav-item nav-link">History</a>
+                            <a href="history.php" class="nav-item nav-link">Riwayat</a>
                         </div>
                     </div>
                     <div class="profile-image">
-                        <img src="img/team-1.jpg" alt="" class="image">
+                        <img src="<?php echo htmlspecialchars($user_data['foto_profile']); ?>" alt="" class="image">
                         <ul class="image-list">
                             <li class="list-item">
                                 <a href="edit_profil.php">Edit Profil</a>
@@ -253,8 +265,8 @@ mysqli_close($conn);
                                 <input type="hidden" name="harga" value="1000000"> <!-- Ganti sesuai logika harga -->
 
                                 <button type="submit"
-                                    class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Simpan
-                                    Dulu</button>
+                                    class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Bayar
+                                    Nanti</button>
                             </form>
 
 
@@ -307,17 +319,9 @@ mysqli_close($conn);
                     kebersihan Anda. Dengan tim profesional dan berpengalaman, kami siap membantu Anda menjaga rumah
                     atau
                     kantor Anda tetap bersih dan nyaman..</p>
-                <div class="w-100">
-                    <div class="input-group">
-                        <input type="text" class="form-control border-0" style="padding: 25px;"
-                            placeholder="Your Email">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary px-4">Sign Up</button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
+    </div>
     </div>
     <div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5"
         style="border-color: #3E3E4E !important;">
