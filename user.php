@@ -3,26 +3,41 @@ session_start();
 include "koneksi.php"; // Koneksi ke database
 
 // Pastikan pengguna sudah login
-if (!isset($_SESSION['id_user'])) {
+if (!isset($_SESSION['userid'])) {
     header("Location: login.php");
     exit();
 }
 
-$id_user = $_SESSION['id_user'];
+// Ambil ID pengguna dari sesi
+$user_id = $_SESSION['userid'];
 
-// Query untuk mengambil data user
-$query = "SELECT name, email, foto_profile FROM user WHERE iduser = '$id_user'";
-$result = $conn->query($query);
+// Query untuk mengambil data pengguna berdasarkan ID
+$query = "SELECT name, email, foto_profile, role FROM user WHERE iduser = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
 
-// Check if the user exists
+// Ambil data pengguna
 if ($result->num_rows > 0) {
     $user_data = $result->fetch_assoc();
+
+    // Cek role pengguna
+    if ($user_data['role'] != 'admin' && $user_data['role'] != 'user') {
+        // Jika role bukan admin atau cleaner, tampilkan halaman error
+        include 'abort_page.php';
+        exit();
+    }
 } else {
-    // Handle the case when no user is found
-    die("User tidak ditemukan.");
+    echo "Data pengguna tidak ditemukan.";
+    exit();
 }
 
-$conn->close(); // Close the connection after retrieving data
+// Tutup koneksi
+$stmt->close();
+$conn->close();
+
+// Jika berhasil, tampilkan data pengguna atau konten lainnya
 ?>
 
 <!DOCTYPE html>
@@ -59,6 +74,7 @@ $conn->close(); // Close the connection after retrieving data
             height: 50px;
             margin: 0 30px 0 0;
             border-radius: 50%;
+            object-fit: cover;
         }
 
         .profile-image .image-list {
@@ -150,7 +166,7 @@ $conn->close(); // Close the connection after retrieving data
                                 <a href="edit_profil.php">Edit Profil</a>
                             </li>
                             <li class="list-item">
-                                <a href="index.php">Log Out</a>
+                                <a href="Logout.php">Log Out</a>
                     </div>
                 </nav>
             </div>

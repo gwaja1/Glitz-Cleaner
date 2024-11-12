@@ -3,25 +3,28 @@ session_start();
 include "koneksi.php"; // Menghubungkan ke database
 
 // Pastikan pengguna sudah login
-if (!isset($_SESSION['id_user'])) {
+if (!isset($_SESSION['userid'])) {
     header("Location: login.php");
     exit();
 }
 
+$userid = $_SESSION['userid']; // Menggunakan userid, bukan id_user
 
-$id_user = $_SESSION['id_user'];
+// Menggunakan prepared statement untuk menghindari SQL Injection
+$query_booking = $conn->prepare("SELECT h.*, b.jenis_layanan, b.tanggal_pembersihan 
+                                FROM history_order h
+                                JOIN booking b ON h.id_booking = b.id_booking 
+                                WHERE h.iduser = ? 
+                                ORDER BY b.tanggal_pembersihan DESC");
+$query_booking->bind_param("i", $userid); // Mengikat parameter userid sebagai integer
+$query_booking->execute();
+$result_booking = $query_booking->get_result();
 
-// Query untuk mengambil data Riwayat Pesanan berdasarkan id_user
-$query_booking = "SELECT h.*, b.jenis_layanan, b.tanggal_pembersihan 
-          FROM history_order h
-          JOIN booking b ON h.id_booking = b.id_booking 
-          WHERE h.iduser = '$id_user' 
-          ORDER BY b.tanggal_pembersihan DESC"; // Use b.tanggal_pembersihan for sorting
-
-$result_booking = $conn->query($query_booking);
-
-$query = "SELECT name, email, foto_profile FROM user WHERE iduser = '$id_user'";
-$result = $conn->query($query);
+// Mengambil data user menggunakan prepared statement
+$query = $conn->prepare("SELECT name, email, foto_profile FROM user WHERE iduser = ?");
+$query->bind_param("i", $userid); // Mengikat parameter userid sebagai integer
+$query->execute();
+$result = $query->get_result();
 
 // Check if the user exists
 if ($result->num_rows > 0) {
@@ -37,7 +40,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_booking'])) {
     echo "Processing payment for booking ID: " . htmlspecialchars($id_booking);
     // Add your payment logic here
 }
+
+$query_booking->close(); // Menutup prepared statement untuk booking
+$query->close(); // Menutup prepared statement untuk user
+$conn->close(); // Menutup koneksi setelah mengambil data
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

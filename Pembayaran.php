@@ -1,52 +1,21 @@
 <?php
-session_start(); // Start the session
+include 'koneksi.php';
 
-include "koneksi.php"; // Connect to the database
+// Cek apakah ada parameter id_booking di URL
+if (isset($_GET['id_booking'])) {
+    $id_booking = $_GET['id_booking'];
 
-// Get id_user from the session
-$id_user = $_SESSION['id_user'];
-
-// Ensure the user is logged in
-if (!$id_user) {
-    die("User belum login atau session tidak valid.");
-}
-
-// Get id_booking from the URL parameter
-
-
-$id_booking = isset($_SESSION['id_booking']) ? $_SESSION['id_booking'] : null;
-
-if (!$id_booking) {
-    die("Booking ID tidak ditemukan di sesi.");
-}
-
-
-// Query to fetch booking data based on id_booking and id_user
-$query_booking = "SELECT * FROM booking WHERE id_booking = '$id_booking' AND id_user = '$id_user'";
-$hasil = mysqli_query($conn, $query_booking);
-
-// Check if query was successful
-if ($hasil && mysqli_num_rows($hasil) > 0) {
-    // Fetch booking data
-    $booking = mysqli_fetch_assoc($hasil);
+    // Query untuk mengambil data booking berdasarkan id_booking
+    $query = "SELECT * FROM booking WHERE id_booking = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $id_booking); // Bind id_booking sebagai integer
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $booking = $result->fetch_assoc();
 } else {
-    $booking = null; // No booking found for this user
-    die("Data booking tidak ditemukan.");
+    echo "ID Booking tidak ditemukan.";
+    exit();
 }
-
-// Query to get user data
-$query_user = "SELECT name, email, foto_profile FROM user WHERE iduser = '$id_user'";
-$result = $conn->query($query_user);
-
-// Check if user data is found
-if ($result->num_rows > 0) {
-    $user_data = $result->fetch_assoc();
-} else {
-    die("User tidak ditemukan.");
-}
-
-// Close the database connection
-mysqli_close($conn);
 ?>
 
 

@@ -1,3 +1,43 @@
+<?php
+session_start();
+include "koneksi.php"; // Koneksi ke database
+
+// Pastikan pengguna sudah login
+if (!isset($_SESSION['userid'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Ambil ID pengguna dari sesi
+$user_id = $_SESSION['userid'];
+
+// Query untuk mengambil data pengguna terbaru berdasarkan ID terbesar
+$query = "SELECT name, email, foto_profile, role FROM user ORDER BY iduser DESC";
+$stmt = $conn->prepare($query);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Ambil data pengguna
+if ($result->num_rows > 0) {
+    $user_data = $result->fetch_assoc();
+
+    // Cek jika role pengguna adalah admin
+    if ($user_data['role'] != 'admin') {
+        // Jika bukan admin, tampilkan halaman error (abort)
+        include 'abort_page.php';
+        exit();
+    }
+} else {
+    echo "Data pengguna tidak ditemukan.";
+    exit();
+}
+
+// Tutup koneksi
+$stmt->close();
+$conn->close();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,9 +56,11 @@
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
-    <!-- Customized Bootstrap Stylesheet -->
+    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="icon" href="Img/Logo.png" type="image/png">
+
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.css">
 
     <!-- Custom CSS -->
     <style>
@@ -84,10 +126,7 @@
             background-color: #f8f9fa;
         }
 
-        .btn-warning {
-            color: #fff;
-        }
-
+        .btn-warning,
         .btn-danger {
             color: #fff;
         }
@@ -98,7 +137,7 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <a href="dashborad_admin.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="dashboard_admin.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
         <a href="#orders"><i class="fas fa-box"></i> Manajemen Pesanan</a>
         <a href="#services"><i class="fas fa-concierge-bell"></i> Manajemen Layanan</a>
         <a href="#customers"><i class="fas fa-users"></i> Manajemen Pelanggan</a>
@@ -115,7 +154,6 @@
             <p>Kelola layanan, pesanan, pengguna, dan lain-lain dengan mudah.</p>
         </div>
 
-
         <!-- Manajemen Pengguna -->
         <div class="card mt-4" id="users">
             <h3>Manajemen Pengguna</h3>
@@ -130,26 +168,25 @@
 
             if ($result->num_rows > 0) {
                 echo "<table>
-                        <tr>
-                            <th>ID</th>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Aksi</th>
-                        </tr>";
-                // Output data dari setiap baris
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Aksi</th>
+                </tr>";
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr>
-                            <td>" . $row["iduser"] . "</td>
-                            <td>" . $row["name"] . "</td>
-                            <td>" . $row["email"] . "</td>
-                            <td>" . $row["role"] . "</td>
-                            <td>
-                                <a href='delete_user.php?id=" . $row["iduser"] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Apakah Anda yakin ingin menghapus pengguna ini?\")'>Delete</a>
-                            </td>
-                          </tr>";
+                        <td>" . $row["iduser"] . "</td>
+                        <td>" . $row["name"] . "</td>
+                        <td>" . $row["email"] . "</td>
+                        <td>" . $row["role"] . "</td>
+                        <td>
+                            <button class='btn btn-primary' onclick='openEditModal(" . json_encode($row) . ")'>Edit</button>
+                            <button class='btn btn-danger' onclick='confirmDelete(" . $row["iduser"] . ")'>Delete</button>
+                        </td>
+                      </tr>";
                 }
-                echo "</table>";
             } else {
                 echo "<p>Tidak ada pengguna ditemukan.</p>";
             }
@@ -159,9 +196,138 @@
         </div>
     </div>
 
+    <!-- Edit User Modal -->
+    <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editUserForm" method="POST" action="update_user.php">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editUserModalLabel">Edit Pengguna</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="iduser" id="editUserId">
+                        <div class="form-group">
+                            <label for="editName">Nama</label>
+                            <input type="text" class="form-control" id="editName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmail">Email</label>
+                            <input type="email" class="form-control" id="editEmail" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editRole">Role</label>
+                            <select class="form-control" id="editRole" name="role" required>
+                                <option value="user">User</option>
+                                <option value="cleaner">Cleaner</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.js"></script>
+
+<script>
+// Open the Edit Modal and populate the fields
+function openEditModal(userData) {
+    $('#editUserId').val(userData.iduser);
+    $('#editName').val(userData.name);
+    $('#editEmail').val(userData.email);
+    $('#editRole').val(userData.role);
+    $('#editUserModal').modal('show');
+}
+
+// SweetAlert confirmation for delete
+function confirmDelete(userId) {
+    Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: "Anda akan menghapus pengguna ini!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Hapus',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Call the delete function via Ajax
+            $.ajax({
+                url: 'delete_user.php', // PHP file for deletion
+                type: 'POST',
+                data: { iduser: userId },
+                success: function(response) {
+                    var data = JSON.parse(response);
+                    if (data.status === 'success') {
+                        Swal.fire(
+                            'Dihapus!',
+                            'Pengguna berhasil dihapus.',
+                            'success'
+                        ).then(() => {
+                            location.reload(); // Reload the page after confirmation
+                        });
+                    } else {
+                        Swal.fire(
+                            'Error!',
+                            data.message,
+                            'error'
+                        );
+                    }
+                },
+                error: function() {
+                    Swal.fire(
+                        'Error!',
+                        'Gagal menghapus pengguna.',
+                        'error'
+                    );
+                }
+            });
+        }
+    });
+}
+
+
+// Handle form submission for updating user data
+$('#editUserForm').submit(function(event) {
+    event.preventDefault(); // Prevent form submission and page reload
+
+    var formData = $(this).serialize(); // Get form data
+
+    $.ajax({
+        url: 'update_user.php', // PHP file for updating user
+        type: 'POST',
+        data: formData,
+        success: function(response) {
+            // Show success message and reload the page
+            Swal.fire(
+                'Sukses!',
+                'Data pengguna berhasil diperbarui.',
+                'success'
+            ).then(() => {
+                location.reload(); // Reload the page after confirmation
+            });
+        },
+        error: function() {
+            Swal.fire(
+                'Error!',
+                'Gagal memperbarui data pengguna.',
+                'error'
+            );
+        }
+    });
+});
+</script>
+
 </body>
 
 </html>

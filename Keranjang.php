@@ -3,25 +3,24 @@ include "koneksi.php";
 session_start();
 
 // Cek apakah user sudah login
-if (isset($_SESSION['email'])) {
-    $id_user = $_SESSION['email'];
+if (isset($_SESSION['userid'])) { // Menggunakan userid dalam session
+    $userid = $_SESSION['userid']; // Mengambil userid dari session
 
-    // Pastikan id_user yang tersimpan dalam session valid dengan memeriksa database
-    $check_user = $conn->query("SELECT iduser FROM user WHERE email = '$id_user'");
-    if ($check_user->num_rows == 0) {
+    // Pastikan userid yang tersimpan dalam session valid dengan memeriksa database
+    $check_user = $conn->prepare("SELECT iduser FROM user WHERE iduser = ?");
+    $check_user->bind_param("i", $userid); // Mengikat parameter userid sebagai integer
+    $check_user->execute();
+    $check_user_result = $check_user->get_result();
+    
+    if ($check_user_result->num_rows == 0) {
         die("User tidak valid.");
     }
 
-    if (!isset($_SESSION['id_user'])) {
-        header("Location: login.php");
-        exit();
-    }
-
-    $id_user = $_SESSION['id_user'];
-
     // Query untuk mengambil data user
-    $query = "SELECT name, email, foto_profile FROM user WHERE iduser = '$id_user'";
-    $result = $conn->query($query);
+    $query = $conn->prepare("SELECT name, email, foto_profile FROM user WHERE iduser = ?");
+    $query->bind_param("i", $userid); // Mengikat parameter userid sebagai integer
+    $query->execute();
+    $result = $query->get_result();
 
     // Check if the user exists
     if ($result->num_rows > 0) {
@@ -30,13 +29,16 @@ if (isset($_SESSION['email'])) {
         // Handle the case when no user is found
         die("User tidak ditemukan.");
     }
+
+    $check_user->close();
+    $query->close();
 } else {
     die("User belum login.");
 }
 
-
-
+$conn->close(); // Menutup koneksi setelah pengambilan data selesai
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -243,15 +245,15 @@ if (isset($_SESSION['email'])) {
             </div>
             <div class="form-group">
                 <label for="phone">Nomor Telepon:</label>
-                <input type="tel" id="phone" name="phone" required>
+                <input type="number" id="phone" name="no_telpon" required>
             </div>
             <div class="form-group">
                 <label for="address">Alamat:</label>
-                <input type="text" id="address" name="address" required>
+                <input type="text" id="address" name="alamat" required>
             </div>
             <div class="form-group">
                 <label for="service-type">Jenis Layanan:</label>
-                <select id="service-type" name="service_type" required>
+                <select id="service-type" name="jenis_layanan" required>
                     <option value="basic_cleaning">Pembersihan Dasar</option>
                     <option value="deep_cleaning">Pembersihan Menyeluruh</option>
                     <option value="move_in_out_cleaning">Pembersihan Pindahan</option>
@@ -259,7 +261,7 @@ if (isset($_SESSION['email'])) {
             </div>
             <div class="form-group">
                 <label for="room-type">Jenis Ruangan:</label>
-                <select id="room-type" name="room_type" required>
+                <select id="room-type" name="jenis_ruangan" required>
                     <option value="Ruang-keluarga">Ruang Keluarga</option>
                     <option value="Ruang-tamu">Ruang Tamu</option>
                     <option value="Ruang-makan">Ruang Makan</option>
@@ -270,7 +272,7 @@ if (isset($_SESSION['email'])) {
             </div>
             <div class="form-group">
                 <label for="Room-size">Ukuran Ruangan:</label>
-                <select id="Room-size" name="Room-size" required>
+                <select id="Room-size" name="ukuran_ruangan" required>
                     <option value="9">9m²</option>
                     <option value="15">15m²</option>
                     <option value="20">20m²</option>
@@ -282,15 +284,15 @@ if (isset($_SESSION['email'])) {
 
             <div class="form-group">
                 <label for="date">Tanggal Pembersihan:</label>
-                <input type="date" id="date" name="date" required>
+                <input type="date" id="date" name="tanggal_pembersihan" required>
             </div>
             <div class="form-group">
                 <label for="time">Waktu Pembersihan:</label>
-                <input type="time" id="time" name="time" required>
+                <input type="time" id="time" name="waktu_pembersihan" required>
             </div>
             <div class="form-group">
                 <label for="notes">Catatan Tambahan:</label>
-                <textarea id="notes" name="notes" rows="4"></textarea>
+                <textarea id="notes" name="catatan" rows="4"></textarea>
             </div>
             <button type="submit" class="submit-btn">Pesan Sekarang</button>
         </form>

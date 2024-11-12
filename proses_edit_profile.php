@@ -3,13 +3,13 @@ session_start();
 include "koneksi.php"; // Include database connection
 
 // Check if user is logged in
-if (!isset($_SESSION['id_user'])) {
+if (!isset($_SESSION['userid'])) {
     header("Location: login.php");
     exit();
 }
 
 // Fetch logged-in user ID from session
-$user_id = $_SESSION['id_user'];
+$user_id = $_SESSION['userid'];
 
 // Retrieve user's role from the database
 $query_role = "SELECT role FROM user WHERE iduser = ?";
@@ -101,7 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->execute()) {
         // Redirect based on user's role
         if ($role === 'user') {
-            header("Location: user.php?msg=Profile updated successfully!");
+            header("Location: user.php");
         } elseif ($role === 'cleaner') {
             header("Location: cleaner.php?msg=Profile updated successfully!");
         }

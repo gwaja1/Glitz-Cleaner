@@ -1,71 +1,46 @@
 <?php
-session_start(); // Memulai session
+// Memanggil file koneksi.php
+include "koneksi.php";
 
-include "koneksi.php"; // Koneksi ke database
+// Menerima data dari form
+$email = $_POST["email"];
+$pass = $_POST["password"];
 
-// Ambil data dari form
-$email = $_POST['email'];
-$pass = $_POST['password'];
+// Query untuk mencari user berdasarkan email
+$query = "SELECT * FROM user WHERE email = '$email' LIMIT 1";
 
-// Sanitasi dan escape input pengguna
-$email = mysqli_real_escape_string($conn, $email);
+// Mengeksekusi query
+$result = mysqli_query($conn, $query);
+$user = mysqli_fetch_assoc($result);
 
-// Query untuk memilih data pengguna berdasarkan email
-$query = "SELECT * FROM `user` WHERE email='$email'";
+// Mengecek apakah user ditemukan
+if ($user) {
+    // Verifikasi password dengan password yang ada di database
+    if (password_verify($pass, $user['password'])) {
+        // Jika password cocok, login sukses
+        session_start();
+        $_SESSION['userid'] = $user['iduser']; // Menyimpan ID user di session
+        $_SESSION['uname'] = $user['name'];    // Menyimpan nama user di session
+        $_SESSION['email'] = $user['email'];  // Menyimpan email user di session
+        $_SESSION['role'] = $user['role'];    // Menyimpan role user di session
 
-// Jalankan query
-$hasil = mysqli_query($conn, $query);
-
-// Periksa apakah query berhasil dijalankan
-if ($hasil) {
-    $cek = mysqli_num_rows($hasil);
-
-    // Jika ada hasil
-    if ($cek > 0) {
-        // Ambil data hasil query
-        $data = mysqli_fetch_array($hasil);
-
-        // Verifikasi password
-        if (password_verify($pass, $data['password'])) { // Memastikan password yang dimasukkan cocok dengan hash di database
-            // Simpan iduser ke dalam session
-            $_SESSION['id_user'] = $data['iduser']; // Mengambil iduser dari hasil query
-
-            // Cek peran pengguna
-            if ($data['role'] == "admin") {
-                // Buat session login dan role
-                $_SESSION['email'] = $email;
-                $_SESSION['role'] = "admin";
-                // Alihkan ke halaman dashboard admin
-                header("location:dashborad_admin.php");
-            } else if ($data['role'] == "cleaner") {
-                // Buat session login dan role
-                $_SESSION['email'] = $email;
-                $_SESSION['role'] = "cleaner";
-                // Alihkan ke halaman dashboard cleaner
-                header("location:cleaner.php");
-            } else if ($data['role'] == "user") {
-                // Buat session login dan role
-                $_SESSION['email'] = $email;
-                $_SESSION['role'] = "user";
-                // Alihkan ke halaman dashboard user
-                header("location:user.php");
-            } else {
-                echo "Anda Bukan Admin dan Bukan User";
-                header("location:login.php");
-            }
+        // Redirect ke halaman sesuai dengan role
+        if ($user['role'] == 'admin') {
+            header('Location: Panel_admin.php');
+        } elseif ($user['role'] == 'user') {
+            header('Location: user.php');
+        } elseif ($user['role'] == 'cleaner') {
+            header('Location: cleaner.php');
         } else {
-            // Jika password tidak cocok
-            echo "GAGAL LOGIN!!!, Username dan Password tidak ditemukan";
+            // Jika role tidak dikenali
+            echo "Role tidak valid!";
         }
     } else {
-        // Jika tidak ada hasil
-        echo "GAGAL LOGIN!!!, Username tidak ditemukan";
+        // Jika password tidak cocok
+        echo "Password salah!";
     }
 } else {
-    // Jika query gagal dijalankan
-    echo "Error: " . mysqli_error($conn);
+    // Jika email tidak ditemukan
+    echo "Email tidak terdaftar!";
 }
-
-// Tutup koneksi
-mysqli_close($conn);
 ?>

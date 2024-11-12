@@ -2,58 +2,46 @@
 include "koneksi.php";
 session_start();
 
-// Cek apakah user sudah login dan memiliki `id_user`
-if (isset($_SESSION['id_user'])) {
-    $id_user = $_SESSION['id_user']; // Pastikan Anda menyimpan id_user di session
-
-    // Pastikan id_user yang tersimpan dalam session valid dengan memeriksa database
-    $check_user = $conn->query("SELECT iduser FROM user WHERE iduser = '$id_user'");
-    if ($check_user->num_rows == 0) {
-        die("User tidak valid.");
-    }
-} else {
+// Cek apakah user sudah login
+if (!isset($_SESSION['userid'])) {
     die("User belum login.");
 }
 
-// Cek apakah semua data form tersedia
-if (
-    isset($_POST['nama']) && isset($_POST['email']) && isset($_POST['phone']) &&
-    isset($_POST['address']) && isset($_POST['service_type']) &&
-    isset($_POST['room_type']) && isset($_POST['Room-size']) &&
-    isset($_POST['date']) && isset($_POST['time'])
-) {
-    // Mengambil data dari form
-    $nama = $conn->real_escape_string($_POST['nama']);
-    $email = $conn->real_escape_string($_POST['email']);
-    $phone = $conn->real_escape_string($_POST['phone']);
-    $address = $conn->real_escape_string($_POST['address']);
-    $service_type = $conn->real_escape_string($_POST['service_type']);
-    $room_type = $conn->real_escape_string($_POST['room_type']);
-    $room_size = $conn->real_escape_string($_POST['Room-size']);
-    $date = $conn->real_escape_string($_POST['date']);
+$userid = $_SESSION['userid'];
 
-    // Format waktu menjadi hh:mm:ss untuk memastikan tidak ada milidetik
-    $time = date("H:i:s", strtotime($_POST['time']));
-    $time = $conn->real_escape_string($time);
+// Persiapan query dan bind parameter
+$stmt = $conn->prepare("INSERT INTO booking (id_user, nama, email, no_telpon, alamat, jenis_layanan, jenis_ruangan, ukuran_ruangan, tanggal_pembersihan, waktu_pembersihan, catatan) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-    $notes = isset($_POST['notes']) ? $conn->real_escape_string($_POST['notes']) : '';
+// Bind parameter sesuai tipe data yang sesuai
+$stmt->bind_param(
+    "issssssssss",
+    $userid,
+    $_POST['nama'],
+    $_POST['email'],
+    $_POST['no_telpon'],
+    $_POST['alamat'],
+    $_POST['jenis_layanan'],
+    $_POST['jenis_ruangan'],
+    $_POST['ukuran_ruangan'],
+    $_POST['tanggal_pembersihan'],
+    $_POST['waktu_pembersihan'],
+    $_POST['catatan']
+);
 
-    // Query untuk memasukkan data ke tabel booking, termasuk id_user
-    $sql = "INSERT INTO booking (id_user, nama, email, no_telpon, alamat, jenis_layanan, jenis_ruangan, ukuran_ruangan, tanggal_pembersihan, waktu_pembersihan, catatan)
-            VALUES ('$id_user', '$nama', '$email', '$phone', '$address', '$service_type', '$room_type', '$room_size', '$date', '$time', '$notes')";
+// Eksekusi dan cek keberhasilan
+if ($stmt->execute()) {
+    // Ambil ID booking yang baru saja dimasukkan
+    $id_booking = $stmt->insert_id; 
 
-    // Get the last inserted ID
-// After successful insertion
-    if ($conn->query($sql) === TRUE) {
-        // Get the last inserted ID
-        $last_id = $conn->insert_id;
-        // Store the booking ID in session
-        $_SESSION['id_booking'] = $last_id; // Ensure this is set correctly
-        header('Location:Pembayaran.php');
-        exit(); // Make sure to exit after header redirection
-    }
-
+    // Redirect ke halaman pembayaran dengan membawa ID booking
+    header("Location: Pembayaran.php?id_booking=$id_booking"); 
+    exit();
+} else {
+    echo "Terjadi kesalahan: " . $stmt->error;
 }
 
+// Tutup statement dan koneksi
+$stmt->close();
 $conn->close();
 ?>

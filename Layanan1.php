@@ -3,16 +3,20 @@ session_start();
 include "koneksi.php"; // Koneksi ke database
 
 // Pastikan pengguna sudah login
-if (!isset($_SESSION['id_user'])) {
+if (!isset($_SESSION['userid'])) {
     header("Location: login.php");
     exit();
 }
 
-$id_user = $_SESSION['id_user'];
+$id_user = $_SESSION['userid'];
 
-// Query untuk mengambil data user
-$query = "SELECT name, email, foto_profile FROM user WHERE iduser = '$id_user'";
-$result = $conn->query($query);
+// Query untuk mengambil data user menggunakan prepared statement
+$query = $conn->prepare("SELECT name, email, foto_profile FROM user WHERE iduser = ?");
+$query->bind_param("i", $id_user); // Menyisipkan id_user sebagai parameter
+$query->execute();
+
+// Mengambil hasil query
+$result = $query->get_result();
 
 // Check if the user exists
 if ($result->num_rows > 0) {
@@ -22,7 +26,8 @@ if ($result->num_rows > 0) {
     die("User tidak ditemukan.");
 }
 
-$conn->close(); // Close the connection after retrieving data
+$query->close(); // Menutup prepared statement
+$conn->close(); // Menutup koneksi setelah mengambil data
 ?>
 
 <!DOCTYPE html>

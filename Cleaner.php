@@ -3,16 +3,16 @@ session_start();
 include "koneksi.php"; // Koneksi ke database
 
 // Pastikan pengguna sudah login
-if (!isset($_SESSION['id_user'])) {
+if (!isset($_SESSION['userid'])) {
     header("Location: login.php");
     exit();
 }
 
 // Ambil ID pengguna dari sesi
-$user_id = $_SESSION['id_user'];
+$user_id = $_SESSION['userid'];
 
 // Query untuk mengambil data pengguna berdasarkan ID
-$query = "SELECT name, email, foto_profile FROM user WHERE iduser = ?";
+$query = "SELECT name, email, foto_profile, role FROM user WHERE iduser = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -21,6 +21,13 @@ $result = $stmt->get_result();
 // Ambil data pengguna
 if ($result->num_rows > 0) {
     $user_data = $result->fetch_assoc();
+
+    // Cek role pengguna
+    if ($user_data['role'] != 'admin' && $user_data['role'] != 'cleaner') {
+        // Jika role bukan admin atau cleaner, tampilkan halaman error
+        include 'abort_page.php';
+        exit();
+    }
 } else {
     echo "Data pengguna tidak ditemukan.";
     exit();
@@ -29,7 +36,10 @@ if ($result->num_rows > 0) {
 // Tutup koneksi
 $stmt->close();
 $conn->close();
+
+// Jika berhasil, tampilkan data pengguna atau konten lainnya
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -154,7 +164,7 @@ $conn->close();
                                 <a href="edit_profil.php">Edit Profil</a>
                             </li>
                             <li class="list-item">
-                                <a href="index.php">Log Out</a>
+                                <a href="Logout.php">Log Out</a>
                     </div>
                 </nav>
             </div>

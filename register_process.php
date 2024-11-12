@@ -1,17 +1,20 @@
 <?php
-//memanggil file koneksi.php
+// memanggil file koneksi.php
 include "koneksi.php";
+
+// Menerima data dari form
 $email = $_POST["email"];
 $pass = $_POST["password"];
 $name = $_POST["name"];
-$role = "user";//level otomatis diisi user pd saat registrasi
-//format acak password harus sama dengan proses_login.php
+$role = "user"; // level otomatis diisi user pd saat registrasi
 $kirim = $_POST['regis'];
-//proses kirim data ke database MYSQL
+
+// Meng-hash password
+$hashedPassword = password_hash($pass, PASSWORD_BCRYPT);
 
 // Proses kirim data ke database MySQL
 if ($kirim) {
-    $query = "INSERT INTO `user` (`iduser`, `name`, `email`, `password`, `role`) VALUES ('', '$name', '$email', '$pass', '$role')";
+    $query = "INSERT INTO `user` (`iduser`, `name`, `email`, `password`, `role`) VALUES ('', '$name', '$email', '$hashedPassword', '$role')";
 
     // Mengeksekusi query dan mengecek apakah berhasil
     $hasil = mysqli_query($conn, $query);
@@ -24,3 +27,4 @@ if ($kirim) {
 } else {
     header('Location:regis.php');
 }
+?>
