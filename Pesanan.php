@@ -204,7 +204,9 @@ $stmt_orders->close();
     </div>
     <!-- Header End -->
 
-    <h2 style="margin-top: 70px;">Daftar Pesanan untuk Diterima</h2>
+    <h2 style="margin-top: 70px; margin-left: 20px;">Daftar Pesanan untuk Diterima</h2>
+
+
 
     <?php if (!empty($booking_results)): ?>
         <table border="1">
@@ -231,10 +233,11 @@ $stmt_orders->close();
             <?php endforeach; ?>
         </table>
     <?php else: ?>
-        <p>No pending bookings available for acceptance.</p>
+        <p style="margin-left: 20px;">No pending bookings available for acceptance.</p>
     <?php endif; ?>
 
     <?php $conn->close(); ?>
+
 </body>
 
 </html>

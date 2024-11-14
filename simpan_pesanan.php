@@ -22,6 +22,22 @@ if (isset($_SESSION['userid'])) {
 $id_booking = $_POST['id_booking'] ?? null;
 $status = $_POST['status'] ?? null;
 
+// Fetch `harga` based on `id_booking`
+if ($id_booking) {
+    $stmt = $conn->prepare("SELECT harga FROM booking WHERE id_booking = ?");
+    $stmt->bind_param("i", $id_booking);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $harga = $row['harga']; // Assign the retrieved harga
+    } else {
+        die("Data booking tidak ditemukan.");
+    }
+} else {
+    die("ID booking tidak diset.");
+}
 
 // Cek apakah data sudah ada di tabel history_order
 $stmt = $conn->prepare("SELECT * FROM history_order WHERE iduser = ? AND id_booking = ?");

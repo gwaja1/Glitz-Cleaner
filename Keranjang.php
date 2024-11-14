@@ -130,36 +130,38 @@ $conn->close(); // Menutup koneksi setelah pengambilan data selesai
         }
 
         .profile-image .image {
-            width: 50px;
-            height: 50px;
-            margin: 0 30px 0 0;
-            border-radius: 50%;
-        }
+    width: 50px;
+    height: 50px;
+    margin: 0 30px 0 0;
+    border-radius: 50%;
+    object-fit: cover; /* Menjaga gambar tidak gepeng */
+}
 
-        .profile-image .image-list {
-            position: absolute;
-            max-height: 0;
-            right: 30px;
-            top: 100%;
-            width: 100px;
-            text-align: center;
-            visibility: hidden;
-            padding: 0;
-            background: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 4px;
-            z-index: 10;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: all 0.4s ease;
-        }
+.profile-image .image-list {
+    position: absolute;
+    max-height: 0;
+    right: 30px;
+    top: 100%;
+    width: 100px;
+    text-align: center;
+    visibility: hidden;
+    padding: 0;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    z-index: 10;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.4s ease;
+}
 
-        .profile-image:hover .image-list {
-            max-height: 100%;
-            visibility: visible;
-            opacity: 1;
-        }
+.profile-image:hover .image-list {
+    max-height: 100%;
+    visibility: visible;
+    opacity: 1;
+}
+
     </style>
 </head>
 
@@ -213,7 +215,7 @@ $conn->close(); // Menutup koneksi setelah pengambilan data selesai
                             <a href="user.php" class="nav-item nav-link">Beranda</a>
                             <a href="Tentang1.php" class="nav-item nav-link">Tentang</a>
                             <a href="Layanan1.php" class="nav-item nav-link">Layanan</a>
-                            <a href="Keranjang.php" class="nav-item nav-link active">Pemesanan</a>
+                            <a href="Keranjang.php" class="nav-item nav-link">Pemesanan</a>
                             <a href="history.php" class="nav-item nav-link">Riwayat</a>
                         </div>
                     </div>

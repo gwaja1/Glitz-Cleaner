@@ -65,11 +65,11 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="user.php" class="nav-item nav-link active">Beranda</a>
-                            <a href="Tentang1.php" class="nav-item nav-link">Tentang</a>
-                            <a href="Layanan1.php" class="nav-item nav-link">Layanan</a>
-                            <a href="Keranjang.php" class="nav-item nav-link">Pemesanan</a>
-                            <a href="history.php" class="nav-item nav-link">Riwayat</a>
+                            <a href="index.php" class="nav-item nav-link">Beranda</a>
+                            <a href="Tentang.php" class="nav-item nav-link">Tentang</a>
+                            <a href="Layanan.php" class="nav-item nav-link">Layanan</a>
+                            <a href="project.php" class="nav-item nav-link">Projek</a>
+                            <a href="contact.php" class="nav-item nav-link">Kontak</a>
                         </div>
                     </div>
                 </nav>

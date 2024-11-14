@@ -1,46 +1,60 @@
 <?php
-// Memanggil file koneksi.php
+// Include the database connection file
 include "koneksi.php";
 
-// Menerima data dari form
-$email = $_POST["email"];
-$pass = $_POST["password"];
+// Start the session
+session_start();
 
-// Query untuk mencari user berdasarkan email
-$query = "SELECT * FROM user WHERE email = '$email' LIMIT 1";
+// Check if form data is set
+if (isset($_POST["email"]) && isset($_POST["password"])) {
+    // Receive data from the login form
+    $email = $_POST["email"];
+    $pass = $_POST["password"];
 
-// Mengeksekusi query
-$result = mysqli_query($conn, $query);
-$user = mysqli_fetch_assoc($result);
+    // Query to find the user by email using prepared statements
+    $query = "SELECT * FROM user WHERE email = ? LIMIT 1";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("s", $email); // 's' indicates the parameter is a string
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-// Mengecek apakah user ditemukan
-if ($user) {
-    // Verifikasi password dengan password yang ada di database
-    if (password_verify($pass, $user['password'])) {
-        // Jika password cocok, login sukses
-        session_start();
-        $_SESSION['userid'] = $user['iduser']; // Menyimpan ID user di session
-        $_SESSION['uname'] = $user['name'];    // Menyimpan nama user di session
-        $_SESSION['email'] = $user['email'];  // Menyimpan email user di session
-        $_SESSION['role'] = $user['role'];    // Menyimpan role user di session
+    // Check if the user was found
+    if ($user = $result->fetch_assoc()) {
+        // Verify the password with the hashed password in the database
+        if (password_verify($pass, $user['password'])) {
+            // If the password matches, login is successful
+            $_SESSION['userid'] = $user['iduser']; // Store user ID in session
+            $_SESSION['uname'] = $user['name'];    // Store user name in session
+            $_SESSION['email'] = $user['email'];   // Store user email in session
+            $_SESSION['role'] = $user['role'];     // Store user role in session
 
-        // Redirect ke halaman sesuai dengan role
-        if ($user['role'] == 'admin') {
-            header('Location: Panel_admin.php');
-        } elseif ($user['role'] == 'user') {
-            header('Location: user.php');
-        } elseif ($user['role'] == 'cleaner') {
-            header('Location: cleaner.php');
+            // Redirect based on the user's role
+            if ($user['role'] == 'admin') {
+                header('Location: dashboard_admin.php');
+                exit();
+            } elseif ($user['role'] == 'user') {
+                header('Location: user.php');
+                exit();
+            } elseif ($user['role'] == 'cleaner') {
+                header('Location: cleaner.php');
+                exit();
+            } else {
+                // If the role is not recognized
+                echo "Role tidak valid!";
+            }
         } else {
-            // Jika role tidak dikenali
-            echo "Role tidak valid!";
+            // If the password does not match
+            echo "Password salah!";
         }
     } else {
-        // Jika password tidak cocok
-        echo "Password salah!";
+        // If the email was not found
+        echo "Email tidak terdaftar!";
     }
+
+    // Close statement and connection
+    $stmt->close();
+    $conn->close();
 } else {
-    // Jika email tidak ditemukan
-    echo "Email tidak terdaftar!";
+    echo "Silakan masukkan email dan password!";
 }
 ?>

@@ -138,32 +138,6 @@
     </script>
     <!-- Header End -->
 
-    <div class="container my-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-5">
-                <div class="form-container bg-white p-4 shadow">
-                    <div class="logo-container">
-                        <img src="Img/Logo1.png" class="logo-small">
-                    </div>
-                    <?php
-                
-                    if (isset($_SESSION['error'])) {
-                        echo "<div class='alert alert-danger'>" . $_SESSION['error'] . "</div>";
-                        unset($_SESSION['error']);
-                    }
-                    ?>
-
-                    <form id="login-form" class="form" action="login_process.php" method="post">
-                        <h2 class="text-center">Login</h2>
-                        <input type="email" class="form-control mb-3" placeholder="Email" name="email" required>
-                        <input type="password" class="form-control mb-3" placeholder="Password" name="password" required>
-                        <input type="submit" class="btn btn-primary btn-block" value="Login">
-                        <p class="text-center mt-3">Don't have an account? <a href="regis.php">Register</a></p>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
    <!-- Footer Start -->
    <div class="container-fluid bg-dark text-white mt-5 py-5 px-sm-3 px-md-5">
         <div class="row pt-5">

@@ -76,15 +76,8 @@ $conn->close(); // Menutup koneksi setelah mengambil data
     <link href="css/setyle.css" rel="stylesheet">
     <link rel="icon" href="Img/Logo.png" type="image/png">
     <style>
-        .profile-image .image {
-            width: 50px;
-            height: 50px;
-            margin: 0 30px 0 0;
-            border-radius: 50%;
-        }
 
         .submit-btn {
-            width: 100%;
             padding: 7px 15px;
             background-color: #ffc600;
             color: #fff;
@@ -92,32 +85,73 @@ $conn->close(); // Menutup koneksi setelah mengambil data
             border-radius: 4px;
             font-size: 18px;
             cursor: pointer;
-            margin-top: 10px;
         }
 
-        .profile-image .image-list {
+        .profile-image .image {
+    width: 50px;
+    height: 50px;
+    margin: 0 30px 0 0;
+    border-radius: 50%;
+    object-fit: cover; /* Menjaga gambar tidak gepeng */
+}
+
+.profile-image .image-list {
+    position: absolute;
+    max-height: 0;
+    right: 30px;
+    top: 100%;
+    width: 100px;
+    text-align: center;
+    visibility: hidden;
+    padding: 0;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    z-index: 10;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.4s ease;
+}
+
+.profile-image:hover .image-list {
+    max-height: 100%;
+    visibility: visible;
+    opacity: 1;
+}
+
+
+        .table-container {
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .top-right-btn {
             position: absolute;
-            max-height: 0;
-            right: 30px;
-            top: 100%;
-            width: 100px;
-            text-align: center;
-            visibility: hidden;
-            padding: 0;
-            background: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 4px;
-            z-index: 10;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: all 0.4s ease;
+            top: 0;
+            right: 0;
         }
 
-        .profile-image:hover .image-list {
-            max-height: 100%;
-            visibility: visible;
-            opacity: 1;
+        .top-right-btn .submit-btn {
+            padding: 7px 15px;
+            background-color: #ffc600;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .header-tbl{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .caption{
+            margin: 0;
         }
     </style>
 
@@ -184,7 +218,7 @@ $conn->close(); // Menutup koneksi setelah mengambil data
                                 <a href="edit_profil.php">Edit Profil</a>
                             </li>
                             <li class="list-item">
-                                <a href="index.php">Log Out</a>
+                                <a href="Logout.php">Log Out</a>
                     </div>
                 </nav>
             </div>
@@ -193,49 +227,57 @@ $conn->close(); // Menutup koneksi setelah mengambil data
     <!-- Header End -->
 
 
-    <body>
-        <!-- Riwayat Pesanan Start -->
-        <div class="container mt-5" style="margin-bottom: 10rem;">
-            <h2>Riwayat Pesanan Anda</h2>
+    <!-- Order History Section -->
+    <div class="container mt-5">
+        <div class="header-tbl">
+            <h2 class="caption">Riwayat Pesanan Anda</h2>
+            <a href="Keranjang.php"><button type="submit" class="submit-btn">Tambah Pesanan</button></a>
+        </div>
+
+        <!-- Button to add a new order in the top-right corner of the table -->
+
+
+     <!-- Order History Table -->
             <table class="table table-bordered">
                 <thead class="thead-dark">
                     <tr>
                         <th>No. Pesanan</th>
                         <th>Jenis Layanan</th>
-                        <th>Tanggal Pembersihan</th> <!-- Updated to match the field -->
+                        <th>Tanggal Pembersihan</th>
                         <th>Status</th>
                         <th>Total Harga</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    // Display data if query results exist
-                    if ($result_booking->num_rows > 0) {
-                        while ($row = $result_booking->fetch_assoc()) {
-                            echo "<tr>";
-                            echo "<td># " . $row['id_booking'] . "</td>";
-                            echo "<td>" . $row['jenis_layanan'] . "</td>";
-                            echo "<td>" . $row['tanggal_pembersihan'] . "</td>";
-                            echo "<td><span class='badge badge-" . strtolower($row['status']) . "'>" . $row['status'] . "</span></td>";
-                            echo "<td>Rp " . number_format($row['harga'], 0, ',', '.') . "</td>";
-                            echo "<td>
-                <form action='process_booking.php' method='post'>
-                    <input type='hidden' name='id_booking' value='" . $row['id_booking'] . "'>
-                    <button type='submit' class='submit-btn'>Bayar</button>
-                </form>
-              </td>";
-                            echo "</tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='6'>Tidak ada riwayat pesanan.</td></tr>";
-                    }
-
-                    ?>
-                </tbody>
+            <?php
+            // Display data if query results exist
+            if ($result_booking->num_rows > 0) {
+                while ($row = $result_booking->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td># " . $row['id_booking'] . "</td>";
+                    echo "<td>" . $row['jenis_layanan'] . "</td>";
+                    echo "<td>" . $row['tanggal_pembersihan'] . "</td>";
+                    echo "<td><span class='badge badge-" . strtolower($row['status']) . "'>" . $row['status'] . "</span></td>";
+                    echo "<td>Rp " . number_format($row['harga'], 0, ',', '.') . "</td>";
+                    echo "<td>
+                        <form action='process_booking.php' method='post'>
+                            <input type='hidden' name='id_booking' value='" . $row['id_booking'] . "'>
+                            <button type='submit' class='submit-btn'>Bayar</button>
+                        </form>
+                    </td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='6'>Tidak ada riwayat pesanan.</td></tr>";
+            }
+            ?>
+         </tbody>
             </table>
         </div>
-        <!-- Riwayat Pesanan End -->
+    </div>
+<!-- Riwayat Pesanan End -->
+
 
         <!-- Footer Start -->
         <footer>

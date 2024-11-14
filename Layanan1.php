@@ -59,97 +59,39 @@ $conn->close(); // Menutup koneksi setelah mengambil data
     <link href="css/setyle.css" rel="stylesheet">
     <link rel="icon" href="Img/Logo.png" type="image/png">
     <style>
-        .booking-container {
-            width: 90%;
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+.profile-image .image {
+    width: 50px;
+    height: 50px;
+    margin: 0 30px 0 0;
+    border-radius: 50%;
+    object-fit: cover; /* Menjaga gambar tidak gepeng */
+}
 
-        h2 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+.profile-image .image-list {
+    position: absolute;
+    max-height: 0;
+    right: 30px;
+    top: 100%;
+    width: 100px;
+    text-align: center;
+    visibility: hidden;
+    padding: 0;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    z-index: 10;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.4s ease;
+}
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+.profile-image:hover .image-list {
+    max-height: 100%;
+    visibility: visible;
+    opacity: 1;
+}
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: #b38b00;
-            outline: none;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 15px;
-            background-color: #ffc600;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            font-size: 18px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .submit-btn:hover {
-            background-color: #b38b00;
-        }
-
-        .profile-image .image {
-            width: 50px;
-            height: 50px;
-            margin: 0 30px 0 0;
-            border-radius: 50%;
-        }
-
-        .profile-image .image-list {
-            position: absolute;
-            max-height: 0;
-            right: 30px;
-            top: 100%;
-            width: 100px;
-            text-align: center;
-            visibility: hidden;
-            padding: 0;
-            background: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 4px;
-            z-index: 10;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: all 0.4s ease;
-        }
-
-        .profile-image:hover .image-list {
-            max-height: 100%;
-            visibility: visible;
-            opacity: 1;
-        }
     </style>
 </head>
 
@@ -203,7 +145,7 @@ $conn->close(); // Menutup koneksi setelah mengambil data
                             <a href="user.php" class="nav-item nav-link">Beranda</a>
                             <a href="Tentang1.php" class="nav-item nav-link">Tentang</a>
                             <a href="Layanan1.php" class="nav-item nav-link active">Layanan</a>
-                            <a href="Keranjang.php" class="nav-item nav-link">Pemesanan</a>
+                            <a href="pesan.php" class="nav-item nav-link">Pemesanan</a>
                             <a href="history.php" class="nav-item nav-link">Riwayat</a>
                         </div>
                     </div>
