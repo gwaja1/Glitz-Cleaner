@@ -155,7 +155,7 @@ $conn->close();
                             <a href="user.php" class="nav-item nav-link active">Beranda</a>
                             <a href="Tentang1.php" class="nav-item nav-link">Tentang</a>
                             <a href="Layanan1.php" class="nav-item nav-link">Layanan</a>
-                            <a href="Keranjang.php" class="nav-item nav-link">Pemesanan</a>
+                            <a href="pesan.php" class="nav-item nav-link">Pemesanan</a>
                             <a href="history.php" class="nav-item nav-link">Riwayat</a>
                         </div>
                     </div>
@@ -649,11 +649,11 @@ $conn->close();
             <div class="col-lg-3 col-md-6 mb-5">
                 <h4 class="font-weight-semi-bold text-primary mb-4">Quick Links</h4>
                 <div class="d-flex flex-column justify-content-start">
-                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>About Us</a>
-                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our Services</a>
-                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our Projects</a>
-                    <a class="text-white" href="#"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                    <a class="text-white mb-2" href="user.php"><i class="fa fa-angle-right mr-2"></i>Beranda</a>
+                    <a class="text-white mb-2" href="tentang1.php"><i class="fa fa-angle-right mr-2"></i>Tentang</a>
+                    <a class="text-white mb-2" href="Layanan1.php"><i class="fa fa-angle-right mr-2"></i>Layanan</a>
+                    <a class="text-white mb-2" href="Keranjang.php"><i class="fa fa-angle-right mr-2"></i>Pesan</a>
+                    <a class="text-white" href="history.php"><i class="fa fa-angle-right mr-2"></i>Riwayat</a>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">

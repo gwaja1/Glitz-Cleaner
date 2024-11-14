@@ -154,14 +154,14 @@ $conn->close();
                         <div class="navbar-nav mr-auto py-0">
                             <a href="Cleaner.php" class="nav-item nav-link active">Beranda</a>
                             <a href="Pesanan.php" class="nav-item nav-link">Pesanan</a>
-                            <a href="history.html" class="nav-item nav-link">Riwayat</a>
+                            <a href="riwayat.php" class="nav-item nav-link">Riwayat</a>
                         </div>
                     </div>
                     <div class="profile-image">
                         <img src="<?php echo htmlspecialchars($user_data['foto_profile']); ?>" alt="" class="image">
                         <ul class="image-list">
                             <li class="list-item">
-                                <a href="edit_profil.php">Edit Profil</a>
+                                <a href="edit.propil.php">Edit Profil</a>
                             </li>
                             <li class="list-item">
                                 <a href="Logout.php">Log Out</a>

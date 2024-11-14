@@ -61,6 +61,7 @@ $conn->close();
 
     <!-- SweetAlert CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.css">
+    <link rel="icon" href="Img/Logo.png" type="image/png">
 
     <!-- Custom CSS -->
     <style>

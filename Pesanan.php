@@ -3,18 +3,18 @@ session_start(); // Start session
 
 include "koneksi.php"; // Database connection
 
-// Retrieve `id_user` from session
-$id_user = $_SESSION['id_user'];
-
-// Ensure `id_user` is present in session
-if (!$id_user) {
+// Ensure `userid` is present in session
+if (!isset($_SESSION['userid'])) {
     die("User belum login atau session tidak valid.");
 }
+
+// Retrieve `userid` from session
+$userid = $_SESSION['userid'];
 
 // 1. Query untuk mengambil data pengguna
 $query = "SELECT name, email, foto_profile FROM user WHERE iduser = ?";
 $stmt = $conn->prepare($query);
-$stmt->bind_param("i", $id_user); // Ubah ini ke $id_user
+$stmt->bind_param("i", $userid);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -31,31 +31,24 @@ $query_orders = "SELECT id_booking, nama, jenis_layanan, tanggal_pembersihan
                  FROM booking 
                  WHERE id_user = ?";
 $stmt_orders = $conn->prepare($query_orders);
-$stmt_orders->bind_param("i", $id_user);
+$stmt_orders->bind_param("i", $userid);
 $stmt_orders->execute();
 $booking_data = $stmt_orders->get_result();
 
-// Check if the `$booking_data` query succeeded
-if (!$booking_data) {
-    die("Error fetching bookings: " . mysqli_error($conn));
-}
-
 // Fetch all results into an array
-$booking_results = mysqli_fetch_all($booking_data, MYSQLI_ASSOC);
+$booking_results = $booking_data->fetch_all(MYSQLI_ASSOC);
 
-// Close the statement and connection
+// Close the statements
 $stmt->close();
 $stmt_orders->close();
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Glitz Cleaner Cleaning Services </title>
+    <title>Glitz Cleaner Cleaning Services</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
@@ -143,108 +136,105 @@ $stmt_orders->close();
 </head>
 
 <body>
-
-    <body>
-        <!-- Header Start -->
-        <div class="container-fluid">
-            <div class="row">
-                <div class=" bg-dark d-none d-lg-flex w-100 pr-5">
-                    <div class="col-lg-7 text-left text-white">
-                        <div class="h-100 d-inline-flex align-items-center border-right border-primary py-2 px-3">
-                            <i class="fa fa-envelope text-primary mr-2"></i>
-                            <small>GlitzCleaner@gmail.com</small>
-                        </div>
-                        <div class="h-100 d-inline-flex align-items-center py-2 px-2">
-                            <i class="fa fa-phone-alt text-primary mr-2"></i>
-                            <small>+0895422855755</small>
-                        </div>
+    <!-- Header Start -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class=" bg-dark d-none d-lg-flex w-100 pr-5">
+                <div class="col-lg-7 text-left text-white">
+                    <div class="h-100 d-inline-flex align-items-center border-right border-primary py-2 px-3">
+                        <i class="fa fa-envelope text-primary mr-2"></i>
+                        <small>GlitzCleaner@gmail.com</small>
                     </div>
-                    <div class="col-lg-5 text-right">
-                        <div class="d-inline-flex align-items-center pr-2">
-                            <a class="text-primary p-2" href="">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                            <a class="text-primary p-2" href="">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                            <a class="text-primary p-2" href="">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                            <a class="text-primary p-2" href="">
-                                <i class="fab fa-youtube"></i>
-                            </a>
-                        </div>
+                    <div class="h-100 d-inline-flex align-items-center py-2 px-2">
+                        <i class="fa fa-phone-alt text-primary mr-2"></i>
+                        <small>+0895422855755</small>
                     </div>
                 </div>
-                <div class="col-lg-3 d-none d-lg-block">
-                    <a href=""
-                        class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
-                        <h1 class="m-0 display-5 text-primary">Glitz Cleaner</h1>
-                    </a>
-                </div>
-                <div class="col-lg-9">
-                    <nav class="row navbar navbar-expand-lg bg-white navbar-light p-0">
-                        <a href="" class="navbar-brand d-block d-lg-none">
-                            <h1 class="m-0 display-4 text-primary">Glitz Cleaner</h1>
+                <div class="col-lg-5 text-right">
+                    <div class="d-inline-flex align-items-center pr-2">
+                        <a class="text-primary p-2" href="">
+                            <i class="fab fa-facebook-f"></i>
                         </a>
-                        <button type="button" class="navbar-toggler" data-toggle="collapse"
-                            data-target="#navbarCollapse">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                            <div class="navbar-nav mr-auto py-0">
-                                <a href="Cleaner.php" class="nav-item nav-link">Beranda</a>
-                                <a href="Pesanan.php" class="nav-item nav-link active">Pesanan</a>
-                                <a href="history.html" class="nav-item nav-link">Riwayat</a>
-                            </div>
+                        <a class="text-primary p-2" href="">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a class="text-primary p-2" href="">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a class="text-primary p-2" href="">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 d-none d-lg-block">
+                <a href="" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
+                    <h1 class="m-0 display-5 text-primary">Glitz Cleaner</h1>
+                </a>
+            </div>
+            <div class="col-lg-9">
+                <nav class="row navbar navbar-expand-lg bg-white navbar-light p-0">
+                    <a href="" class="navbar-brand d-block d-lg-none">
+                        <h1 class="m-0 display-4 text-primary">Glitz Cleaner</h1>
+                    </a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse"
+                        data-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                        <div class="navbar-nav mr-auto py-0">
+                            <a href="Cleaner.php" class="nav-item nav-link">Beranda</a>
+                            <a href="Pesanan.php" class="nav-item nav-link active">Pesanan</a>
+                            <a href="riwayat.php" class="nav-item nav-link">Riwayat</a>
                         </div>
-                        <div class="profile-image">
-                            <img src="<?php echo htmlspecialchars($user_data['foto_profile']); ?>" alt="" class="image">
-                            <ul class="image-list">
-                                <li class="list-item">
-                                    <a href="edit_profil.php">Edit Profil</a>
-                                </li>
-                                <li class="list-item">
-                                    <a href="index.php">Log Out</a>
+                    </div>
+                    <div class="profile-image">
+                        <img src="<?php echo htmlspecialchars($user_data['foto_profile']); ?>" alt="" class="image">
+                        <ul class="image-list">
+                            <li class="list-item">
+                                <a href="edit_profil.php">Edit Profil</a>
+                            </li>
+                            <li class="list-item">
+                                <a href="index.php">Log Out</a>
                         </div>
                     </nav>
                 </div>
             </div>
         </div>
-        <!-- Header End -->
+    </div>
+    <!-- Header End -->
 
-        <h2 style="margin-top: 70px;">Daftar Pesanan untuk Diterima</h2>
+    <h2 style="margin-top: 70px;">Daftar Pesanan untuk Diterima</h2>
 
-
-        <?php if (!empty($booking_results)): ?>
-            <table border="1">
+    <?php if (!empty($booking_results)): ?>
+        <table border="1">
+            <tr>
+                <th>Booking ID</th>
+                <th>Customer Name</th>
+                <th>Service Type</th>
+                <th>Cleaning Date</th>
+                <th>Actions</th>
+            </tr>
+            <?php foreach ($booking_results as $booking): ?>
                 <tr>
-                    <th>Booking ID</th>
-                    <th>Customer Name</th>
-                    <th>Service Type</th>
-                    <th>Cleaning Date</th>
-                    <th>Actions</th>
+                    <td><?= htmlspecialchars($booking['id_booking']) ?></td>
+                    <td><?= htmlspecialchars($booking['nama']) ?></td>
+                    <td><?= htmlspecialchars($booking['jenis_layanan']) ?></td>
+                    <td><?= htmlspecialchars($booking['tanggal_pembersihan']) ?></td>
+                    <td>
+                        <form action="accept_booking.php" method="POST">
+                            <input type="hidden" name="booking_id" value="<?= $booking['id_booking'] ?>">
+                            <button type="submit">Terima</button>
+                        </form>
+                    </td>
                 </tr>
-                <?php foreach ($booking_results as $booking): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($booking['id_booking']) ?></td>
-                        <td><?= htmlspecialchars($booking['nama']) ?></td>
-                        <td><?= htmlspecialchars($booking['jenis_layanan']) ?></td>
-                        <td><?= htmlspecialchars($booking['tanggal_pembersihan']) ?></td>
-                        <td>
-                            <form action="accept_booking.php" method="POST">
-                                <input type="hidden" name="booking_id" value="<?= $booking['id_booking'] ?>">
-                                <button type="submit">Terima</button>
-                            </form>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </table>
-        <?php else: ?>
-            <p>No pending bookings available for acceptance.</p>
-        <?php endif; ?>
+            <?php endforeach; ?>
+        </table>
+    <?php else: ?>
+        <p>No pending bookings available for acceptance.</p>
+    <?php endif; ?>
 
-        <?php $conn->close(); ?>
-    </body>
+    <?php $conn->close(); ?>
+</body>
 
 </html>
