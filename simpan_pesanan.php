@@ -2,12 +2,12 @@
 session_start(); // Memulai session
 include "koneksi.php"; // Koneksi ke database
 
-// Cek apakah user sudah login dan memiliki `id_user`
+// Cek apakah user sudah login dan memiliki `userid`
 if (isset($_SESSION['userid'])) {
-    $id_user = $_SESSION['userid']; // Pastikan Anda menyimpan id_user di session
+    $id_user = $_SESSION['userid']; // Mengambil userid dari session
 
-    // Pastikan id_user yang tersimpan dalam session valid dengan memeriksa database
-    $stmt = $conn->prepare("SELECT iduser FROM user WHERE iduser = ?");
+    // Memastikan userid dalam session valid dengan memeriksa database
+    $stmt = $conn->prepare("SELECT id_user FROM user WHERE id_user = ?");
     $stmt->bind_param("i", $id_user);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -19,28 +19,37 @@ if (isset($_SESSION['userid'])) {
     die("User belum login.");
 }
 
+// Mengambil nilai dari POST untuk id_booking dan status
 $id_booking = $_POST['id_booking'] ?? null;
-$status = $_POST['status'] ?? null;
+$status = $_POST['status'] ?? 'default_status'; // Set default value if not provided
 
-// Fetch `harga` based on `id_booking`
-if ($id_booking) {
-    $stmt = $conn->prepare("SELECT harga FROM booking WHERE id_booking = ?");
-    $stmt->bind_param("i", $id_booking);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $harga = $row['harga']; // Assign the retrieved harga
-    } else {
-        die("Data booking tidak ditemukan.");
-    }
-} else {
-    die("ID booking tidak diset.");
+// Pastikan id_booking telah ditentukan dan valid
+if (!$id_booking || !is_numeric($id_booking)) {
+    die("ID booking tidak valid.");
 }
 
-// Cek apakah data sudah ada di tabel history_order
-$stmt = $conn->prepare("SELECT * FROM history_order WHERE iduser = ? AND id_booking = ?");
+// Mengambil data dari tabel `booking` berdasarkan id_booking
+$stmt = $conn->prepare("SELECT jenis_ruangan, ukuran_ruangan, jenis_layanan, tanggal_pembersihan, waktu_pembersihan FROM booking WHERE id_booking = ?");
+$stmt->bind_param("i", $id_booking);
+$stmt->execute();
+$booking_result = $stmt->get_result();
+
+if ($booking_result->num_rows > 0) {
+    $booking_data = $booking_result->fetch_assoc();
+    $jenis_ruangan = $booking_data['jenis_ruangan'];
+    $ukuran_ruangan = $booking_data['ukuran_ruangan'];
+    $jenis_layanan = $booking_data['jenis_layanan'];
+    $tanggal_pembersihan = $booking_data['tanggal_pembersihan'];
+    $waktu_pembersihan = $booking_data['waktu_pembersihan'];
+} else {
+    die("Booking tidak ditemukan.");
+}
+
+// Tentukan harga secara langsung jika tidak diambil dari `booking`
+$harga = 1000000; // Contoh: harga tetap
+
+// Cek apakah data sudah ada di tabel history_order untuk id_user dan id_booking ini
+$stmt = $conn->prepare("SELECT * FROM history_order WHERE id_user = ? AND id_booking = ?");
 $stmt->bind_param("ii", $id_user, $id_booking);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -49,9 +58,9 @@ if ($result->num_rows > 0) {
     exit();
 }
 
-// Query untuk menyimpan data ke tabel history_order menggunakan prepared statement
-$stmt = $conn->prepare("INSERT INTO history_order (iduser, id_booking, status, harga) VALUES (?, ?, ?, ?)");
-$stmt->bind_param("iisi", $id_user, $id_booking, $status, $harga);
+// Query untuk menyimpan data ke tabel history_order
+$stmt = $conn->prepare("INSERT INTO history_order (id_user, id_booking, id_ruangan, status, harga) VALUES (?, ?, ?, ?, ?)");
+$stmt->bind_param("iiisi", $id_user, $id_booking, $jenis_ruangan, $status, $harga);
 
 if ($stmt->execute()) {
     header("Location: history.php"); // Redirect ke halaman history setelah sukses

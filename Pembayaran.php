@@ -193,8 +193,9 @@ if (isset($_GET['id_booking'])) {
                                 <div class="col-md-6 form-group">
                                     <label>Waktu Pembersihan</label>
                                     <input class="form-control" type="text"
-                                        value="<?php echo $booking['waktu_pembersihan'] ?? ''; ?>" readonly>
+                                        value="<?php echo isset($booking['waktu_pembersihan']) ? date('H:i', strtotime($booking['waktu_pembersihan'])) : ''; ?>" readonly>
                                 </div>
+
                                 <div class="col-md-6 form-group">
                                     <label>Catatan</label>
                                     <input class="form-control" type="text"

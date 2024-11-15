@@ -32,16 +32,20 @@ if ($result->num_rows > 0) {
     exit();
 }
 
-// Query untuk menghitung jumlah user dan cleaner
+// Query untuk menghitung jumlah total pengguna, user, dan cleaner
 $query_count = "SELECT 
+                    COUNT(*) AS total_users,
                     (SELECT COUNT(*) FROM user WHERE role = 'user') AS user_count,
-                    (SELECT COUNT(*) FROM user WHERE role = 'cleaner') AS cleaner_count";
+                    (SELECT COUNT(*) FROM user WHERE role = 'cleaner') AS cleaner_count
+                FROM user";
 $count_result = $conn->query($query_count);
 
 if ($count_result && $count_row = $count_result->fetch_assoc()) {
+    $total_users = $count_row['total_users'];
     $user_count = $count_row['user_count'];
     $cleaner_count = $count_row['cleaner_count'];
 } else {
+    $total_users = 0;
     $user_count = 0;
     $cleaner_count = 0;
 }
@@ -141,10 +145,8 @@ $conn->close();
     <!-- Sidebar -->
     <div class="sidebar">
         <a href="dashboard_admin.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-        <a href="#orders"><i class="fas fa-box"></i> Manajemen Pesanan</a>
+        <a href="manage_admin.php"><i class="fas fa-box"></i> Manajemen Pesanan</a>
         <a href="#services"><i class="fas fa-concierge-bell"></i> Manajemen Layanan</a>
-        <a href="#customers"><i class="fas fa-users"></i> Manajemen Pelanggan</a>
-        <a href="#reports"><i class="fas fa-chart-line"></i> Laporan</a>
         <a href="Panel_admin.php"><i class="fas fa-user"></i> Manajemen Pengguna</a>
         <a href="index.php" class="btn btn-primary mt-3 mx-3 d-block">Logout</a>
     </div>
@@ -161,6 +163,12 @@ $conn->close();
             <div class="col-md-4">
                 <div class="card">
                     <h5>Total Pengguna</h5>
+                    <p class="count-number"><?php echo $total_users; ?></p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <h5>Total User</h5>
                     <p class="count-number"><?php echo $user_count; ?></p>
                 </div>
             </div>

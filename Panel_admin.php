@@ -17,20 +17,21 @@ $stmt = $conn->prepare($query);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Ambil data pengguna
-if ($result->num_rows > 0) {
-    $user_data = $result->fetch_assoc();
+// Pagination settings
+$limit = 10; // Maximum number of rows per page
+$totalRowsQuery = "SELECT COUNT(*) FROM user"; // Count total rows in user table
+$totalRowsResult = $conn->query($totalRowsQuery);
+$totalRows = $totalRowsResult->fetch_row()[0]; // Get total row count
+$totalPages = ceil($totalRows / $limit); // Calculate total pages
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Current page number (default is 1)
+$offset = ($page - 1) * $limit; // Calculate the offset
 
-    // Cek jika role pengguna adalah admin
-    if ($user_data['role'] != 'admin') {
-        // Jika bukan admin, tampilkan halaman error (abort)
-        include 'abort_page.php';
-        exit();
-    }
-} else {
-    echo "Data pengguna tidak ditemukan.";
-    exit();
-}
+// Query untuk mengambil data pengguna dengan limit dan offset
+$query = "SELECT iduser, name, email, role FROM user ORDER BY iduser DESC LIMIT ?, ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("ii", $offset, $limit); // Bind offset and limit to the query
+$stmt->execute();
+$result = $stmt->get_result();
 
 // Tutup koneksi
 $stmt->close();
@@ -131,6 +132,31 @@ $conn->close();
         .btn-danger {
             color: #fff;
         }
+
+        .pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    padding: 8px 16px;
+    margin: 0 5px;
+    text-decoration: none;
+    color: #007bff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.pagination a:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination a.active {
+    background-color: #007bff;
+    color: white;
+}
+
     </style>
 </head>
 
@@ -139,12 +165,9 @@ $conn->close();
     <!-- Sidebar -->
     <div class="sidebar">
         <a href="dashboard_admin.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-        <a href="#orders"><i class="fas fa-box"></i> Manajemen Pesanan</a>
+        <a href="manage_admin.php"><i class="fas fa-box"></i> Manajemen Pesanan</a>
         <a href="#services"><i class="fas fa-concierge-bell"></i> Manajemen Layanan</a>
         <a href="#customers"><i class="fas fa-users"></i> Manajemen Pelanggan</a>
-        <a href="#reports"><i class="fas fa-chart-line"></i> Laporan</a>
-        <a href="Panel_admin.php"><i class="fas fa-user"></i> Manajemen Pengguna</a>
-        <a href="#settings"><i class="fas fa-cogs"></i> Pengaturan</a>
         <a href="index.php" class="btn btn-primary mt-3 mx-3 d-block">Logout</a>
     </div>
 
@@ -169,13 +192,13 @@ $conn->close();
 
             if ($result->num_rows > 0) {
                 echo "<table>
-                <tr>
-                    <th>ID</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Aksi</th>
-                </tr>";
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Aksi</th>
+                    </tr>";
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr>
                         <td>" . $row["iduser"] . "</td>
@@ -188,11 +211,26 @@ $conn->close();
                         </td>
                       </tr>";
                 }
+                echo "</table>";
             } else {
                 echo "<p>Tidak ada pengguna ditemukan.</p>";
             }
-
+            
+            // Pagination links
+            echo "<div class='pagination'>";
+            if ($page > 1) {
+                echo "<a href='Panel_admin.php?page=" . ($page - 1) . "'>Prev</a>";
+            }
+            for ($i = 1; $i <= $totalPages; $i++) {
+                echo "<a href='Panel_admin.php?page=$i'>$i</a>";
+            }
+            if ($page < $totalPages) {
+                echo "<a href='Panel_admin.php?page=" . ($page + 1) . "'>Next</a>";
+            }
+            echo "</div>";
+            
             $conn->close();
+            ?>
             ?>
         </div>
     </div>

@@ -11,11 +11,10 @@ if (!isset($_SESSION['userid'])) {
 $userid = $_SESSION['userid']; // Menggunakan userid, bukan id_user
 
 // Menggunakan prepared statement untuk menghindari SQL Injection
-$query_booking = $conn->prepare("SELECT h.*, b.jenis_layanan, b.tanggal_pembersihan 
-                                FROM history_order h
-                                JOIN booking b ON h.id_booking = b.id_booking 
-                                WHERE h.iduser = ? 
-                                ORDER BY b.tanggal_pembersihan DESC");
+$query = "SELECT h.*, b.jenis_layanan, b.tanggal_pembersihan FROM history_order h 
+          INNER JOIN booking b ON h.id_booking = b.id_booking 
+          WHERE h.userid = ? ORDER BY h.id_order DESC";
+
 $query_booking->bind_param("i", $userid); // Mengikat parameter userid sebagai integer
 $query_booking->execute();
 $result_booking = $query_booking->get_result();
