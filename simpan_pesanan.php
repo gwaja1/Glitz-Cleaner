@@ -4,11 +4,11 @@ include "koneksi.php"; // Koneksi ke database
 
 // Cek apakah user sudah login dan memiliki `userid`
 if (isset($_SESSION['userid'])) {
-    $id_user = $_SESSION['userid']; // Mengambil userid dari session
+    $userid = $_SESSION['userid']; // Mengambil userid dari session
 
     // Memastikan userid dalam session valid dengan memeriksa database
-    $stmt = $conn->prepare("SELECT id_user FROM user WHERE id_user = ?");
-    $stmt->bind_param("i", $id_user);
+    $stmt = $conn->prepare("SELECT iduser FROM user WHERE iduser = ?");
+    $stmt->bind_param("i", $userid);
     $stmt->execute();
     $result = $stmt->get_result();
     
@@ -48,9 +48,9 @@ if ($booking_result->num_rows > 0) {
 // Tentukan harga secara langsung jika tidak diambil dari `booking`
 $harga = 1000000; // Contoh: harga tetap
 
-// Cek apakah data sudah ada di tabel history_order untuk id_user dan id_booking ini
-$stmt = $conn->prepare("SELECT * FROM history_order WHERE id_user = ? AND id_booking = ?");
-$stmt->bind_param("ii", $id_user, $id_booking);
+// Cek apakah data sudah ada di tabel history_order untuk userid dan id_booking ini
+$stmt = $conn->prepare("SELECT * FROM nama_ruangan WHERE id_user = ? AND id_booking = ?");
+$stmt->bind_param("ii", $userid, $id_booking);
 $stmt->execute();
 $result = $stmt->get_result();
 if ($result->num_rows > 0) {
@@ -60,7 +60,7 @@ if ($result->num_rows > 0) {
 
 // Query untuk menyimpan data ke tabel history_order
 $stmt = $conn->prepare("INSERT INTO history_order (id_user, id_booking, id_ruangan, status, harga) VALUES (?, ?, ?, ?, ?)");
-$stmt->bind_param("iiisi", $id_user, $id_booking, $jenis_ruangan, $status, $harga);
+$stmt->bind_param("iiisi", $userid, $id_booking, $jenis_ruangan, $status, $harga);
 
 if ($stmt->execute()) {
     header("Location: history.php"); // Redirect ke halaman history setelah sukses

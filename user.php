@@ -156,7 +156,6 @@ $conn->close();
                             <a href="Tentang1.php" class="nav-item nav-link">Tentang</a>
                             <a href="Layanan1.php" class="nav-item nav-link">Layanan</a>
                             <a href="pesan.php" class="nav-item nav-link">Pemesanan</a>
-                            <a href="history.php" class="nav-item nav-link">Riwayat</a>
                         </div>
                     </div>
                     <div class="profile-image">

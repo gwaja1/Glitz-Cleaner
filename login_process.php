@@ -11,7 +11,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     $email = $_POST["email"];
     $pass = $_POST["password"];
 
-    // Query to find the user by email using prepared statements
+    // Query to find the user by email using prepared statementsa
     $query = "SELECT * FROM user WHERE email = ? LIMIT 1";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $email); // 's' indicates the parameter is a string

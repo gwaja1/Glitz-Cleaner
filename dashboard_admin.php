@@ -2,35 +2,31 @@
 session_start();
 include "koneksi.php"; // Koneksi ke database
 
-// Pastikan pengguna sudah login
-if (!isset($_SESSION['userid'])) {
-    header("Location: login.php");
+// Pastikan pengguna sudah login dan memiliki role admin
+if (!isset($_SESSION['userid']) || $_SESSION['role'] != 'admin') {
+    header('Location: abort_page.php');
     exit();
 }
 
 // Ambil ID pengguna dari sesi
 $user_id = $_SESSION['userid'];
 
-// Query untuk mengambil data pengguna terbaru berdasarkan ID terbesar
-$query = "SELECT name, email, foto_profile, role FROM user ORDER BY iduser DESC";
+// Pagination settings
+$limit = 8; // Maksimal 8 data per halaman
+$totalRowsQuery = "SELECT COUNT(*) AS total FROM user"; // Total jumlah data di tabel user
+$totalRowsResult = $conn->query($totalRowsQuery);
+$totalRows = $totalRowsResult->fetch_assoc()['total']; // Jumlah total baris
+$totalPages = ceil($totalRows / $limit); // Total halaman
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Halaman saat ini
+$page = max($page, 1); // Pastikan halaman minimal 1
+$offset = ($page - 1) * $limit; // Hitung offset untuk query
+
+// Query dengan batasan halaman
+$query = "SELECT iduser, name, email, role FROM user ORDER BY iduser DESC LIMIT ?, ?";
 $stmt = $conn->prepare($query);
+$stmt->bind_param("ii", $offset, $limit);
 $stmt->execute();
 $result = $stmt->get_result();
-
-// Ambil data pengguna
-if ($result->num_rows > 0) {
-    $user_data = $result->fetch_assoc();
-
-    // Cek jika role pengguna adalah admin
-    if ($user_data['role'] !== 'admin') {
-        // Jika bukan admin, tampilkan halaman error (abort)
-        include 'abort_page.php';
-        exit();
-    }
-} else {
-    echo "Data pengguna tidak ditemukan.";
-    exit();
-}
 
 // Query untuk menghitung jumlah total pengguna, user, dan cleaner
 $query_count = "SELECT 
@@ -49,10 +45,6 @@ if ($count_result && $count_row = $count_result->fetch_assoc()) {
     $user_count = 0;
     $cleaner_count = 0;
 }
-
-// Tutup koneksi
-$stmt->close();
-$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -74,10 +66,6 @@ $conn->close();
 
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- SweetAlert CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.css">
-    <link rel="icon" href="Img/Logo.png" type="image/png">
 
     <!-- Custom CSS -->
     <style>
@@ -113,12 +101,6 @@ $conn->close();
             padding: 20px;
         }
 
-        .content .header {
-            padding: 20px;
-            background-color: #f8f9fa;
-            margin-bottom: 20px;
-        }
-
         .card {
             background-color: #ffffff;
             border-radius: 8px;
@@ -127,15 +109,32 @@ $conn->close();
             margin-bottom: 20px;
         }
 
-        .card h5 {
-            font-size: 20px;
-            color: #343a40;
+        .pagination {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
         }
 
-        .count-number {
-            font-size: 36px;
-            font-weight: bold;
+        .pagination li {
+            margin: 0 5px;
+        }
+
+        .pagination li a {
+            text-decoration: none;
             color: #007bff;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .pagination li a.active {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .pagination li a:hover {
+            background-color: #ddd;
         }
     </style>
 </head>
@@ -183,37 +182,39 @@ $conn->close();
         <!-- Manajemen Pengguna -->
         <div class="card mt-4" id="users">
             <h3>Dashboard Admin</h3>
-
-            <?php
-            // Koneksi ke database
-            include 'koneksi.php';
-
-            // Query untuk mengambil data pengguna dari tabel user
-            $sql = "SELECT iduser, name, email, role FROM user";
-            $result = $conn->query($sql);
-
-            if ($result->num_rows > 0) {
-                echo "<table class='table'>
+            <table class="table">
                 <tr>
                     <th>ID</th>
                     <th>Username</th>
                     <th>Email</th>
                     <th>Role</th>
-                </tr>";
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>
-                        <td>" . $row["iduser"] . "</td>
-                        <td>" . $row["name"] . "</td>
-                        <td>" . $row["email"] . "</td>
-                        <td>" . $row["role"] . "</td>
-                      </tr>";
+                </tr>
+                <?php
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>
+                            <td>" . $row["iduser"] . "</td>
+                            <td>" . $row["name"] . "</td>
+                            <td>" . $row["email"] . "</td>
+                            <td>" . $row["role"] . "</td>
+                          </tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='4'>Tidak ada data.</td></tr>";
                 }
-            } else {
-                echo "<p>Tidak ada pengguna ditemukan.</p>";
-            }
+                ?>
+            </table>
 
-            $conn->close();
-            ?>
+            <!-- Pagination -->
+            <ul class="pagination">
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                    <li>
+                        <a href="?page=<?php echo $i; ?>" class="<?php echo $i == $page ? 'active' : ''; ?>">
+                            <?php echo $i; ?>
+                        </a>
+                    </li>
+                <?php endfor; ?>
+            </ul>
         </div>
     </div>
 </body>

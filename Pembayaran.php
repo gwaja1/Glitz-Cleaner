@@ -1,23 +1,512 @@
 <?php
-include 'koneksi.php';
 
-// Cek apakah ada parameter id_booking di URL
-if (isset($_GET['id_booking'])) {
-    $id_booking = $_GET['id_booking'];
+namespace Midtrans;
 
-    // Query untuk mengambil data booking berdasarkan id_booking
-    $query = "SELECT * FROM booking WHERE id_booking = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $id_booking); // Bind id_booking sebagai integer
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $booking = $result->fetch_assoc();
-} else {
-    echo "ID Booking tidak ditemukan.";
-    exit();
+use Exception;
+
+/**
+ * Send request to Midtrans API
+ * Better don't use this class directly, please use CoreApi, Snap, and Transaction instead
+ */
+
+class ApiRequestor
+{
+
+    /**
+     * Send GET request
+     *
+     * @param string $url
+     * @param string $server_key
+     * @param mixed[] $data_hash
+     * @return mixed
+     * @throws Exception
+     */
+    public static function get($url, $server_key, $data_hash)
+    {
+        return self::remoteCall($url, $server_key, $data_hash, 'GET');
+    }
+
+    /**
+     * Send POST request
+     *
+     * @param string $url
+     * @param string $server_key
+     * @param mixed[] $data_hash
+     * @return mixed
+     * @throws Exception
+     */
+    public static function post($url, $server_key, $data_hash)
+    {
+        return self::remoteCall($url, $server_key, $data_hash, 'POST');
+    }
+
+    /**
+     * Send PATCH request
+     *
+     * @param string $url
+     * @param string $server_key
+     * @param mixed[] $data_hash
+     * @return mixed
+     * @throws Exception
+     */
+    public static function patch($url, $server_key, $data_hash)
+    {
+        return self::remoteCall($url, $server_key, $data_hash, 'PATCH');
+    }
+
+    /**
+     * Actually send request to API server
+     *
+     * @param string $url
+     * @param string $server_key
+     * @param mixed[] $data_hash
+     * @param bool $post
+     * @return mixed
+     * @throws Exception
+     */
+    public static function remoteCall($url, $server_key, $data_hash, $method)
+    {
+        $ch = curl_init();
+
+        if (!$server_key) {
+            throw new Exception(
+                'The ServerKey/ClientKey is null, You need to set the server-key from Config. Please double-check Config and ServerKey key. ' .
+                    'You can check from the Midtrans Dashboard. ' .
+                    'See https://docs.midtrans.com/en/midtrans-account/overview?id=retrieving-api-access-keys ' .
+                    'for the details or contact support at support@midtrans.com if you have any questions.'
+            );
+        } else {
+            if ($server_key == "") {
+                throw new Exception(
+                    'The ServerKey/ClientKey is invalid, as it is an empty string. Please double-check your ServerKey key. ' .
+                        'You can check from the Midtrans Dashboard. ' .
+                        'See https://docs.midtrans.com/en/midtrans-account/overview?id=retrieving-api-access-keys ' .
+                        'for the details or contact support at support@midtrans.com if you have any questions.'
+                );
+            } elseif (preg_match('/\s/', $server_key)) {
+                throw new Exception(
+                    'The ServerKey/ClientKey is contains white-space. Please double-check your API key. Please double-check your ServerKey key. ' .
+                        'You can check from the Midtrans Dashboard. ' .
+                        'See https://docs.midtrans.com/en/midtrans-account/overview?id=retrieving-api-access-keys ' .
+                        'for the details or contact support at support@midtrans.com if you have any questions.'
+                );
+            }
+        }
+
+
+        $curl_options = array(
+            CURLOPT_URL => $url,
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                'Accept: application/json',
+                'User-Agent: midtrans-php-v2.6.1',
+                'Authorization: Basic ' . base64_encode($server_key . ':')
+            ),
+            CURLOPT_RETURNTRANSFER => 1
+        );
+
+        // Set append notification to header
+        if (Config::$appendNotifUrl) Config::$curlOptions[CURLOPT_HTTPHEADER][] = 'X-Append-Notification: ' . Config::$appendNotifUrl;
+        // Set override notification to header
+        if (Config::$overrideNotifUrl) Config::$curlOptions[CURLOPT_HTTPHEADER][] = 'X-Override-Notification: ' . Config::$overrideNotifUrl;
+        // Set payment idempotency-key to header
+        if (Config::$paymentIdempotencyKey) Config::$curlOptions[CURLOPT_HTTPHEADER][] = 'Idempotency-Key: ' . Config::$paymentIdempotencyKey;
+
+        // merging with Config::$curlOptions
+        if (count(Config::$curlOptions)) {
+            // We need to combine headers manually, because it's array and it will no be merged
+            if (Config::$curlOptions[CURLOPT_HTTPHEADER]) {
+                $mergedHeaders = array_merge($curl_options[CURLOPT_HTTPHEADER], Config::$curlOptions[CURLOPT_HTTPHEADER]);
+                $headerOptions = array(CURLOPT_HTTPHEADER => $mergedHeaders);
+            } else {
+                $mergedHeaders = array();
+                $headerOptions = array(CURLOPT_HTTPHEADER => $mergedHeaders);
+            }
+
+            $curl_options = array_replace_recursive($curl_options, Config::$curlOptions, $headerOptions);
+        }
+
+        if ($method != 'GET') {
+
+            if ($data_hash) {
+                $body = json_encode($data_hash);
+                $curl_options[CURLOPT_POSTFIELDS] = $body;
+            } else {
+                $curl_options[CURLOPT_POSTFIELDS] = '';
+            }
+
+            if ($method == 'POST') {
+                $curl_options[CURLOPT_POST] = 1;
+            } elseif ($method == 'PATCH') {
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
+            }
+        }
+
+        curl_setopt_array($ch, $curl_options);
+
+        // For testing purpose
+        if (class_exists('\Midtrans\MT_Tests') && MT_Tests::$stubHttp) {
+            $result = self::processStubed($curl_options, $url, $server_key, $data_hash, $method);
+        } else {
+            $result = curl_exec($ch);
+            // curl_close($ch);
+        }
+
+
+        if ($result === false) {
+            throw new Exception('CURL Error: ' . curl_error($ch), curl_errno($ch));
+        } else {
+            try {
+                $result_array = json_decode($result);
+            } catch (Exception $e) {
+                throw new Exception("API Request Error unable to json_decode API response: " . $result . ' | Request url: ' . $url);
+            }
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if (isset($result_array->status_code) && $result_array->status_code >= 401 && $result_array->status_code != 407) {
+                throw new Exception('Midtrans API is returning API error. HTTP status code: ' . $result_array->status_code . ' API response: ' . $result, $result_array->status_code);
+            } elseif ($httpCode >= 400) {
+                throw new Exception('Midtrans API is returning API error. HTTP status code: ' . $httpCode . ' API response: ' . $result, $httpCode);
+            } else {
+                return $result_array;
+            }
+        }
+    }
+
+    private static function processStubed($curl, $url, $server_key, $data_hash, $method)
+    {
+        MT_Tests::$lastHttpRequest = array(
+            "url" => $url,
+            "server_key" => $server_key,
+            "data_hash" => $data_hash,
+            $method => $method,
+            "curl" => $curl
+        );
+
+        return MT_Tests::$stubHttpResponse;
+    }
 }
 ?>
 
+<?php
+
+namespace Midtrans;
+
+use Exception;
+
+/**
+ * Create Snap payment page and return snap token
+ */
+class Snap
+{
+    /**
+     * Create Snap payment page
+     *
+     * Example:
+     *
+     * ```php
+     *   
+     *   namespace Midtrans;
+     * 
+     *   $params = array(
+     *     'transaction_details' => array(
+     *       'order_id' => rand(),
+     *       'gross_amount' => 10000,
+     *     )
+     *   );
+     *   $paymentUrl = Snap::getSnapToken($params);
+     * ```
+     *
+     * @param  array $params Payment options
+     * @return string Snap token.
+     * @throws Exception curl error or midtrans error
+     */
+    public static function getSnapToken($params)
+    {
+        return (Snap::createTransaction($params)->token);
+    }
+
+    /**
+     * Create Snap URL payment
+     *
+     * Example:
+     *
+     * ```php
+     *
+     *   namespace Midtrans;
+     *
+     *   $params = array(
+     *     'transaction_details' => array(
+     *       'order_id' => rand(),
+     *       'gross_amount' => 10000,
+     *     )
+     *   );
+     *   $paymentUrl = Snap::getSnapUrl($params);
+     * ```
+     *
+     * @param  array $params Payment options
+     * @return string Snap redirect url.
+     * @throws Exception curl error or midtrans error
+     */
+    public static function getSnapUrl($params)
+    {
+        return (Snap::createTransaction($params)->redirect_url);
+    }
+
+    /**
+     * Create Snap payment page, with this version returning full API response
+     *
+     * Example:
+     *
+     * ```php
+     *   $params = array(
+     *     'transaction_details' => array(
+     *       'order_id' => rand(),
+     *       'gross_amount' => 10000,
+     *     )
+     *   );
+     *   $paymentUrl = Snap::getSnapToken($params);
+     * ```
+     *
+     * @param  array $params Payment options
+     * @return object Snap response (token and redirect_url).
+     * @throws Exception curl error or midtrans error
+     */
+    public static function createTransaction($params)
+    {
+        $payloads = array(
+            'credit_card' => array(
+                // 'enabled_payments' => array('credit_card'),
+                'secure' => Config::$is3ds
+            )
+        );
+
+        if (isset($params['item_details'])) {
+            $gross_amount = 0;
+            foreach ($params['item_details'] as $item) {
+                $gross_amount += $item['quantity'] * $item['price'];
+            }
+            $params['transaction_details']['gross_amount'] = $gross_amount;
+        }
+
+        $params = array_replace_recursive($payloads, $params);
+
+        return ApiRequestor::post(
+            Config::getSnapBaseUrl() . '/transactions',
+            Config::$serverKey,
+            $params
+        );
+    }
+}
+?>
+
+<?php
+
+// Namespace untuk konfigurasi Midtrans
+namespace Midtrans;
+
+/**
+ * Midtrans Configuration Class
+ * Handles the configuration settings for Midtrans integration.
+ */
+class Config
+{
+    /**
+     * Merchant's server key
+     * Used to authenticate API requests.
+     * @var string
+     */
+    public static $serverKey;
+
+    /**
+     * Merchant's client key
+     * Used for client-side interactions.
+     * @var string
+     */
+    public static $clientKey;
+
+    /**
+     * Determines the environment mode.
+     * Set to `true` for production and `false` for sandbox mode.
+     * @var bool
+     */
+    public static $isProduction = false;
+
+    /**
+     * Enable or disable 3D Secure.
+     * Set to `true` to enable by default.
+     * @var bool
+     */
+    public static $is3ds = false;
+
+    /**
+     * Append URL for notifications.
+     * Additional endpoint for transaction updates.
+     * @var string|null
+     */
+    public static $appendNotifUrl;
+
+    /**
+     * Override URL for notifications.
+     * Replaces default notification URL.
+     * @var string|null
+     */
+    public static $overrideNotifUrl;
+
+    /**
+     * Payment idempotency key.
+     * Prevents duplicate transactions.
+     * @var string|null
+     */
+    public static $paymentIdempotencyKey;
+
+    /**
+     * Enable request parameter sanitizer.
+     * Validates and modifies charge request parameters.
+     * @var bool
+     */
+    public static $isSanitized = false;
+
+    /**
+     * Default cURL options for requests.
+     * Used to configure HTTP client behavior.
+     * @var array
+     */
+    public static $curlOptions = [];
+
+    /**
+     * Sandbox base URL for Midtrans API.
+     */
+    const SANDBOX_BASE_URL = 'https://api.sandbox.midtrans.com';
+
+    /**
+     * Production base URL for Midtrans API.
+     */
+    const PRODUCTION_BASE_URL = 'https://api.midtrans.com';
+
+    /**
+     * Sandbox base URL for Snap API.
+     */
+    const SNAP_SANDBOX_BASE_URL = 'https://app.sandbox.midtrans.com/snap/v1';
+
+    /**
+     * Production base URL for Snap API.
+     */
+    const SNAP_PRODUCTION_BASE_URL = 'https://app.midtrans.com/snap/v1';
+
+    /**
+     * Get the base URL for Midtrans API.
+     * Depends on the environment mode ($isProduction).
+     *
+     * @return string Midtrans API URL
+     */
+    public static function getBaseUrl()
+    {
+        return self::$isProduction ? self::PRODUCTION_BASE_URL : self::SANDBOX_BASE_URL;
+    }
+
+    /**
+     * Get the base URL for Snap API.
+     * Depends on the environment mode ($isProduction).
+     *
+     * @return string Snap API URL
+     */
+    public static function getSnapBaseUrl()
+    {
+        return self::$isProduction ? self::SNAP_PRODUCTION_BASE_URL : self::SNAP_SANDBOX_BASE_URL;
+    }
+}
+
+?>
+
+<?php
+include 'koneksi.php';
+require_once 'vendor/autoload.php';
+
+// Mulai sesi untuk menyimpan Snap Token
+session_start();
+
+
+// Setup konfigurasi Midtrans
+\Midtrans\Config::$serverKey = 'SB-Mid-server-3OAD1jjlXUHo_a2HKD1uvdGf';  // Ganti dengan server key Anda
+\Midtrans\Config::$isProduction = false;  // Set ke true saat sudah siap produksi
+\Midtrans\Config::$isSanitized = true;  // Aktifkan sanitasi untuk keamanan
+\Midtrans\Config::$is3ds = true;  // Aktifkan 3D Secure untuk tambahan keamanan
+
+// Ambil data booking dari database (contoh)
+$id_booking = $_GET['id_booking'];  // Atau bisa dari sesi atau cara lain untuk mendapatkan id_booking
+
+// Misalnya, mengambil data booking dari database menggunakan id_booking
+$query = "SELECT * FROM booking WHERE id_booking = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param('i', $id_booking);
+$stmt->execute();
+$result = $stmt->get_result();
+$booking = $result->fetch_assoc();  // Ambil data booking sebagai array
+
+// Pastikan data booking ada
+if (!$booking) {
+    echo "Booking not found!";
+    exit();
+}
+$query = "SELECT name, email, foto_profile, role FROM user WHERE iduser = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Ambil informasi dari data booking
+$nama = $booking['nama'];  // Nama lengkap
+$email = $booking['email']; // Email
+$no_telpon = $booking['no_telpon']; // Nomor telepon
+$alamat = $booking['alamat']; // Alamat
+$jenis_layanan = $booking['jenis_layanan']; // Jenis layanan
+$harga = 1000000; // Ganti dengan perhitungan harga yang sesuai, jika ada
+
+// ID pemesanan yang unik, dihasilkan dari ID booking atau custom
+$order_id = uniqid('ORDER-' . $booking['id_booking']);
+
+// Detail transaksi
+$transactionDetails = [
+    'order_id' => $order_id,
+    'gross_amount' => $harga,  // Total pembayaran
+];
+
+// Data pelanggan
+$customerDetails = [
+    'first_name' => $nama,
+    'email' => $email,
+    'phone' => $no_telpon,
+];
+
+// Detail item (misalnya layanan yang dibeli)
+$itemDetails = [
+    [
+        'id' => 'service_' . $booking['id_booking'],
+        'price' => $harga,
+        'quantity' => 1,
+        'name' => $jenis_layanan,  // Nama layanan
+    ]
+];
+
+// Gabungkan semua data untuk transaksi Midtrans
+$transactionData = [
+    'transaction_details' => $transactionDetails,
+    'customer_details' => $customerDetails,
+    'item_details' => $itemDetails,
+];
+
+try {
+    // Mendapatkan Snap Token
+    $snapToken = \Midtrans\Snap::getSnapToken($transactionData);
+
+    // Simpan Snap Token dalam sesi untuk digunakan di frontend
+    $_SESSION['snap_token'] = $snapToken;
+} catch (\Exception $e) {  // Gunakan namespace global \Exception
+    echo "Error: " . $e->getMessage();
+    exit();
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -43,12 +532,15 @@ if (isset($_GET['id_booking'])) {
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/setyle.css" rel="stylesheet">
     <link rel="icon" href="Img/Logo.png" type="image/png">
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-tncYhI_fGytUpZMW"></script>
+    <script src="https://app.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-tncYhI_fGytUpZMW"></script>
     <style>
         .profile-image .image {
             width: 50px;
             height: 50px;
             margin: 0 30px 0 0;
             border-radius: 50%;
+            object-fit: cover;
         }
 
         .profile-image .image-list {
@@ -202,8 +694,8 @@ if (isset($_GET['id_booking'])) {
                                         value="<?php echo $booking['catatan'] ?? ''; ?>" readonly>
                                 </div>
                             </div>
-                        </form>
                     </div>
+                    </form>
                 </div>
 
 
@@ -215,36 +707,63 @@ if (isset($_GET['id_booking'])) {
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <p>Subtotal</p>
-                                <p>Rp. 1.000.000</p>
+                                <p>Rp. <?php echo number_format($harga, 0, ',', '.'); ?></p>
                             </div>
                             <hr class="mt-0">
                             <div class="d-flex justify-content-between mb-3">
                                 <h6 class="font-weight-medium">Total</h6>
-                                <h6 class="font-weight-medium">Rp. 1.000.000</h6>
+                                <h6 class="font-weight-medium">Rp. <?php echo number_format($harga, 0, ',', '.'); ?></h6>
                             </div>
                         </div>
-                        <div class="card-footer border-secondary bg-transparent">
-                            <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Bayar
-                                Sekarang</button>
-                            <form action="simpan_pesanan.php" method="post">
-                                <input type="hidden" name="id_user" value="<?php echo $id_user; ?>">
-                                <input type="hidden" name="id_booking"
-                                    value="<?php echo $booking['id_booking'] ?? ''; ?>">
-                                <input type="hidden" name="status" value="belum bayar">
-                                <!-- Asumsikan ada id_booking -->
-                                <input type="hidden" name="harga" value="1000000"> <!-- Ganti sesuai logika harga -->
-
-                                <button type="submit"
-                                    class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Bayar
-                                    Nanti</button>
-                            </form>
+                        <!-- Tombol untuk memulai proses pembayaran -->
+                        <button id="payButton" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Bayar</button>
+                        <form id="handleback" action="" method="POST">
+                            <input type="hidden" id="json_callback" name="json">
+                        </form>
 
 
-                        </div>
+                        <!-- Sertakan Snap.js -->
+                        <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-tncYhI_fGytUpZMW"></script>
+
+                        <!-- JavaScript untuk memanggil Snap modal -->
+                        <script>
+                            const snapToken = <?php echo json_encode($snapToken); ?>;
+
+                            document.getElementById('payButton').addEventListener('click', function() {
+                                // Gantilah 'SNAP_TOKEN' dengan Snap Token yang Anda dapatkan dari server
+                                snap.pay(snapToken, {
+                                    onSuccess: function(result) {
+                                        document.getElementById('json_callback').value = JSON.stringify(result);
+                                        document.getElementById('handleback').submit();
+                                    },
+
+                                    onPending: function(result) {
+                                        alert('Waiting for payment...');
+                                        console.log(result);
+                                    },
+                                    onError: function(result) {
+                                        alert('Payment Failed!');
+                                        console.log(result);
+                                    },
+                                });
+                            });
+                        </script>
+
+
+
+                        <form action="simpan_pesanan.php" method="post">
+                            <input type="hidden" name="id_user" value="<?php echo $id_user; ?>">
+                            <input type="hidden" name="id_booking" value="<?php echo $booking['id_booking']; ?>">
+                            <input type="hidden" name="status" value="belum bayar">
+                            <input type="hidden" name="harga" value="1000000"> <!-- Ganti dengan harga yang sesuai -->
+                            <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Bayar Nanti</button>
+                        </form>
+
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <!-- Payment Section End -->
 
@@ -273,17 +792,17 @@ if (isset($_GET['id_booking'])) {
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
-                <h4 class="font-weight-semi-bold text-primary mb-4">Quick Links</h4>
+                <h4 class="font-weight-semi-bold text-primary mb-4">Tautan Cepat</h4>
                 <div class="d-flex flex-column justify-content-start">
-                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>About Us</a>
-                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our Services</a>
-                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our Projects</a>
-                    <a class="text-white" href="#"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                    <a class="text-white mb-2" href="user.php"><i class="fa fa-angle-right mr-2"></i>Beranda</a>
+                    <a class="text-white mb-2" href="tentang1.php"><i class="fa fa-angle-right mr-2"></i>Tentang</a>
+                    <a class="text-white mb-2" href="Layanan1.php"><i class="fa fa-angle-right mr-2"></i>Layanan</a>
+                    <a class="text-white mb-2" href="pesan.php"><i class="fa fa-angle-right mr-2"></i>Pesan</a>
+                    <a class="text-white" href="history.php"><i class="fa fa-angle-right mr-2"></i>Riwayat</a>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
-                <h4 class="font-weight-semi-bold text-primary mb-4">Newsletter</h4>
+                <h4 class="font-weight-semi-bold text-primary mb-4">Buletin</h4>
                 <p>Kami senang dapat memperkenalkan layanan pembersihan kami yang dirancang untuk memenuhi semua
                     kebutuhan
                     kebersihan Anda. Dengan tim profesional dan berpengalaman, kami siap membantu Anda menjaga rumah

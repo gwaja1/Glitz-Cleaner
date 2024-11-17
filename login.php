@@ -104,8 +104,13 @@
             </div>
         </div>
     </div>
+
    <!-- Footer Start -->
    <div class="container-fluid bg-dark text-white mt-5 py-5 px-sm-3 px-md-5">
+    <style>.container-fluid.bg-dark {
+    margin-top: 50px; /* Adjust the value as needed */
+}
+</style>
         <div class="row pt-5">
             <div class="col-lg-3 col-md-6 mb-5">
                 <a href="index.html" class="navbar-brand">

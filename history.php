@@ -1,47 +1,73 @@
 <?php
-session_start();
-include "koneksi.php"; // Menghubungkan ke database
+session_start(); // Memulai session
+include "koneksi.php"; // Koneksi ke database
 
-// Pastikan pengguna sudah login
-if (!isset($_SESSION['userid'])) {
-    header("Location: login.php");
+// Cek apakah user sudah login dan memiliki `userid`
+if (isset($_SESSION['userid'])) {
+    $userid = $_SESSION['userid']; // Mengambil userid dari session
+
+    // Memastikan userid dalam session valid dengan memeriksa database
+    $stmt = $conn->prepare("SELECT iduser FROM user WHERE iduser = ?");
+    $stmt->bind_param("i", $userid);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows == 0) {
+        die("User tidak valid.");
+    }
+} else {
+    die("User belum login.");
+}
+
+// Mengambil nilai dari POST untuk id_booking dan status
+$id_booking = $_POST['id_booking'] ?? null;
+$status = $_POST['status'] ?? 'default_status'; // Set default value if not provided
+
+// Pastikan id_booking telah ditentukan dan valid
+if (!$id_booking || !is_numeric($id_booking)) {
+    die("ID booking tidak valid.");
+}
+
+// Mengambil data dari tabel `booking` berdasarkan id_booking
+$stmt = $conn->prepare("SELECT jenis_ruangan, ukuran_ruangan, jenis_layanan, tanggal_pembersihan, waktu_pembersihan FROM booking WHERE id_booking = ?");
+$stmt->bind_param("i", $id_booking);
+$stmt->execute();
+$booking_result = $stmt->get_result();
+
+if ($booking_result->num_rows > 0) {
+    $booking_data = $booking_result->fetch_assoc();
+    $jenis_ruangan = $booking_data['jenis_ruangan'];
+    $ukuran_ruangan = $booking_data['ukuran_ruangan'];
+    $jenis_layanan = $booking_data['jenis_layanan'];
+    $tanggal_pembersihan = $booking_data['tanggal_pembersihan'];
+    $waktu_pembersihan = $booking_data['waktu_pembersihan'];
+} else {
+    die("Booking tidak ditemukan.");
+}
+
+// Tentukan harga secara langsung jika tidak diambil dari `booking`
+$harga = 1000000; // Contoh: harga tetap
+
+// Cek apakah data sudah ada di tabel history_order untuk userid dan id_booking ini
+$stmt = $conn->prepare("SELECT * FROM history_order WHERE id_user = ? AND id_booking = ?");
+$stmt->bind_param("ii", $userid, $id_booking);
+$stmt->execute();
+$result = $stmt->get_result();
+if ($result->num_rows > 0) {
+    header("Location: history.php"); // Redirect jika data sudah ada
     exit();
 }
 
-$userid = $_SESSION['userid']; // Menggunakan userid, bukan id_user
+// Query untuk menyimpan data ke tabel history_order
+$stmt = $conn->prepare("INSERT INTO history_order (id_user, id_booking, nama, jenis_layanan, status, harga) VALUES (?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("iisssi", $userid, $id_booking, $jenis_ruangan, $jenis_layanan, $status, $harga);
 
-// Menggunakan prepared statement untuk menghindari SQL Injection
-$query_booking = $conn->prepare("SELECT h.*, b.jenis_layanan, b.tanggal_pembersihan 
-                                FROM history_order h
-                                JOIN booking b ON h.id_booking = b.id_booking 
-                                WHERE h.iduser = ? 
-                                ORDER BY b.tanggal_pembersihan DESC");
-$query_booking->bind_param("i", $userid); // Mengikat parameter userid sebagai integer
-$query_booking->execute();
-$result_booking = $query_booking->get_result();
-
-// Mengambil data user menggunakan prepared statement
-$query = $conn->prepare("SELECT name, email, foto_profile FROM user WHERE iduser = ?");
-$query->bind_param("i", $userid); // Mengikat parameter userid sebagai integer
-$query->execute();
-$result = $query->get_result();
-
-// Check if the user exists
-if ($result->num_rows > 0) {
-    $user_data = $result->fetch_assoc();
+if ($stmt->execute()) {
+    header("Location: history.php"); // Redirect ke halaman history setelah sukses
+    exit();
 } else {
-    // Handle the case when no user is found
-    die("User tidak ditemukan.");
+    echo "Error: " . $stmt->error;
 }
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_booking'])) {
-    $id_booking = $_POST['id_booking'];
-    // Process the booking ID, for example:
-    echo "Processing payment for booking ID: " . htmlspecialchars($id_booking);
-    // Add your payment logic here
-}
-
-$query_booking->close(); // Menutup prepared statement untuk booking
 $query->close(); // Menutup prepared statement untuk user
 $conn->close(); // Menutup koneksi setelah mengambil data
 ?>
