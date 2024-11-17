@@ -11,7 +11,7 @@ if (isset($_SESSION['userid'])) { // Menggunakan userid dalam session
     $check_user->bind_param("i", $userid); // Mengikat parameter userid sebagai integer
     $check_user->execute();
     $check_user_result = $check_user->get_result();
-    
+
     if ($check_user_result->num_rows == 0) {
         die("User tidak valid.");
     }
@@ -24,7 +24,11 @@ if (isset($_SESSION['userid'])) { // Menggunakan userid dalam session
 
     // Check if the user exists
     if ($result->num_rows > 0) {
+        // Ambil data user
         $user_data = $result->fetch_assoc();
+        $name = $user_data['name'];  // Pastikan ini sesuai dengan kolom yang ada di database
+        $email = $user_data['email']; // Pastikan ini sesuai dengan kolom yang ada di database
+        $foto_profile = $user_data['foto_profile']; // Jika Anda ingin menampilkan foto
     } else {
         // Handle the case when no user is found
         die("User tidak ditemukan.");
@@ -36,9 +40,18 @@ if (isset($_SESSION['userid'])) { // Menggunakan userid dalam session
     die("User belum login.");
 }
 
-$conn->close(); // Menutup koneksi setelah pengambilan data selesai
-?>
+// Ambil data jenis layanan
+$queryLayanan = "SELECT id_layanan, nama FROM layanan";
+$resultLayanan = mysqli_query($conn, $queryLayanan);
 
+// Ambil data jenis ruangan
+$queryRuangan = "SELECT id_ruangan, nama FROM ruangan";
+$resultRuangan = mysqli_query($conn, $queryRuangan);
+
+// Ambil data ukuran ruangan
+$queryUkuran = "SELECT id_ukuran, ukuran FROM ukuran";
+$resultUkuran = mysqli_query($conn, $queryUkuran);
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -130,38 +143,38 @@ $conn->close(); // Menutup koneksi setelah pengambilan data selesai
         }
 
         .profile-image .image {
-    width: 50px;
-    height: 50px;
-    margin: 0 30px 0 0;
-    border-radius: 50%;
-    object-fit: cover; /* Menjaga gambar tidak gepeng */
-}
+            width: 50px;
+            height: 50px;
+            margin: 0 30px 0 0;
+            border-radius: 50%;
+            object-fit: cover;
+            /* Menjaga gambar tidak gepeng */
+        }
 
-.profile-image .image-list {
-    position: absolute;
-    max-height: 0;
-    right: 30px;
-    top: 100%;
-    width: 100px;
-    text-align: center;
-    visibility: hidden;
-    padding: 0;
-    background: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    z-index: 10;
-    overflow: hidden;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: all 0.4s ease;
-}
+        .profile-image .image-list {
+            position: absolute;
+            max-height: 0;
+            right: 30px;
+            top: 100%;
+            width: 100px;
+            text-align: center;
+            visibility: hidden;
+            padding: 0;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            z-index: 10;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.4s ease;
+        }
 
-.profile-image:hover .image-list {
-    max-height: 100%;
-    visibility: visible;
-    opacity: 1;
-}
-
+        .profile-image:hover .image-list {
+            max-height: 100%;
+            visibility: visible;
+            opacity: 1;
+        }
     </style>
 </head>
 
@@ -234,74 +247,66 @@ $conn->close(); // Menutup koneksi setelah pengambilan data selesai
     <!-- Header End -->
 
     <div class="booking-container">
-        <h2>Pemesanan Jasa </h2>
+        <h2>Pemesanan Jasa</h2>
         <form method="POST" action="add.php">
             <div class="form-group">
                 <label for="name">Nama Lengkap:</label>
-                <input type="text" id="nama" name="nama" required>
+                <input type="text" id="nama" name="nama" value="<?php echo isset($name) ? $name : ''; ?>" readonly required>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" value="<?php echo isset($email) ? $email : ''; ?>" readonly required>
             </div>
             <div class="form-group">
-                <label for="phone">Nomor Telepon:</label>
-                <input type="number" id="phone" name="no_telpon" required>
+                <label for="alamat">Alamat:</label>
+                <input type="text" id="alamat" name="alamat" required>
             </div>
             <div class="form-group">
-                <label for="address">Alamat:</label>
-                <input type="text" id="address" name="alamat" required>
-            </div>
-            <div class="form-group">
-                <label for="service-type">Jenis Layanan:</label>
-                <select id="service-type" name="jenis_layanan" required>
-                    <option value="basic_cleaning">Pembersihan Dasar</option>
-                    <option value="deep_cleaning">Pembersihan Menyeluruh</option>
-                    <option value="move_in_out_cleaning">Pembersihan Pindahan</option>
+                <label for="jenis_layanan">Jenis Layanan:</label>
+                <select id="jenis_layanan" name="jenis_layanan" required>
+                    <?php
+                    while ($row = mysqli_fetch_assoc($resultLayanan)) {
+                        echo "<option value='" . $row['id_layanan'] . "'>" . $row['nama'] . "</option>";
+                    }
+                    ?>
                 </select>
             </div>
             <div class="form-group">
-                <label for="room-type">Jenis Ruangan:</label>
-                <select id="room-type" name="jenis_ruangan" required>
-                    <option value="Ruang-keluarga">Ruang Keluarga</option>
-                    <option value="Ruang-tamu">Ruang Tamu</option>
-                    <option value="Ruang-makan">Ruang Makan</option>
-                    <option value="Kamar">Kamar</option>
-                    <option value="Dapur">Dapur</option>
-                    <option value="Gudang">Gudang</option>
+                <label for="jenis_ruangan">Jenis Ruangan:</label>
+                <select id="jenis_ruangan" name="jenis_ruangan" required>
+                    <?php
+                    while ($row = mysqli_fetch_assoc($resultRuangan)) {
+                        echo "<option value='" . $row['id_ruangan'] . "'>" . $row['nama'] . "</option>";
+                    }
+                    ?>
                 </select>
             </div>
             <div class="form-group">
-                <label for="Room-size">Ukuran Ruangan:</label>
-                <select id="Room-size" name="ukuran_ruangan" required>
-                    <option value="9">9m²</option>
-                    <option value="15">15m²</option>
-                    <option value="20">20m²</option>
-                    <option value="25">25m²</option>
-                    <option value="30">30m²</option>
-                    <option value="35">35m²</option>
+                <label for="ukuran_ruangan">Ukuran Ruangan:</label>
+                <select id="ukuran_ruangan" name="ukuran_ruangan" required>
+                    <?php
+                    while ($row = mysqli_fetch_assoc($resultUkuran)) {
+                        echo "<option value='" . $row['id_ukuran'] . "'>" . $row['ukuran'] . " m²</option>";
+                    }
+                    ?>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="date">Tanggal Pembersihan:</label>
-                <input type="date" id="date" name="tanggal_pembersihan" required>
+                <label for="tanggal_pembersihan">Tanggal Pembersihan:</label>
+                <input type="date" id="tanggal_pembersihan" name="tanggal_bersih" required>
             </div>
             <div class="form-group">
-                <label for="time">Waktu Pembersihan:</label>
-                <input type="time" id="time" name="waktu_pembersihan" required>
+                <label for="waktu_pembersihan">Waktu Pembersihan:</label>
+                <input type="time" id="waktu_pembersihan" name="waktu" required>
             </div>
             <div class="form-group">
-                <label for="notes">Catatan Tambahan:</label>
-                <textarea id="notes" name="catatan" rows="4"></textarea>
+                <label for="catatan">Catatan Tambahan:</label>
+                <textarea id="catatan" name="catatan" rows="4"></textarea>
             </div>
             <button type="submit" class="submit-btn">Pesan Sekarang</button>
         </form>
     </div>
-</body>
-
-</html>
-
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-white mt-5 py-5 px-sm-3 px-md-5">

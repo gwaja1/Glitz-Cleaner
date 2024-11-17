@@ -422,73 +422,76 @@ class Config
 include 'koneksi.php';
 require_once 'vendor/autoload.php';
 
-// Mulai sesi untuk menyimpan Snap Token
 session_start();
 
+\Midtrans\Config::$serverKey = 'SB-Mid-server-3OAD1jjlXUHo_a2HKD1uvdGf';
+\Midtrans\Config::$isProduction = false;
+\Midtrans\Config::$isSanitized = true;
+\Midtrans\Config::$is3ds = true;
 
-// Setup konfigurasi Midtrans
-\Midtrans\Config::$serverKey = 'SB-Mid-server-3OAD1jjlXUHo_a2HKD1uvdGf';  // Ganti dengan server key Anda
-\Midtrans\Config::$isProduction = false;  // Set ke true saat sudah siap produksi
-\Midtrans\Config::$isSanitized = true;  // Aktifkan sanitasi untuk keamanan
-\Midtrans\Config::$is3ds = true;  // Aktifkan 3D Secure untuk tambahan keamanan
+// Ambil ID history_order dari GET parameter
+$id_history_order = $_GET['id_history_order'] ?? null;
 
-// Ambil data booking dari database (contoh)
-$id_booking = $_GET['id_booking'];  // Atau bisa dari sesi atau cara lain untuk mendapatkan id_booking
-
-// Misalnya, mengambil data booking dari database menggunakan id_booking
-$query = "SELECT * FROM booking WHERE id_booking = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param('i', $id_booking);
-$stmt->execute();
-$result = $stmt->get_result();
-$booking = $result->fetch_assoc();  // Ambil data booking sebagai array
-
-// Pastikan data booking ada
-if (!$booking) {
-    echo "Booking not found!";
-    exit();
+if (!$id_history_order) {
+    echo "ID tidak valid.";
+    exit;
 }
-$query = "SELECT name, email, foto_profile, role FROM user WHERE iduser = ?";
+
+// Query untuk mengambil data berdasarkan id_history
+$query = "
+    SELECT 
+        h.id_history, 
+        u.name AS nama, 
+        u.email, 
+        h.alamat, 
+        h.id_layanan, 
+        h.tanggal_bersih, 
+        h.waktu, 
+        h.catatan, 
+        h.total_harga AS harga 
+    FROM 
+        history_order h
+    JOIN 
+        user u ON h.id_user = u.iduser
+    WHERE 
+        h.id_history = ?
+";
+
+// Persiapkan query
 $stmt = $conn->prepare($query);
-$stmt->bind_param("i", $user_id);
+$stmt->bind_param('i', $id_history_order); // Bind parameter untuk query
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Ambil informasi dari data booking
-$nama = $booking['nama'];  // Nama lengkap
-$email = $booking['email']; // Email
-$no_telpon = $booking['no_telpon']; // Nomor telepon
-$alamat = $booking['alamat']; // Alamat
-$jenis_layanan = $booking['jenis_layanan']; // Jenis layanan
-$harga = 1000000; // Ganti dengan perhitungan harga yang sesuai, jika ada
+if ($result->num_rows > 0) {
+    // Data ditemukan, ambil hasilnya
+    $booking = $result->fetch_assoc();
+    echo "<pre>";
+    print_r($booking); // Untuk debugging, tampilkan hasil
+    echo "</pre>";
+} else {
+    echo "Data tidak ditemukan.";
+    exit;
+}
 
-// ID pemesanan yang unik, dihasilkan dari ID booking atau custom
-$order_id = uniqid('ORDER-' . $booking['id_booking']);
-
-// Detail transaksi
+$order_id = uniqid('ORDER-' . $id_history_order);
 $transactionDetails = [
     'order_id' => $order_id,
-    'gross_amount' => $harga,  // Total pembayaran
+    'gross_amount' => $booking['harga'],
 ];
-
-// Data pelanggan
 $customerDetails = [
-    'first_name' => $nama,
-    'email' => $email,
-    'phone' => $no_telpon,
+    'first_name' => $booking['nama'],
+    'email' => $booking['email'],
+    'phone' => $booking['no_telpon'],
 ];
-
-// Detail item (misalnya layanan yang dibeli)
 $itemDetails = [
     [
-        'id' => 'service_' . $booking['id_booking'],
-        'price' => $harga,
+        'id' => 'service_' . $id_history_order,
+        'price' => $booking['harga'],
         'quantity' => 1,
-        'name' => $jenis_layanan,  // Nama layanan
-    ]
+        'name' => $booking['jenis_layanan'],
+    ],
 ];
-
-// Gabungkan semua data untuk transaksi Midtrans
 $transactionData = [
     'transaction_details' => $transactionDetails,
     'customer_details' => $customerDetails,
@@ -496,16 +499,12 @@ $transactionData = [
 ];
 
 try {
-    // Mendapatkan Snap Token
     $snapToken = \Midtrans\Snap::getSnapToken($transactionData);
-
-    // Simpan Snap Token dalam sesi untuk digunakan di frontend
     $_SESSION['snap_token'] = $snapToken;
-} catch (\Exception $e) {  // Gunakan namespace global \Exception
+} catch (\Exception $e) {
     echo "Error: " . $e->getMessage();
     exit();
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -663,11 +662,6 @@ try {
                                         value="<?php echo $booking['email'] ?? ''; ?>" readonly>
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label>No Telepon</label>
-                                    <input class="form-control" type="text"
-                                        value="<?php echo $booking['no_telpon'] ?? ''; ?>" readonly>
-                                </div>
-                                <div class="col-md-6 form-group">
                                     <label>Alamat</label>
                                     <input class="form-control" type="text"
                                         value="<?php echo $booking['alamat'] ?? ''; ?>" readonly>
@@ -680,12 +674,12 @@ try {
                                 <div class="col-md-6 form-group">
                                     <label>Tanggal Pembersihan</label>
                                     <input class="form-control" type="text"
-                                        value="<?php echo $booking['tanggal_pembersihan'] ?? ''; ?>" readonly>
+                                        value="<?php echo $booking['tanggal_bersih'] ?? ''; ?>" readonly>
                                 </div>
                                 <div class="col-md-6 form-group">
                                     <label>Waktu Pembersihan</label>
                                     <input class="form-control" type="text"
-                                        value="<?php echo isset($booking['waktu_pembersihan']) ? date('H:i', strtotime($booking['waktu_pembersihan'])) : ''; ?>" readonly>
+                                        value="<?php echo isset($booking['waktu']) ? date('H:i', strtotime($booking['waktu_pembersihan'])) : ''; ?>" readonly>
                                 </div>
 
                                 <div class="col-md-6 form-group">
@@ -698,167 +692,172 @@ try {
                     </form>
                 </div>
 
-
-                <div class="col-lg-4">
-                    <div class="card border-secondary mb-5">
-                        <div class="card-header bg-secondary border-0">
-                            <h4 class="font-weight-semi-bold m-0">Ringkasan Pembayaran</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <p>Subtotal</p>
-                                <p>Rp. <?php echo number_format($harga, 0, ',', '.'); ?></p>
+                <div class="container-fluid pt-5">
+                    <div class="container">
+                        <h2 class="text-center mb-5">Pembayaran</h2>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <h4>Detail Pemesanan</h4>
+                                <form>
+                                    <label>Nama:</label>
+                                    <input type="text" class="form-control" value="<?= $booking['nama'] ?>" readonly>
+                                    <label>Email:</label>
+                                    <input type="text" class="form-control" value="<?= $booking['email'] ?>" readonly>
+                                    <label>Alamat:</label>
+                                    <input type="text" class="form-control" value="<?= $booking['alamat'] ?>" readonly>
+                                    <label>Layanan:</label>
+                                    <input type="text" class="form-control" value="<?= $booking['jenis_layanan'] ?>" readonly>
+                                    <label>Tanggal:</label>
+                                    <input type="text" class="form-control" value="<?= $booking['tanggal_pembersihan'] ?>" readonly>
+                                    <label>Harga:</label>
+                                    <input type="text" class="form-control" value="Rp. <?= number_format($booking['harga'], 0, ',', '.') ?>" readonly>
+                                </form>
                             </div>
-                            <hr class="mt-0">
-                            <div class="d-flex justify-content-between mb-3">
-                                <h6 class="font-weight-medium">Total</h6>
-                                <h6 class="font-weight-medium">Rp. <?php echo number_format($harga, 0, ',', '.'); ?></h6>
+                            <div class="col-lg-4">
+                                <h4>Ringkasan</h4>
+                                <p>Total: Rp. <?= number_format($booking['harga'], 0, ',', '.') ?></p>
+                                <button id="payButton" class="btn btn-primary btn-block">Bayar Sekarang</button>
+                                <form id="handleback" action="" method="POST">
+                                    <input type="hidden" id="json_callback" name="json">
+                                </form>
+
+
+                                <!-- Sertakan Snap.js -->
+                                <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-tncYhI_fGytUpZMW"></script>
+
+                                <!-- JavaScript untuk memanggil Snap modal -->
+                                <script>
+                                    const snapToken = <?php echo json_encode($snapToken); ?>;
+
+                                    document.getElementById('payButton').addEventListener('click', function() {
+                                        // Gantilah 'SNAP_TOKEN' dengan Snap Token yang Anda dapatkan dari server
+                                        snap.pay(snapToken, {
+                                            onSuccess: function(result) {
+                                                document.getElementById('json_callback').value = JSON.stringify(result);
+                                                document.getElementById('handleback').submit();
+                                            },
+
+                                            onPending: function(result) {
+                                                alert('Waiting for payment...');
+                                                console.log(result);
+                                            },
+                                            onError: function(result) {
+                                                alert('Payment Failed!');
+                                                console.log(result);
+                                            },
+                                        });
+                                    });
+                                </script>
+
+
+
+                                <form action="simpan_pesanan.php" method="post">
+                                    <input type="hidden" name="id_user" value="<?php echo $id_user; ?>">
+                                    <input type="hidden" name="id_booking" value="<?php echo $booking['id_booking']; ?>">
+                                    <input type="hidden" name="status" value="belum bayar">
+                                    <input type="hidden" name="harga" value="1000000"> <!-- Ganti dengan harga yang sesuai -->
+                                    <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Bayar Nanti</button>
+                                </form>
+
                             </div>
                         </div>
-                        <!-- Tombol untuk memulai proses pembayaran -->
-                        <button id="payButton" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Bayar</button>
-                        <form id="handleback" action="" method="POST">
-                            <input type="hidden" id="json_callback" name="json">
-                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Payment Section End -->
 
-
-                        <!-- Sertakan Snap.js -->
-                        <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-tncYhI_fGytUpZMW"></script>
-
-                        <!-- JavaScript untuk memanggil Snap modal -->
-                        <script>
-                            const snapToken = <?php echo json_encode($snapToken); ?>;
-
-                            document.getElementById('payButton').addEventListener('click', function() {
-                                // Gantilah 'SNAP_TOKEN' dengan Snap Token yang Anda dapatkan dari server
-                                snap.pay(snapToken, {
-                                    onSuccess: function(result) {
-                                        document.getElementById('json_callback').value = JSON.stringify(result);
-                                        document.getElementById('handleback').submit();
-                                    },
-
-                                    onPending: function(result) {
-                                        alert('Waiting for payment...');
-                                        console.log(result);
-                                    },
-                                    onError: function(result) {
-                                        alert('Payment Failed!');
-                                        console.log(result);
-                                    },
-                                });
-                            });
-                        </script>
-
-
-
-                        <form action="simpan_pesanan.php" method="post">
-                            <input type="hidden" name="id_user" value="<?php echo $id_user; ?>">
-                            <input type="hidden" name="id_booking" value="<?php echo $booking['id_booking']; ?>">
-                            <input type="hidden" name="status" value="belum bayar">
-                            <input type="hidden" name="harga" value="1000000"> <!-- Ganti dengan harga yang sesuai -->
-                            <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Bayar Nanti</button>
-                        </form>
-
+            <!-- Footer Start -->
+            <div class="container-fluid bg-dark text-white mt-5 py-5 px-sm-3 px-md-5">
+                <div class="row pt-5">
+                    <div class="col-lg-3 col-md-6 mb-5">
+                        <a href="index.html" class="navbar-brand">
+                            <h1 class="m-0 mt-n3 display-5 text-primary">Glitz Cleaner</h1>
+                        </a>
+                        <p>Bersih, Rapi, dan Nyaman, Hanya untuk Anda!
+                        </p>
+                        <h5 class="font-weight-semi-bold text-white mb-2">Buka:</h5>
+                        <p class="mb-1">Senin – Sabtu, 8pagi – 6sore</p>
+                        <p class="mb-0">: Tutup</p>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-5">
+                        <h4 class="font-weight-semi-bold text-primary mb-4">Get In Touch</h4>
+                        <p><i class="fa fa-map-marker-alt text-primary mr-2"></i>Jl Bareng Raya IIN/538</p>
+                        <p><i class="fa fa-phone-alt text-primary mr-2"></i>+62895422855755</p>
+                        <p><i class="fa fa-envelope text-primary mr-2"></i>GlitzCleaner@gmail.com</p>
+                        <div class="d-flex justify-content-start mt-4">
+                            <a class="btn btn-light btn-social mr-2" href="#"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-light btn-social mr-2" href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-light btn-social" href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-5">
+                        <h4 class="font-weight-semi-bold text-primary mb-4">Tautan Cepat</h4>
+                        <div class="d-flex flex-column justify-content-start">
+                            <a class="text-white mb-2" href="user.php"><i class="fa fa-angle-right mr-2"></i>Beranda</a>
+                            <a class="text-white mb-2" href="tentang1.php"><i class="fa fa-angle-right mr-2"></i>Tentang</a>
+                            <a class="text-white mb-2" href="Layanan1.php"><i class="fa fa-angle-right mr-2"></i>Layanan</a>
+                            <a class="text-white mb-2" href="pesan.php"><i class="fa fa-angle-right mr-2"></i>Pesan</a>
+                            <a class="text-white" href="history.php"><i class="fa fa-angle-right mr-2"></i>Riwayat</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-5">
+                        <h4 class="font-weight-semi-bold text-primary mb-4">Buletin</h4>
+                        <p>Kami senang dapat memperkenalkan layanan pembersihan kami yang dirancang untuk memenuhi semua
+                            kebutuhan
+                            kebersihan Anda. Dengan tim profesional dan berpengalaman, kami siap membantu Anda menjaga rumah
+                            atau
+                            kantor Anda tetap bersih dan nyaman..</p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    </div>
-    <!-- Payment Section End -->
-
-    <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-white mt-5 py-5 px-sm-3 px-md-5">
-        <div class="row pt-5">
-            <div class="col-lg-3 col-md-6 mb-5">
-                <a href="index.html" class="navbar-brand">
-                    <h1 class="m-0 mt-n3 display-5 text-primary">Glitz Cleaner</h1>
-                </a>
-                <p>Bersih, Rapi, dan Nyaman, Hanya untuk Anda!
-                </p>
-                <h5 class="font-weight-semi-bold text-white mb-2">Buka:</h5>
-                <p class="mb-1">Senin – Sabtu, 8pagi – 6sore</p>
-                <p class="mb-0">: Tutup</p>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-5">
-                <h4 class="font-weight-semi-bold text-primary mb-4">Get In Touch</h4>
-                <p><i class="fa fa-map-marker-alt text-primary mr-2"></i>Jl Bareng Raya IIN/538</p>
-                <p><i class="fa fa-phone-alt text-primary mr-2"></i>+62895422855755</p>
-                <p><i class="fa fa-envelope text-primary mr-2"></i>GlitzCleaner@gmail.com</p>
-                <div class="d-flex justify-content-start mt-4">
-                    <a class="btn btn-light btn-social mr-2" href="#"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-light btn-social mr-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-light btn-social" href="#"><i class="fab fa-instagram"></i></a>
+        <div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5"
+            style="border-color: #3E3E4E !important;">
+            <div class="row">
+                <div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
+                    <p class="m-0 text-white">&copy; <a href="#">Copyright</a>. GlitzCleaner</p>
+                </div>
+                <div class="col-lg-6 text-center text-md-right">
+                    <ul class="nav d-inline-flex">
+                        <li class="nav-item">
+                            <a class="nav-link text-white py-0" href="#">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white py-0" href="#">Terms</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white py-0" href="#">FAQs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white py-0" href="#">Help</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 mb-5">
-                <h4 class="font-weight-semi-bold text-primary mb-4">Tautan Cepat</h4>
-                <div class="d-flex flex-column justify-content-start">
-                    <a class="text-white mb-2" href="user.php"><i class="fa fa-angle-right mr-2"></i>Beranda</a>
-                    <a class="text-white mb-2" href="tentang1.php"><i class="fa fa-angle-right mr-2"></i>Tentang</a>
-                    <a class="text-white mb-2" href="Layanan1.php"><i class="fa fa-angle-right mr-2"></i>Layanan</a>
-                    <a class="text-white mb-2" href="pesan.php"><i class="fa fa-angle-right mr-2"></i>Pesan</a>
-                    <a class="text-white" href="history.php"><i class="fa fa-angle-right mr-2"></i>Riwayat</a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-5">
-                <h4 class="font-weight-semi-bold text-primary mb-4">Buletin</h4>
-                <p>Kami senang dapat memperkenalkan layanan pembersihan kami yang dirancang untuk memenuhi semua
-                    kebutuhan
-                    kebersihan Anda. Dengan tim profesional dan berpengalaman, kami siap membantu Anda menjaga rumah
-                    atau
-                    kantor Anda tetap bersih dan nyaman..</p>
-            </div>
         </div>
-    </div>
-    </div>
-    <div class="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5"
-        style="border-color: #3E3E4E !important;">
-        <div class="row">
-            <div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
-                <p class="m-0 text-white">&copy; <a href="#">Copyright</a>. GlitzCleaner</p>
-            </div>
-            <div class="col-lg-6 text-center text-md-right">
-                <ul class="nav d-inline-flex">
-                    <li class="nav-item">
-                        <a class="nav-link text-white py-0" href="#">Privacy</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white py-0" href="#">Terms</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white py-0" href="#">FAQs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white py-0" href="#">Help</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <!-- Footer End -->
+        <!-- Footer End -->
 
 
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-primary px-3 back-to-top"><i class="fa fa-angle-double-up"></i></a>
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-primary px-3 back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/counterup/counterup.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="lib/lightbox/js/lightbox.min.js"></script>
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/waypoints/waypoints.min.js"></script>
+        <script src="lib/counterup/counterup.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="lib/isotope/isotope.pkgd.min.js"></script>
+        <script src="lib/lightbox/js/lightbox.min.js"></script>
 
-    <!-- Contact Javascript File -->
-    <script src="mail/jqBootstrapValidation.min.js"></script>
-    <script src="mail/contact.js"></script>
+        <!-- Contact Javascript File -->
+        <script src="mail/jqBootstrapValidation.min.js"></script>
+        <script src="mail/contact.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+        <!-- Template Javascript -->
+        <script src="js/main.js"></script>
 </body>
 
 </html>

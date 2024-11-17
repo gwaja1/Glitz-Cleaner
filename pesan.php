@@ -10,39 +10,19 @@ if (!isset($_SESSION['userid'])) {
 
 $userid = $_SESSION['userid']; // Menggunakan userid, bukan id_user
 
-// Menggunakan prepared statement untuk menghindari SQL Injection
-$query = "SELECT h.*, b.jenis_layanan, b.tanggal_pembersihan FROM history_order h 
-          INNER JOIN booking b ON h.id_booking = b.id_booking 
-          WHERE h.userid = ? ORDER BY h.id_order DESC";
+// Query untuk mendapatkan data dari tabel history_order
+$query = "SELECT h.id_history, h.id_user, h.id_layanan, h.id_ruangan, h.alamat, 
+                 h.status, h.total_harga, h.tanggal_bersih, h.waktu, h.catatan, 
+                 u.name AS user_name
+          FROM history_order h
+          JOIN user u ON h.id_user = u.iduser";
 
-$query_booking->bind_param("i", $userid); // Mengikat parameter userid sebagai integer
-$query_booking->execute();
-$result_booking = $query_booking->get_result();
+$result = mysqli_query($conn, $query);
 
-// Mengambil data user menggunakan prepared statement
-$query = $conn->prepare("SELECT name, email, foto_profile FROM user WHERE iduser = ?");
-$query->bind_param("i", $userid); // Mengikat parameter userid sebagai integer
-$query->execute();
-$result = $query->get_result();
-
-// Check if the user exists
-if ($result->num_rows > 0) {
-    $user_data = $result->fetch_assoc();
-} else {
-    // Handle the case when no user is found
-    die("User tidak ditemukan.");
+// Periksa jika ada kesalahan query
+if (!$result) {
+    die("Query Error: " . mysqli_error($conn));
 }
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_booking'])) {
-    $id_booking = $_POST['id_booking'];
-    // Process the booking ID, for example:
-    echo "Processing payment for booking ID: " . htmlspecialchars($id_booking);
-    // Add your payment logic here
-}
-
-$query_booking->close(); // Menutup prepared statement untuk booking
-$query->close(); // Menutup prepared statement untuk user
-$conn->close(); // Menutup koneksi setelah mengambil data
 ?>
 
 
@@ -226,56 +206,44 @@ $conn->close(); // Menutup koneksi setelah mengambil data
     <!-- Header End -->
 
 
-    <!-- Order History Section -->
     <div class="container mt-5">
-        <div class="header-tbl">
-            <h2 class="caption">Riwayat Pesanan Anda</h2>
-            <a href="Keranjang.php"><button type="submit" class="submit-btn">Tambah Pesanan</button></a>
-        </div>
-
-        <!-- Button to add a new order in the top-right corner of the table -->
-
-
-     <!-- Order History Table -->
-            <table class="table table-bordered">
-                <thead class="thead-dark">
+        <h2 class="mb-4">Data History Order</h2>
+        <a href="Keranjang.php" class="btn btn-primary mb-3">Tambah Pesanan</a>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID History</th>
+                    <th>Nama User</th>
+                    <th>Layanan</th>
+                    <th>Status</th>
+                    <th>Total Harga</th>
+                    <th>Tanggal Bersih</th>
+                    <th>Waktu</th>
+                    <th>Catatan</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php while ($row = mysqli_fetch_assoc($result)): ?>
                     <tr>
-                        <th>No. Pesanan</th>
-                        <th>Jenis Layanan</th>
-                        <th>Tanggal Pembersihan</th>
-                        <th>Status</th>
-                        <th>Total Harga</th>
-                        <th>Aksi</th>
+                        <td><?= htmlspecialchars($row['id_history']) ?></td>
+                        <td><?= htmlspecialchars($row['user_name']) ?></td>
+                        <td><?= htmlspecialchars($row['id_layanan']) ?></td> <!-- Ganti sesuai kebutuhan -->
+                        <td><?= htmlspecialchars($row['status']) ?></td>
+                        <td><?= "Rp. " . number_format($row['total_harga'], 0, ',', '.') ?></td>
+                        <td><?= htmlspecialchars($row['tanggal_bersih']) ?></td>
+                        <td><?= htmlspecialchars($row['waktu']) ?></td>
+                        <td><?= htmlspecialchars($row['catatan']) ?></td>
+                        <td>
+                            <a href="Pembayaran.php?id=<?= $row['id_history'] ?>" class="btn btn-warning btn-sm">Bayar</a>
+                            <a href="edit_pesanan.php?id=<?= $row['id_history'] ?>" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="hapus_pesanan.php?id=<?= $row['id_history'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus pesanan ini?');">Hapus</a>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-            <?php
-            // Display data if query results exist
-            if ($result_booking->num_rows > 0) {
-                while ($row = $result_booking->fetch_assoc()) {
-                    echo "<tr>";
-                    echo "<td># " . $row['id_booking'] . "</td>";
-                    echo "<td>" . $row['jenis_layanan'] . "</td>";
-                    echo "<td>" . $row['tanggal_pembersihan'] . "</td>";
-                    echo "<td><span class='badge badge-" . strtolower($row['status']) . "'>" . $row['status'] . "</span></td>";
-                    echo "<td>Rp " . number_format($row['harga'], 0, ',', '.') . "</td>";
-                    echo "<td>
-                        <form action='process_booking.php' method='post'>
-                            <input type='hidden' name='id_booking' value='" . $row['id_booking'] . "'>
-                            <button type='submit' class='submit-btn'>Bayar</button>
-                        </form>
-                    </td>";
-                    echo "</tr>";
-                }
-            } else {
-                echo "<tr><td colspan='6'>Tidak ada riwayat pesanan.</td></tr>";
-            }
-            ?>
-         </tbody>
-            </table>
-        </div>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
     </div>
-<!-- Riwayat Pesanan End -->
 
 
           <!-- Footer Start -->
